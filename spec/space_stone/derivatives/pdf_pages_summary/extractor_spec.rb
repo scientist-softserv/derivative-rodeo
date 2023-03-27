@@ -4,7 +4,7 @@ require 'spec_helper'
 
 RSpec.describe SpaceStone::Derivatives::PdfPagesSummary::Extractor do
   let(:command_stdout) do
-    File.new(File.expand_path('../../../fixtures/pdfimages-poppler-greater-than-0.25.txt', __dir__))
+    File.new(Fixtures.path_for('pdfimages-poppler-greater-than-0.25.txt'))
   end
 
   before do
