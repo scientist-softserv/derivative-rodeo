@@ -6,6 +6,11 @@ require 'tmpdir'
 module SpaceStone
   module Derivatives
     module Utilities
+      ##
+      # @api private
+      #
+      # @see {.technical_metadata}
+      # @see {.convert}
       class Image
         attr_accessor :path
 
@@ -36,8 +41,9 @@ module SpaceStone
         # @param monochrome [Boolean] true if monochrome output, otherwise false
         def convert(destination, monochrome = false)
           raise 'JP2 output not yet supported' if destination.end_with?('jp2')
-          return convert_image(jp2_to_tiff(@path), destination, monochrome) if jp2?
-          convert_image(@path, destination, monochrome)
+
+          source = jp2? ? jp2_to_tiff(path) : path
+          convert_image(source, destination, monochrome)
         end
 
         private
