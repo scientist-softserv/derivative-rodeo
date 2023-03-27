@@ -6,6 +6,7 @@ require 'space_stone/derivatives/technical_metadata'
 require 'space_stone/derivatives/page_splitters'
 require 'space_stone/derivatives/text_extractors'
 require 'space_stone/derivatives/utilities'
+require 'active_support'
 
 module SpaceStone
   module Derivatives

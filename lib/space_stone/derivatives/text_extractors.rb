@@ -6,4 +6,5 @@ module SpaceStone
   end
 end
 
+require 'space_stone/derivatives/text_extractors/hocr'
 require 'space_stone/derivatives/text_extractors/word_coordinates'

@@ -35,6 +35,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'mini_magick'
   spec.add_dependency 'activesupport', ">= 5"
+  spec.add_dependency 'nokogiri'
   spec.add_development_dependency 'bixby'
   spec.add_development_dependency 'rspec'
 end
