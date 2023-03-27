@@ -14,6 +14,17 @@ If bundler is not being used to manage dependencies, install the gem by executin
 
     $ gem install space_stone-derivatives
 
+### Dependencies
+
+  * [Tesseract-ocr](https://github.com/tesseract-ocr/)
+  * [LibreOffice](https://www.libreoffice.org/)
+  * [ghostscript](https://www.ghostscript.com/)
+  * [poppler-utils](https://poppler.freedesktop.org/)
+  * [ImageMagick](https://github.com/ImageMagick/ImageMagick6)
+    - _ImageMagick policy XML may need to be more permissive in both resources and source media types allowed._
+  * [libcurl3](https://packages.ubuntu.com/search?keywords=libcurl3)
+  * [libgbm1](https://packages.debian.org/sid/libgbm1)
+
 ## Usage
 
 TODO: Write usage instructions here
