@@ -26,6 +26,18 @@ RSpec.describe SpaceStone::PdfSplitter::PdfPagesSummary::Extractor do
         expect(subject.width).to eq(3)
       end
 
+      it 'determines the bits_per_channel of the given PDF' do
+        expect(subject.bits_per_channel).to eq(8)
+      end
+
+      it 'determines the color_description of the given PDF' do
+        expect(subject.color_description).to eq('rgb')
+      end
+
+      it 'determines the channels of the given PDF' do
+        expect(subject.channels).to eq(3)
+      end
+
       it 'determines the color of the given PDF' do
         expect(subject.color).to eq(['rgb', 3, 8])
       end

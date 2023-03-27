@@ -56,7 +56,7 @@ module SpaceStone
           width = 0
           height = 0
           channels = 0
-          bits = 0
+          bits_per_channel = 0
           pixels_per_inch = 0
           Open3.popen3(command) do |_stdin, stdout, _stderr, _wait_thr|
             stdout.read.split("\n").each_with_index do |line, index|
@@ -70,7 +70,7 @@ module SpaceStone
               width = cells[COL_WIDTH].to_i if cells[COL_WIDTH].to_i > width
               height = cells[COL_HEIGHT].to_i if cells[COL_HEIGHT].to_i > height
               channels = cells[COL_CHANNELS].to_i if cells[COL_CHANNELS].to_i > channels
-              bits = cells[COL_BITS].to_i if cells[COL_BITS].to_i > bits
+              bits_per_channel = cells[COL_BITS].to_i if cells[COL_BITS].to_i > bits_per_channel
 
               # In the case of poppler version < 0.25, we will have no more than 12 columns.  As such,
               # we need to do some alternative magic to calculate this.
@@ -95,7 +95,7 @@ module SpaceStone
             height: height,
             color_description: color_description,
             channels: channels,
-            bits: bits
+            bits_per_channel: bits_per_channel
           )
         end
         # rubocop:enable Metrics/AbcSize

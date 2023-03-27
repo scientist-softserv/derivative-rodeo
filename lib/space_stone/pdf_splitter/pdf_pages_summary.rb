@@ -8,20 +8,21 @@ module SpaceStone
     PdfPagesSummary = Struct.new(
       :path, :page_count, :width,
       :height, :pixels_per_inch, :color_description,
-      :channels, :bits, keyword_init: true
+      :channels, :bits_per_channel, keyword_init: true
     ) do
       # @return [Array<String, Integer, Integer>]
       def color
-        [color_description, channels, bits]
+        [color_description, channels, bits_per_channel]
       end
       alias_method :ppi, :pixels_per_inch
+      alias_method :bits, :bits_per_channel
 
       # If the underlying extraction couldn't set the various properties, we likely have an
       # invalid_pdf.
       def valid?
         return false if pdf_pages_summary.color_description.nil?
         return false if pdf_pages_summary.channels.nil?
-        return false if pdf_pages_summary.bits.nil?
+        return false if pdf_pages_summary.bits_per_channel.nil?
         return false if pdf_pages_summary.height.nil?
         return false if pdf_pages_summary.page_count.to_i.zero?
 

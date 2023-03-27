@@ -14,7 +14,7 @@ RSpec.describe SpaceStone::PdfSplitter::Strategies::Base do
 
   describe '#gsdevice' do
     it "expects that you will have set .gsdevice in the subclass" do
-      expect { subject.send(:gsdevice) }.to raise_error(NotImplementedError)
+      expect { subject.gsdevice }.to raise_error(NotImplementedError)
     end
   end
 end

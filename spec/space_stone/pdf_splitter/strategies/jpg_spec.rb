@@ -13,7 +13,7 @@ RSpec.describe SpaceStone::PdfSplitter::Strategies::Jpg do
   end
 
   describe '#gsdevice' do
-    subject { splitter.send(:gsdevice) }
+    subject { splitter.gsdevice }
     it { is_expected.to eq('jpeg') }
   end
 

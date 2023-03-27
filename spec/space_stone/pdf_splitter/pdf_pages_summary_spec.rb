@@ -17,7 +17,8 @@ RSpec.describe SpaceStone::PdfSplitter::PdfPagesSummary do
 
   subject do
     described_class.new(path: __FILE__, page_count: 1, width: 2, height: 3,
-                        pixels_per_inch: 4, color_description: 'rgb', channels: 5, bits: 6)
+                        pixels_per_inch: 4, color_description: 'rgb', channels: 5,
+                        bits_per_channel: 6)
   end
 
   it { is_expected.to respond_to(:valid?) }
@@ -31,4 +32,5 @@ RSpec.describe SpaceStone::PdfSplitter::PdfPagesSummary do
   it { is_expected.to respond_to(:color_description) }
   it { is_expected.to respond_to(:channels) }
   it { is_expected.to respond_to(:bits) }
+  it { is_expected.to respond_to(:bits_per_channel) }
 end

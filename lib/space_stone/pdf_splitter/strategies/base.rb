@@ -60,6 +60,13 @@ module SpaceStone
         attr_reader :pdf_pages_summary, :tmpdir, :baseid, :pdfpath
         private :pdf_pages_summary, :tmpdir, :baseid, :pdfpath
 
+        # @api private
+        def gsdevice
+          return self.class.gsdevice if self.class.gsdevice
+
+          raise NotImplementedError
+        end
+
         private
 
         # entries for each page
@@ -93,12 +100,6 @@ module SpaceStone
           filenames
         end
         # rubocop:enable Metrics/MethodLength
-
-        def gsdevice
-          return self.class.gsdevice if self.class.gsdevice
-
-          raise NotImplementedError
-        end
 
         PAGE_COUNT_REGEXP = %r{^Pages: +(\d+)$}.freeze
 
