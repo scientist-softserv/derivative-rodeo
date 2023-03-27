@@ -20,6 +20,7 @@ RSpec.describe SpaceStone::PdfSplitter::PdfPagesSummary do
                         pixels_per_inch: 4, color_description: 'rgb', channels: 5, bits: 6)
   end
 
+  it { is_expected.to respond_to(:valid?) }
   it { is_expected.to respond_to(:path) }
   it { is_expected.to respond_to(:page_count) }
   it { is_expected.to respond_to(:width) }

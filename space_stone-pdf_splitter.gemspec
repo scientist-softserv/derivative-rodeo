@@ -34,6 +34,7 @@ Gem::Specification.new do |spec|
   # guide at: https://bundler.io/guides/creating_gem.html
 
   spec.add_dependency 'mini_magick'
+  spec.add_dependency 'activesupport', ">= 5"
   spec.add_development_dependency 'bixby'
   spec.add_development_dependency 'rspec'
 end

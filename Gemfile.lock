@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     space_stone-pdf_splitter (0.1.0)
+      activesupport (>= 5)
       mini_magick
 
 GEM

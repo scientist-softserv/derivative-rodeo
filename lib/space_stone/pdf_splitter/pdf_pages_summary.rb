@@ -10,11 +10,23 @@ module SpaceStone
       :height, :pixels_per_inch, :color_description,
       :channels, :bits, keyword_init: true
     ) do
-      # return [Array<String, Integer, Integer>]
+      # @return [Array<String, Integer, Integer>]
       def color
         [color_description, channels, bits]
       end
       alias_method :ppi, :pixels_per_inch
+
+      # If the underlying extraction couldn't set the various properties, we likely have an
+      # invalid_pdf.
+      def valid?
+        return false if pdf_pages_summary.color_description.nil?
+        return false if pdf_pages_summary.channels.nil?
+        return false if pdf_pages_summary.bits.nil?
+        return false if pdf_pages_summary.height.nil?
+        return false if pdf_pages_summary.page_count.to_i.zero?
+
+        true
+      end
     end
 
     # I want to ensure the struct is created first so that I don't have collisions on name space.

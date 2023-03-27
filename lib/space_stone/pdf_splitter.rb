@@ -2,6 +2,7 @@
 
 require_relative 'pdf_splitter/version'
 require 'space_stone/pdf_splitter/pdf_pages_summary'
+require 'space_stone/pdf_splitter/strategies'
 
 module SpaceStone
   module PdfSplitter
