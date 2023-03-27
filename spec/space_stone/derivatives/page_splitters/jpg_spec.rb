@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe SpaceStone::Derivatives::Strategies::Jpg do
+RSpec.describe SpaceStone::Derivatives::PageSplitters::Jpg do
   let(:path) { __FILE__ }
   let(:pdf_pages_summary) { double(SpaceStone::Derivatives::PdfPagesSummary) }
   let(:splitter) { described_class.new(path, pdf_pages_summary: pdf_pages_summary) }

@@ -2,9 +2,9 @@
 
 module SpaceStone
   module Derivatives
-    module Strategies
+    module PageSplitters
       # The purpose of this class is to split the PDF into constituent jpg files.
-      class Jpg < Strategies::Base
+      class Jpg < PageSplitters::Base
         self.image_extension = 'jpg'
         self.quality = '50'
         self.gsdevice = 'jpeg'

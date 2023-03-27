@@ -2,9 +2,9 @@
 
 module SpaceStone
   module Derivatives
-    module Strategies
+    module PageSplitters
       # The purpose of this class is to split the PDF into constituent png files.
-      class Png < Strategies::Base
+      class Png < PageSplitters::Base
         self.image_extension = 'png'
 
         def gsdevice

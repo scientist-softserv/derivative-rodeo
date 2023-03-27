@@ -7,7 +7,7 @@ require 'active_support/core_ext/class/attribute'
 
 module SpaceStone
   module Derivatives
-    module Strategies
+    module PageSplitters
       ##
       # @abstract
       #

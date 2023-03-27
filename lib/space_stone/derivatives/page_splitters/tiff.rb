@@ -2,9 +2,9 @@
 
 module SpaceStone
   module Derivatives
-    module Strategies
+    module PageSplitters
       # The purpose of this class is to split the PDF into constituent tiff files.
-      class Tiff < Strategies::Base
+      class Tiff < PageSplitters::Base
         self.image_extension = 'tiff'
         self.compression = 'lzw'
 

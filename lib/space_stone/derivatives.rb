@@ -2,7 +2,7 @@
 
 require_relative 'derivatives/version'
 require 'space_stone/derivatives/pdf_pages_summary'
-require 'space_stone/derivatives/strategies'
+require 'space_stone/derivatives/page_splitters'
 
 module SpaceStone
   module Derivatives

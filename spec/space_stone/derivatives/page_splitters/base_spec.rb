@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe SpaceStone::Derivatives::Strategies::Base do
+RSpec.describe SpaceStone::Derivatives::PageSplitters::Base do
   subject { described_class.new(__FILE__, pdf_pages_summary: pdf_pages_summary) }
   let(:pdf_pages_summary) { double(SpaceStone::Derivatives::PdfPagesSummary) }
 
