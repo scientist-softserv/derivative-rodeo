@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe SpaceStone::PdfSplitter::PdfPagesSummary::Extractor do
+RSpec.describe SpaceStone::Derivatives::PdfPagesSummary::Extractor do
   let(:command_stdout) do
     File.new(File.expand_path('../../../fixtures/pdfimages-poppler-greater-than-0.25.txt', __dir__))
   end

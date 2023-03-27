@@ -6,7 +6,7 @@ require 'tmpdir'
 require 'active_support/core_ext/class/attribute'
 
 module SpaceStone
-  module PdfSplitter
+  module Derivatives
     module Strategies
       ##
       # @abstract
@@ -29,7 +29,7 @@ module SpaceStone
         # @param baseid [String] used for creating a unique identifier
         # @param tmpdir [String] place to perform the "work" of splitting the PDF.
         #
-        # @param pdf_pages_summary [SpaceStone::PdfSplitter::PdfPagesSummary] by default we'll
+        # @param pdf_pages_summary [SpaceStone::Derivatives::PdfPagesSummary] by default we'll
         #        extract this from the given path, but for testing purposes, you might want to
         #        provide a specific summary.
         def initialize(path, baseid: SecureRandom.uuid, tmpdir: Dir.mktmpdir, pdf_pages_summary: PdfPagesSummary.extract(path: path))

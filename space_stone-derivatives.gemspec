@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
-require_relative 'lib/space_stone/pdf_splitter/version'
+require_relative 'lib/space_stone/derivatives/version'
 
 Gem::Specification.new do |spec|
-  spec.name = 'space_stone-pdf_splitter'
-  spec.version = SpaceStone::PdfSplitter::VERSION
+  spec.name = 'space_stone-derivatives'
+  spec.version = SpaceStone::Derivatives::VERSION
   spec.authors = ['Jeremy Friesen']
   spec.email = ['jeremy.n.friesen@gmail.com']
 
   spec.summary = 'A plugin for SpaceStone to handle splitting of PDFs.'
   spec.description = spec.summary
-  spec.homepage = 'https://github.com/scientist-softserv/space_stone-pdf_splitter'
+  spec.homepage = 'https://github.com/scientist-softserv/space_stone-derivatives'
   spec.required_ruby_version = '>= 2.7.0'
 
   spec.metadata['homepage_uri'] = spec.homepage

@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 require 'spec_helper'
 
-RSpec.describe SpaceStone::PdfSplitter::Strategies::Png do
+RSpec.describe SpaceStone::Derivatives::Strategies::Png do
   let(:path) { __FILE__ }
-  let(:pdf_pages_summary) { double(SpaceStone::PdfSplitter::PdfPagesSummary) }
+  let(:pdf_pages_summary) { double(SpaceStone::Derivatives::PdfPagesSummary) }
 
   let(:splitter) { described_class.new(path, pdf_pages_summary: pdf_pages_summary) }
 
@@ -35,7 +35,7 @@ RSpec.describe SpaceStone::PdfSplitter::Strategies::Png do
     ].each do |attributes, expected_value|
       context 'with #{attributes.inspect}' do
         it "is expected to be #{expected_value.inspect}" do
-          summary = SpaceStone::PdfSplitter::PdfPagesSummary.new(**DEFAULT_SUMMARY_ATTRIBUTES.merge(attributes))
+          summary = SpaceStone::Derivatives::PdfPagesSummary.new(**DEFAULT_SUMMARY_ATTRIBUTES.merge(attributes))
           expect(described_class.new(__FILE__, pdf_pages_summary: summary).gsdevice).to eq(expected_value)
         end
       end

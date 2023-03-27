@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in space_stone-pdf_splitter.gemspec
+# Specify your gem's dependencies in space_stone-derivatives.gemspec
 gemspec
 
 gem 'rake', '~> 13.0'

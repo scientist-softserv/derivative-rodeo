@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 module SpaceStone
-  module PdfSplitter
+  module Derivatives
     # A simple data structure that summarizes the image properties of the given path.
     #
-    # @see SpaceStone::PdfSplitter::ImagePropertiesExtractor
+    # @see SpaceStone::Derivatives::ImagePropertiesExtractor
     PdfPagesSummary = Struct.new(
       :path, :page_count, :width,
       :height, :pixels_per_inch, :color_description,
@@ -31,14 +31,14 @@ module SpaceStone
     end
 
     # I want to ensure the struct is created first so that I don't have collisions on name space.
-    require 'space_stone/pdf_splitter/pdf_pages_summary/extractor'
+    require 'space_stone/derivatives/pdf_pages_summary/extractor'
 
     ##
     # @api public
     #
     # @param path [String]
-    # @param extractor [#call, SpaceStone::PdfSplitter::PdfPagesSummary::Extractor]
-    # @return [SpaceStone::PdfSplitter::PdfPagesSummary]
+    # @param extractor [#call, SpaceStone::Derivatives::PdfPagesSummary::Extractor]
+    # @return [SpaceStone::Derivatives::PdfPagesSummary]
     #
     # @note This looks a bit funny because I want to allow for dependency injection of the given
     #       extractor.  And to do that correctly, I need to first establish the Struct, then require

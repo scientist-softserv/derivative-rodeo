@@ -3,7 +3,7 @@ require 'open3'
 require 'mini_magick'
 
 module SpaceStone
-  module PdfSplitter
+  module Derivatives
     class PdfPagesSummary
       ##
       # @api public
@@ -16,7 +16,7 @@ module SpaceStone
       class Extractor
         ##
         # @param path [String]
-        # @return [SpaceStone::PdfSplitter::PdfPagesSummary]
+        # @return [SpaceStone::Derivatives::PdfPagesSummary]
         def self.call(path)
           new(path).call
         end

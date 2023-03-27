@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module SpaceStone
-  module PdfSplitter
+  module Derivatives
     module Strategies
       # The purpose of this class is to split the PDF into constituent tiff files.
       class Tiff < Strategies::Base

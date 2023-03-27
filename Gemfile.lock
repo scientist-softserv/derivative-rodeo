@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    space_stone-pdf_splitter (0.1.0)
+    space_stone-derivatives (0.1.0)
       activesupport (>= 5)
       mini_magick
 
@@ -79,7 +79,7 @@ DEPENDENCIES
   bixby
   rake (~> 13.0)
   rspec
-  space_stone-pdf_splitter!
+  space_stone-derivatives!
 
 BUNDLED WITH
    2.3.21

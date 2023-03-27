@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-RSpec.describe SpaceStone::PdfSplitter::PdfPagesSummary do
+RSpec.describe SpaceStone::Derivatives::PdfPagesSummary do
   describe '.extract' do
     before do
       allow(described_class::Extractor).to receive(:call).with(__FILE__).and_return(:default_extractor!)
