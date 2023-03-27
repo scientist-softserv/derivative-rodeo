@@ -6,7 +6,7 @@ RSpec.describe SpaceStone::PdfSplitter::PdfPagesSummary do
     end
 
     it 'delegates to the given extractor' do
-      extractor = ->(path) { :given_extractor! }
+      extractor = ->(_path) { :given_extractor! }
       expect(described_class.extract(path: __FILE__, extractor: extractor)).to eq(:given_extractor!)
     end
 

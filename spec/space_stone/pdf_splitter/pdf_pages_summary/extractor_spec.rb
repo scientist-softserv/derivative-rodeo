@@ -11,7 +11,6 @@ RSpec.describe SpaceStone::PdfSplitter::PdfPagesSummary::Extractor do
     allow(Open3).to receive(:popen3).and_yield(nil, command_stdout, nil, nil)
   end
 
-
   describe '.call' do
     # Yes this is not a PDF
     subject { described_class.call(__FILE__) }

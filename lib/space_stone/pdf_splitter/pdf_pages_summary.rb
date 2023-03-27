@@ -14,7 +14,7 @@ module SpaceStone
       def color
         [color_description, channels, bits]
       end
-      alias ppi pixels_per_inch
+      alias_method :ppi, :pixels_per_inch
     end
 
     # I want to ensure the struct is created first so that I don't have collisions on name space.

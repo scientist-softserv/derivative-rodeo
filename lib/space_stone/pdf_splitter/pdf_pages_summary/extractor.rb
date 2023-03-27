@@ -39,6 +39,8 @@ module SpaceStone
 
         # rubocop:disable Metrics/AbcSize - Because this helps us process the results in one loop.
         # rubocop:disable Metrics/MethodLength - Again, to help speed up the processing loop.
+        # rubocop:disable Metrics/CyclomaticComplexity
+        # rubocop:disable Metrics/PerceivedComplexity
         #
         # The first two lines are tabular header information:
         #
@@ -98,6 +100,8 @@ module SpaceStone
         end
         # rubocop:enable Metrics/AbcSize
         # rubocop:enable Metrics/MethodLength
+        # rubocop:enable Metrics/CyclomaticComplexity
+        # rubocop:enable Metrics/PerceivedComplexity
       end
     end
   end
