@@ -23,14 +23,7 @@ module SpaceStone
           @initial_file_contents.start_with?('%PDF-')
         end
 
-        # @return [Hash<Symbol,Object>] hash with following symbol keys, and respectively
-        #   typed String and/or Integer values:
-        #
-        #   - :width, :height — both in Integer px units
-        #   - :color — (String enumerated from 'gray', 'monochrome', 'color')
-        #   - :num_components - Integer, number of channels
-        #   - :bits_per_component — Integer, bits per channel (e.g. 8 vs. 1)
-        #   - :content_type — RFC 2045 MIME type
+        # @return [SpaceStone::Derivatives::TechnicalMetadata]
         def metadata
           return @metadata if defined?(@metadata)
 
@@ -73,12 +66,15 @@ module SpaceStone
 
         # Return metadata by means of imagemagick identify
         def identify_metadata
-          result = {}
+          # TODO: Utilities::Image.technical_metadata_for(path: path)
+          technical_metadata = TechnicalMetadata.new
           lines = im_identify
-          result[:width], result[:height] = im_identify_geometry(lines)
-          result[:content_type] = im_mime(lines)
-          populate_im_color!(lines, result)
-          result
+          width, height = im_identify_geometry(lines)
+          technical_metadata.width = width
+          technical_metadata.height = height
+          technical_metadata.content_type = im_mime(lines)
+          populate_im_color!(lines, technical_metadata)
+          technical_metadata
         end
 
         # @return [Array<String>] lines of output from imagemagick `identify`
@@ -98,14 +94,14 @@ module SpaceStone
           im_line_select(lines, 'mime type')
         end
 
-        def populate_im_color!(lines, result)
+        def populate_im_color!(lines, technical_metadata)
           bpc = im_line_select(lines, 'depth').split('-')[0].to_i # '1-bit' -> 1
           colorspace = im_line_select(lines, 'colorspace')
           color = colorspace == 'Gray' ? 'gray' : 'color'
           has_alpha = !im_line_select(lines, 'Alpha').nil?
-          result[:num_components] = (color == 'gray' ? 1 : 3) + (has_alpha ? 1 : 0)
-          result[:color] = bpc == 1 ? 'monochrome' : color
-          result[:bits_per_component] = bpc
+          technical_metadata.num_components = (color == 'gray' ? 1 : 3) + (has_alpha ? 1 : 0)
+          technical_metadata.color = bpc == 1 ? 'monochrome' : color
+          technical_metadata.bits_per_component = bpc
         end
 
         def im_line_select(lines, key)

@@ -17,7 +17,7 @@ module SpaceStone
         #
         # @param path [String] path to jp2, for reading
         #
-        # @return [Hash<Symbol,Object>]
+        # @return [SpaceStone::Derivatives::TechnicalMetadata]
         def self.technical_metadata_for(path:)
           new(path).technical_metadata
         end
@@ -36,14 +36,14 @@ module SpaceStone
           x_siz, y_siz = extract_jp2_dim(io)
           nc, bpc = extract_jp2_components(io)
           color = nc >= 3 ? 'color' : 'gray'
-          {
+          TechnicalMetadata.new(
             color: bpc == 1 ? 'monochrome' : color,
             num_components: nc,
             bits_per_component: bpc,
             width: x_siz,
             height: y_siz,
             content_type: 'image/jp2'
-          }
+          )
         ensure
           io.close
         end
