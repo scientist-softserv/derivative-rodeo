@@ -22,6 +22,8 @@ module SpaceStone
         # What is the image quality we're using?
         class_attribute :quality, default: nil
 
+        class_attribute :gsdevice, instance_accessor: false
+
         ##
         # @param path [String] the path to the source PDF that we're processing.
         # @param baseid [String] used for creating a unique identifier
@@ -93,6 +95,8 @@ module SpaceStone
         # rubocop:enable Metrics/MethodLength
 
         def gsdevice
+          return self.class.gsdevice if self.class.gsdevice
+
           raise NotImplementedError
         end
 

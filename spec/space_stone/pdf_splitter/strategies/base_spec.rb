@@ -6,4 +6,15 @@ RSpec.describe SpaceStone::PdfSplitter::Strategies::Base do
 
   # Becasue the described class is an abstract class, we want to verify its public interface.
   it { is_expected.to be_a(Enumerable) }
+
+  describe '.gsdevice' do
+    subject { described_class.gsdevice }
+    it { is_expected.to be_nil }
+  end
+
+  describe '#gsdevice' do
+    it "expects that you will have set .gsdevice in the subclass" do
+      expect { subject.send(:gsdevice) }.to raise_error(NotImplementedError)
+    end
+  end
 end
