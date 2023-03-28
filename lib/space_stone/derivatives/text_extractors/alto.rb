@@ -5,6 +5,10 @@ require 'nokogiri'
 module SpaceStone
   module Derivatives
     module TextExtractors
+      ##
+      # Responsible for converting words into a Alto XML format.
+      #
+      # @see {.to_alto}
       class Alto
         ##
         # @api public
