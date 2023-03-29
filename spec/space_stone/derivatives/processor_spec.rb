@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe SpaceStone::Derivatives::PreProcessor do
+RSpec.describe SpaceStone::Derivatives::Processor do
   let(:manifest) do
     SpaceStone::Derivatives::Manifest.new(parent_identifier: 1, original_filename: "hello", derivatives: [:hocr])
   end
