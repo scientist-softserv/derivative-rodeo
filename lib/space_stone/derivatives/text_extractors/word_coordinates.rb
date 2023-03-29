@@ -8,9 +8,9 @@ module SpaceStone
         ##
         # @api public
         #
-        # @params words [Array<Hash>] an array of hash objects that have the keys `:word` and `:coordinates`.
-        # @params width [Integer] the width of the "canvas" on which the words appear.
-        # @params height [Integer] the height of the "canvas" on which the words appear.
+        # @param words [Array<Hash>] an array of hash objects that have the keys `:word` and `:coordinates`.
+        # @param width [Integer] the width of the "canvas" on which the words appear.
+        # @param height [Integer] the height of the "canvas" on which the words appear.
         #
         # @return [String] a JSON encoded string.
         def self.to_json(words:, width: nil, height: nil)

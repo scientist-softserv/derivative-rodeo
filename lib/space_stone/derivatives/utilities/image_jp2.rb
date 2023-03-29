@@ -6,7 +6,7 @@ module SpaceStone
       ##
       # A utility class for extracting technical metadata from a JP2.
       #
-      # @see {.technical_metadata_for}
+      # @see .technical_metadata_for
       class ImageJp2
         TOKEN_MARKER_START = "\xFF".force_encoding("BINARY")
         TOKEN_MARKER_SIZ = "\x51".force_encoding("BINARY")

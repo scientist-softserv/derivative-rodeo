@@ -6,7 +6,7 @@ module SpaceStone
       ##
       # This module is responsible for extracting technical_metadata for a given path.
       #
-      # @see {.technical_metadata_for}
+      # @see .technical_metadata_for
       class ImageIdentify
         ##
         # @api public

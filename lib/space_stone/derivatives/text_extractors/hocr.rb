@@ -151,7 +151,7 @@ module SpaceStone
           # Callback for element end; at this time, flush word coordinate state
           #   for current word, and append line endings to plain text:
           #
-          # @param name [String] element name.
+          # @param _name [String] element name.
           def end_element(_name)
             end_line if @element_class_name == 'ocr_line'
             end_word if @element_class_name == 'ocrx_word'

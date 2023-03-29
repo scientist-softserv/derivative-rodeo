@@ -9,8 +9,8 @@ module SpaceStone
       ##
       # @api private
       #
-      # @see {.technical_metadata}
-      # @see {.convert}
+      # @see .technical_metadata
+      # @see .convert
       class Image
         attr_accessor :path
 

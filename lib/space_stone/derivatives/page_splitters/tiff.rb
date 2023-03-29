@@ -11,7 +11,7 @@ module SpaceStone
         ##
         # @api private
         #
-        # @param gsdevice [Object]
+        # @return [String]
         def gsdevice
           return @gsdevice if defined?(@gsdevice)
 

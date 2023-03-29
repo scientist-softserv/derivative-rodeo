@@ -5,7 +5,7 @@ module SpaceStone
       ##
       # Responsible for running tesseract on a file at the given path.
       #
-      # @see {.call}
+      # @see .call
       # @see http://tesseract-ocr.github.io
       #
       # From `tesseract -h`
