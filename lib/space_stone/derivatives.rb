@@ -1,15 +1,16 @@
 # frozen_string_literal: true
 
 require_relative 'derivatives/version'
+require 'space_stone/derivatives/exceptions'
 require 'space_stone/derivatives/manifest'
 require 'space_stone/derivatives/pdf_pages_summary'
 require 'space_stone/derivatives/technical_metadata'
 require 'space_stone/derivatives/page_splitters'
 require 'space_stone/derivatives/text_extractors'
 require 'space_stone/derivatives/utilities'
-require 'space_stone/derivatives/contexts'
 require 'space_stone/derivatives/pre_processor'
 require 'space_stone/derivatives/types'
+require 'space_stone/derivatives/chain'
 require 'active_support'
 
 module SpaceStone

@@ -10,4 +10,3 @@ end
 require 'space_stone/derivatives/utilities/image'
 require 'space_stone/derivatives/utilities/image_jp2'
 require 'space_stone/derivatives/utilities/image_identify'
-require 'space_stone/derivatives/utilities/derivative_chain_validator'

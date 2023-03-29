@@ -5,6 +5,10 @@ require 'active_support/core_ext/string/inflections'
 module SpaceStone
   module Derivatives
     module Types
+      def self.for(_type)
+        BaseType.new
+      end
+
       # @abstract
       class BaseType
         class_attribute :prerequisites, default: []
