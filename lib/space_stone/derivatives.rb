@@ -9,6 +9,7 @@ require 'space_stone/derivatives/text_extractors'
 require 'space_stone/derivatives/utilities'
 require 'space_stone/derivatives/contexts'
 require 'space_stone/derivatives/pre_processor'
+require 'space_stone/derivatives/types'
 require 'active_support'
 
 module SpaceStone
