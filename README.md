@@ -1,8 +1,19 @@
 # SpaceStone::Derivatives
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/space_stone/derivatives`. To experiment with that code, run `bin/console` for an interactive prompt.
+The goal of `SpaceStone::Derivatives` is to provide interfaces and processing for files.
 
-TODO: Delete this and the text above, and describe your gem
+For a given parent identifier, an original filename, and a set of named derivatives (e.g. a [Manifest](./lib/space_stone/derivatives/manifest.rb)).  We want to find the named derivative, and failing that, generate the named derivative from the original filename.
+
+There are two use cases for finding or creating:
+
+1. Pre-processing
+2. Ingesting
+
+In both the *Pre-processing* and *Ingesting* cases, we will be given a [Manifest](./lib/space_stone/derivatives/manifest.rb) that describes the derivatives we want to either fetch from somewhere or, failing that, generate locally.
+
+A primary difference is related to the strategies we use for fetching.  For the *Pre-processing* for a given named derivative (e.g. `:text`) we will use the provided URL for the `:text` derivative or will create the `:text` derivative.
+
+For *Ingesting* we will check the [Repository](./lib/space_stone/derivatives/repository.rb) for the named `:text` derivative, failing that if there is a URL or file, we will use that, and failing that we will create the `:text` derivative.
 
 ## Installation
 
