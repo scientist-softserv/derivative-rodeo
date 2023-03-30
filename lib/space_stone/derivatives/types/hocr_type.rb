@@ -33,11 +33,6 @@ module SpaceStone
         class_attribute :output_base, default: :hocr
         # @!endgroup
 
-        def pre_process!(repository:)
-          repository.local_path_for(derivative: to_sym).presence ||
-            create_derivative_for(repository: repository)
-        end
-
         private
 
         def create_derivative_for(repository:)

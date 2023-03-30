@@ -8,10 +8,13 @@ module SpaceStone
       ##
       # @api public
       #
-      # @param _type [Symbol]
+      # @param type [Symbol]
+      #
       # @return [SpaceStone::Derivatives::BaseType]
-      def self.for(_type)
-        BaseType.new
+      # @raise [NameError] when given type is not registered.
+      def self.for(type)
+        demodulized_klass = "#{type}_type".classify
+        "SpaceStone::Derivatives::Types::#{demodulized_klass}".constantize
       end
 
       # @abstract
@@ -30,10 +33,20 @@ module SpaceStone
         # @param repository [Repository]
         #
         # @see SpaceStone::Derivatives.pre_process_derivatives_for
-        def pre_process!(repository:); end
+        def pre_process!(repository:)
+          repository.local_path_for(derivative: to_sym).presence ||
+            create_derivative_for(repository: repository)
+        end
+
+        private
+
+        def create_derivative_for(repository:)
+          raise NotImplementedError
+        end
       end
     end
   end
 end
 
 require 'space_stone/derivatives/types/hocr_type'
+require 'space_stone/derivatives/types/monochrome_type'

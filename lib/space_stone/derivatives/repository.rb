@@ -62,7 +62,9 @@ module SpaceStone
       # @param derivative [Symbol]
       # @return [String]
       def local_directory_for(derivative:)
-        File.join(tmpdir, derivative.to_s)
+        dir = File.join(tmpdir, derivative.to_s)
+        Dir.mkdir(dir)
+        dir
       end
 
       private
