@@ -11,7 +11,7 @@ There are two use cases for finding or creating:
 
 In both the *Pre-processing* and *Ingesting* cases, we will be given a [Manifest](./lib/space_stone/derivatives/manifest.rb) that describes the derivatives we want to either fetch from somewhere or, failing that, generate locally.
 
-A primary difference is related to the strategies we use for fetching.  For the *Pre-processing* for a given named derivative (e.g. `:text`) we will use the provided URL for the `:text` derivative or will create the `:text` derivative.
+A primary difference is related to the strategies we use for fetching.  For the *Pre-processing* of a given named derivative (e.g. `:text`) we will use the provided URL for the `:text` derivative or will create the `:text` derivative.
 
 For *Ingesting* we will check the [Repository](./lib/space_stone/derivatives/repository.rb) for the named `:text` derivative, failing that if there is a URL or file, we will use that, and failing that we will create the `:text` derivative.
 

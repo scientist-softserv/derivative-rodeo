@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe SpaceStone::Derivatives::Types::HocrType do
-  let(:repository) { SpaceStone::Derivatives::Repository.new(identifier: manifest.identifier) }
+  let(:repository) { SpaceStone::Derivatives::Repository.new(manifest: manifest) }
   let(:manifest) do
     SpaceStone::Derivatives::Manifest.new(parent_identifier: "123", original_filename: "abc.jpg", derivatives: [:hocr])
   end

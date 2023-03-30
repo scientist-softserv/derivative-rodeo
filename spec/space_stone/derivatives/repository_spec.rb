@@ -3,8 +3,8 @@
 require 'spec_helper'
 
 RSpec.describe SpaceStone::Derivatives::Repository do
-  let(:repository) { described_class.new(identifier: identifier) }
-  let(:identifier) { SpaceStone::Derivatives::Manifest::Identifier.new(parent_identifier: "123", original_filename: "abc") }
+  let(:repository) { described_class.new(manifest: manifest) }
+  let(:manifest) { SpaceStone::Derivatives::Manifest.new(parent_identifier: "123", original_filename: "abc", derivatives: []) }
   describe "local_path_for!" do
     it "raises Exceptions::NotFoundError when the derivative for the given identifier does not exist" do
       allow(repository).to receive(:local_path_for).and_return(nil)

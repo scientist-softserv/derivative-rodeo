@@ -9,28 +9,25 @@ module SpaceStone
     # @note I would envision injecting a storage Strategy adapter.  One for working with S3 and
     #       another for local storage (for offline testing).
     #
-    # @see #put
-    # @see #get
     # rubocop:disable Lint/UnusedMethodArgument
     class Repository
       ##
-      # @param identifier [SpaceStone::Derivatives::Manifest::Identifier]
-      def initialize(identifier:)
-        @identifier = identifier
+      # @param manifest [SpaceStone::Derivatives::Manifest]
+      def initialize(manifest:)
+        @manifest = manifest
       end
-      attr_reader :identifier
+      attr_reader :manifest
 
       def inspect
-        %(<##{self.class} @identifier=#{identifier.inspect}>)
+        %(<##{self.class} @manifest=#{manifest.inspect}>)
       end
 
       ##
       # @api public
       #
       # This function writes the binary :contents into a place where the {#get} method can find it
-      # for the given :identifier and :derivative.
+      # for the given :manifest and :derivative.
       #
-      # @param identifier [Manifest::Identifier]
       # @param derivative [Symbol]
       # @param path [String]
       #
@@ -47,7 +44,7 @@ module SpaceStone
       # @see #put
       #
       # @return [String]
-      # @raise [Exceptions::NotFoundError] when we can't find the :identifier's :derivative.
+      # @raise [Exceptions::NotFoundError] when we can't find the :manifest's :derivative.
       def local_path_for!(derivative:)
         local_path_for(derivative: derivative).presence ||
           raise(Exceptions::NotFoundError.new(derivative: derivative, repository: self))

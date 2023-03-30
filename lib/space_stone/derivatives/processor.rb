@@ -18,14 +18,13 @@ module SpaceStone
 
       def initialize(manifest:,
                      message: :pre_process!,
-                     repository: Repository.new(identifier: manifest.identifier),
+                     repository: Repository.new(manifest: manifest),
                      chain: Chain.new(derivatives: manifest.derivatives))
-        @manifest = manifest
         @repository = repository
         @chain = chain
         @message = message
       end
-      attr_reader :manifest, :chain, :repository, :message
+      attr_reader :chain, :repository, :message
 
       def call
         chain.each do |derivative|
