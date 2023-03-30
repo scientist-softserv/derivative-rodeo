@@ -25,13 +25,8 @@ module SpaceStone
       ##
       # @api public
       #
-      # This function writes the binary :contents into a place where the {#get} method can find it
-      # for the given :manifest and :derivative.
-      #
       # @param derivative [Symbol]
       # @param path [String]
-      #
-      # @see #get
       #
       # @todo Is contents the correct thing?
       def put(derivative:, path:); end
@@ -40,8 +35,6 @@ module SpaceStone
       # @api public
       #
       # @param derivative [Symbol]
-      #
-      # @see #put
       #
       # @return [String]
       # @raise [Exceptions::NotFoundError] when we can't find the :manifest's :derivative.

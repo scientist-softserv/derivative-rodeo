@@ -2,7 +2,13 @@
 
 The goal of `SpaceStone::Derivatives` is to provide interfaces and processing for files.
 
-For a given parent identifier, an original filename, and a set of named derivatives (e.g. a [Manifest](./lib/space_stone/derivatives/manifest.rb)).  We want to find the named derivative, and failing that, generate the named derivative from the original filename.
+A [SpaceStone::Derivatives::Manifest](./lib/space_stone/derivatives/manifest.rb)) is a:
+
+- parent identifier
+- an original filename
+- and a set of named derivatives
+
+With a manifest, we want to find each of the named derivatives, and failing that, generate the named derivative from the original filename.
 
 There are two use cases for finding or creating:
 

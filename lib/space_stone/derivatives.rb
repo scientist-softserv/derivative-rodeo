@@ -1,19 +1,17 @@
 # frozen_string_literal: true
 
 require_relative 'derivatives/version'
+require 'active_support'
 require 'space_stone/derivatives/exceptions'
+require 'space_stone/derivatives/manifest'
 require 'space_stone/derivatives/processor'
 
-require 'space_stone/derivatives/manifest'
+# These are the files conceptually lifted from the IIIF Print gem.
 require 'space_stone/derivatives/pdf_pages_summary'
 require 'space_stone/derivatives/technical_metadata'
 require 'space_stone/derivatives/page_splitters'
 require 'space_stone/derivatives/text_extractors'
 require 'space_stone/derivatives/utilities'
-require 'space_stone/derivatives/types'
-require 'space_stone/derivatives/chain'
-require 'space_stone/derivatives/repository'
-require 'active_support'
 
 module SpaceStone
   module Derivatives
@@ -28,7 +26,7 @@ module SpaceStone
     #
     # @see Manifest::LocationSet
     def self.pre_process_derivatives_for(manifest:, processor: Processor)
-      processor.call(manifest: manifest, message: :pre_process!)
+      processor.call(manifest: manifest, command: :pre_process!)
     end
 
     ##

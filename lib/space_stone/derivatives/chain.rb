@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
 require 'set'
+require 'space_stone/derivatives/types'
 
 module SpaceStone
   module Derivatives
     ##
-    # This class is responsible for sequencing (and validating) a set of derivatives.
+    # This class is responsible for sequencing (and validating) a set of :derivatives.
     #
     # @see #each
     # @see #to_hash
@@ -43,7 +44,7 @@ module SpaceStone
       private
 
       def sequence
-        Sequencer.call(to_hash)
+        @sequence ||= Sequencer.call(to_hash)
       end
 
       class Sequencer

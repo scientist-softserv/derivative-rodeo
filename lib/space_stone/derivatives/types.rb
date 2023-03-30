@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'active_support/core_ext/string/inflections'
+require 'active_support/core_ext/class/attribute'
 
 module SpaceStone
   module Derivatives
@@ -21,10 +22,17 @@ module SpaceStone
       class BaseType
         class_attribute :prerequisites, default: []
 
+        ##
+        # @api public
+        #
+        # @return [Symbol]
         def self.to_sym
           to_s.demodulize.underscore.sub("_type", "").to_sym
         end
 
+        ##
+        # @api public
+        # @return [Symbol]
         def to_sym
           self.class.to_sym
         end
