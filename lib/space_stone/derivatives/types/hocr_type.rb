@@ -33,17 +33,17 @@ module SpaceStone
         class_attribute :output_base, default: :hocr
         # @!endgroup
 
-        def pre_process!(manifest:, repository:, **kwargs)
-          repository.local_path_for(identifier: manifest.identifier, derivative: to_sym).presence ||
-            create_derivative_for(manifest: manifest, repository: repository, **kwargs)
+        def pre_process!(repository:)
+          repository.local_path_for(derivative: to_sym).presence ||
+            create_derivative_for(repository: repository)
         end
 
         private
 
-        def create_derivative_for(manifest:, repository:, tmpdir: Dir.mktmpdir)
-          monochrome_path = repository.local_path_for!(identifier: manifest.identifier, derivative: :monochrome)
+        def create_derivative_for(repository:)
+          monochrome_path = repository.local_path_for!(derivative: :monochrome)
 
-          output_prefix = File.join(tmpdir, "output_html")
+          output_prefix = File.join(repository.local_directory_for(derivative: to_sym), "output_html")
 
           cmd = ""
           cmd += command_environment_variables + " " if command_environment_variables.present?
@@ -54,7 +54,7 @@ module SpaceStone
           # TODO: What about error handling?
           `#{cmd}`
 
-          repository.put(identifier: manifest.identifier, derivative: to_sym, path: "#{output_prefix}.#{output_base}")
+          repository.put(derivative: to_sym, path: "#{output_prefix}.#{output_base}")
         end
       end
     end

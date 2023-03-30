@@ -12,6 +12,7 @@ require 'space_stone/derivatives/text_extractors'
 require 'space_stone/derivatives/utilities'
 require 'space_stone/derivatives/types'
 require 'space_stone/derivatives/chain'
+require 'space_stone/derivatives/repository'
 require 'active_support'
 
 module SpaceStone

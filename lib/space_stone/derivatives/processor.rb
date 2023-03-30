@@ -16,10 +16,12 @@ module SpaceStone
         new(manifest: manifest, message: message).call
       end
 
-      def initialize(manifest:, message: :pre_process!, chain: Chain.new(derivatives: manifest.derivatives))
+      def initialize(manifest:,
+                     message: :pre_process!,
+                     repository: Repository.new(identifier: manifest.identifier),
+                     chain: Chain.new(derivatives: manifest.derivatives))
         @manifest = manifest
-        # TODO: Replace this with something
-        @repository = :repository
+        @repository = repository
         @chain = chain
         @message = message
       end
@@ -27,7 +29,7 @@ module SpaceStone
 
       def call
         chain.each do |derivative|
-          derivative.public_send(message, manifest: manifest, repository: repository)
+          derivative.public_send(message, repository: repository)
         end
       end
     end

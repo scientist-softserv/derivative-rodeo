@@ -27,11 +27,10 @@ module SpaceStone
         end
 
         ##
-        # @param manifest [Manifest]
         # @param repository [Repository]
         #
         # @see SpaceStone::Derivatives.pre_process_derivatives_for
-        def pre_process!(manifest:, repository:); end
+        def pre_process!(repository:); end
       end
     end
   end

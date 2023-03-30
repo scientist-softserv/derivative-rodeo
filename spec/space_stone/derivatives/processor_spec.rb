@@ -8,8 +8,8 @@ RSpec.describe SpaceStone::Derivatives::Processor do
   end
 
   # TODO: This should be something
-  let(:repository) { :repository }
   let(:pre_processor) { described_class.new(manifest: manifest) }
+  let(:repository) { pre_processor.repository }
 
   describe '#chain' do
     subject { pre_processor.chain }
@@ -25,8 +25,8 @@ RSpec.describe SpaceStone::Derivatives::Processor do
 
     it 'iterates through the chain links' do
       pre_processor.call
-      expect(first_link).to have_received(:pre_process!).with(manifest: manifest, repository: repository)
-      expect(second_link).to have_received(:pre_process!).with(manifest: manifest, repository: repository)
+      expect(first_link).to have_received(:pre_process!).with(repository: repository)
+      expect(second_link).to have_received(:pre_process!).with(repository: repository)
     end
   end
 end
