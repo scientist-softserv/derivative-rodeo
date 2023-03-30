@@ -60,7 +60,7 @@ module SpaceStone
           cmd += command_environment_variables + " " if command_environment_variables.present?
           cmd += "tesseract #{path} #{output_prefix}"
           cmd += " #{additional_tessearct_options}" if additional_tessearct_options.present?
-          cmd += " hocr"
+          cmd += " #{output_base}"
           cmd
         end
       end

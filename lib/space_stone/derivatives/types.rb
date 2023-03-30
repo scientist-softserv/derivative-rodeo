@@ -5,6 +5,11 @@ require 'active_support/core_ext/string/inflections'
 module SpaceStone
   module Derivatives
     module Types
+      ##
+      # @api public
+      #
+      # @param _type [Symbol]
+      # @return [SpaceStone::Derivatives::BaseType]
       def self.for(_type)
         BaseType.new
       end
@@ -20,6 +25,13 @@ module SpaceStone
         def to_sym
           self.class.to_sym
         end
+
+        ##
+        # @param manifest [Manifest]
+        # @param repository [Repository]
+        #
+        # @see SpaceStone::Derivatives.pre_process_derivatives_for
+        def pre_process!(manifest:, repository:); end
       end
     end
   end
