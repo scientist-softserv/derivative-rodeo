@@ -14,6 +14,8 @@ require 'space_stone/derivatives/text_extractors'
 require 'space_stone/derivatives/utilities'
 
 module SpaceStone
+  ##
+  # Welcome to SpaceStone::Derivatives, a gem responsible
   module Derivatives
     ##
     # @api public
@@ -23,6 +25,7 @@ module SpaceStone
     # that will create the derivative.
     #
     # @param manifest [Manifest]
+    # @param processor [Processor]
     #
     # @see Manifest::LocationSet
     def self.pre_process_derivatives_for(manifest:, processor: Processor)
