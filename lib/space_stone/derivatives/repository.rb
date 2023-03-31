@@ -11,16 +11,16 @@ module SpaceStone
     #
     # rubocop:disable Lint/UnusedMethodArgument
     class Repository
+      def local_for(derivative:); end
+
+      def remote_for(derivative:); end
+
       ##
       # @param manifest [SpaceStone::Derivatives::Manifest]
       def initialize(manifest:)
         @manifest = manifest
       end
       attr_reader :manifest
-
-      def inspect
-        %(<##{self.class} @manifest=#{manifest.inspect}>)
-      end
 
       ##
       # @api public

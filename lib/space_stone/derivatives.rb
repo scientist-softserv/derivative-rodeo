@@ -17,6 +17,11 @@ module SpaceStone
   ##
   # Welcome to SpaceStone::Derivatives, a gem responsible
   module Derivatives
+    def self.logger
+      # For testing I really want to set a Logger::FATAL level so I'm not seeing all of the chatter.
+      @logger ||= Logger.new(STDERR, level: Logger::FATAL)
+    end
+
     ##
     # @api public
     #

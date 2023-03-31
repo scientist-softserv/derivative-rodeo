@@ -46,11 +46,11 @@ module SpaceStone
             create_derivative_for(repository: repository)
         end
 
-        private
-
         def create_derivative_for(repository:)
           raise NotImplementedError
         end
+
+        alias generate_file_for create_derivative_for
       end
     end
   end

@@ -3,8 +3,14 @@
 module SpaceStone
   module Derivatives
     module Processes
+      ##
+      # Given a :repository and :derivative run the process (via #call)
+      #
+      # @see .call
       class Base
         ##
+        # @api public
+        #
         # @param repository [Repository]
         # @param derivative [Types::BaseType]
         def self.call(repository:, derivative:)
