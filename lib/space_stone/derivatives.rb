@@ -25,11 +25,10 @@ module SpaceStone
     # that will create the derivative.
     #
     # @param manifest [Manifest]
-    # @param processor [Processor]
     #
     # @see Manifest::LocationSet
-    def self.pre_process_derivatives_for(manifest:, processor: Processor)
-      processor.call(manifest: manifest, command: :pre_process!)
+    def self.pre_process_derivatives_for(manifest:)
+      Processor.call(manifest: manifest, command: :pre_process!)
     end
 
     ##
