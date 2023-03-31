@@ -7,26 +7,26 @@ RSpec.describe SpaceStone::Derivatives::Processor do
     SpaceStone::Derivatives::Manifest.new(parent_identifier: 1, original_filename: "hello", derivatives: [:hocr])
   end
 
-  # TODO: This should be something
-  let(:pre_processor) { described_class.new(manifest: manifest) }
-  let(:repository) { pre_processor.repository }
+  let(:process) { double(SpaceStone::Derivatives::Processes::Base, call: true) }
+  let(:processor) { described_class.new(manifest: manifest, process: process) }
+  let(:repository) { processor.repository }
 
   describe '#chain' do
-    subject { pre_processor.chain }
+    subject { processor.chain }
 
     it { is_expected.to be_a SpaceStone::Derivatives::Chain }
   end
 
   describe '#call' do
-    let(:first_link) { double(SpaceStone::Derivatives::Types::BaseType, pre_process!: true) }
-    let(:second_link) { double(SpaceStone::Derivatives::Types::BaseType, pre_process!: true) }
+    let(:first_link) { double(SpaceStone::Derivatives::Types::BaseType) }
+    let(:second_link) { double(SpaceStone::Derivatives::Types::BaseType) }
     let(:chain) { [first_link, second_link] }
-    let(:pre_processor) { described_class.new(manifest: manifest, chain: chain) }
+    let(:processor) { described_class.new(manifest: manifest, process: process, chain: chain) }
 
     it 'iterates through the chain links' do
-      pre_processor.call
-      expect(first_link).to have_received(:pre_process!).with(repository: repository)
-      expect(second_link).to have_received(:pre_process!).with(repository: repository)
+      processor.call
+      expect(process).to have_received(:call).with(repository: repository, derivative: first_link)
+      expect(process).to have_received(:call).with(repository: repository, derivative: second_link)
     end
   end
 end

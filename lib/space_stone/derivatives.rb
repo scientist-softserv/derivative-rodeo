@@ -21,14 +21,15 @@ module SpaceStone
     # @api public
     #
     # The function will take the given :manifest and ensure that each name derivative is stored in a
-    # predictable location.  The process will attempt to re-use an existing derivative, and failing
+    # predictable location.  The :process will attempt to re-use an existing derivative, and failing
     # that will create the derivative.
     #
     # @param manifest [Manifest]
+    # @param process [Sybmol]
     #
     # @see Manifest::LocationSet
-    def self.pre_process_derivatives_for(manifest:)
-      Processor.call(manifest: manifest, command: :pre_process!)
+    def self.pre_process_derivatives_for(manifest:, process: :pre_process)
+      Processor.call(manifest: manifest, process: process)
     end
 
     ##
