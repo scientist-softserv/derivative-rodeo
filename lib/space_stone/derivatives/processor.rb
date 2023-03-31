@@ -2,23 +2,28 @@
 
 require 'space_stone/derivatives/repository'
 require 'space_stone/derivatives/chain'
-require 'space_stone/derivatives/processes/base'
 require 'space_stone/derivatives/processes/pre_process'
 
 module SpaceStone
   module Derivatives
     ##
-    # This class is responsible for processing the given :manifest by dispatching the :process to
-    # each derivative of the {Chain}.
+    # This class is responsible for processing the given :manifest with the given :process.
     #
     # @see .call
     # @see SpaceStone::Derivatives.pre_process_derivatives_for
     class Processor
       ##
+      #
+      # Call the :process for each derivative in the given :manifest's {Chain}
+      #
       # @param manifest [Manifest]
       # @param process [Symbol]
+      #
+      # @raise [NameError] when the given :process is undefined
+      #
+      # @see #call
       def self.call(manifest:, process:)
-        process = "SpaceStone::Derivatives::Processes::#{process.classify}".constantize
+        process = "SpaceStone::Derivatives::Processes::#{process.to_s.classify}".constantize
         new(manifest: manifest, process: process).call
       end
 

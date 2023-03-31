@@ -29,4 +29,19 @@ RSpec.describe SpaceStone::Derivatives::Processor do
       expect(process).to have_received(:call).with(repository: repository, derivative: second_link)
     end
   end
+
+  describe '.call' do
+    context 'with a defined process' do
+      it "instantiates the processor and calls the processor" do
+        expect_any_instance_of(described_class).to receive(:call)
+        described_class.call(manifest: manifest, process: :pre_process)
+      end
+    end
+
+    context 'with an undefined process' do
+      it 'will raise a NotImplementedError' do
+        expect { described_class.call(manifest: manifest, process: :no_such_process) }.to raise_exception NameError
+      end
+    end
+  end
 end
