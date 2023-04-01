@@ -9,7 +9,7 @@ RSpec.describe SpaceStone::Derivatives::Repository do
     it "raises Exceptions::NotFoundError when the derivative for the given identifier does not exist" do
       allow(repository).to receive(:local_path_for).and_return(nil)
       expect { repository.local_path_for!(derivative: :hocr) }.to(
-        raise_error SpaceStone::Derivatives::Exceptions::NotFoundError
+        raise_error SpaceStone::Derivatives::Exceptions::DerivativeNotFoundError
       )
     end
   end

@@ -5,6 +5,7 @@ require 'active_support'
 require 'space_stone/derivatives/exceptions'
 require 'space_stone/derivatives/manifest'
 require 'space_stone/derivatives/processor'
+require 'space_stone/derivatives/storage_adapters'
 
 # These are the files conceptually lifted from the IIIF Print gem.
 require 'space_stone/derivatives/pdf_pages_summary'

@@ -46,19 +46,33 @@ module SpaceStone
       end
       attr_reader :chain, :repository, :process, :errors, :logger
 
+      # @note Yes this method is noisy.  But I promise all of the noise is here to help when things
+      #       go sideways.
+      #
+      # rubocop:disable Metrics/AbcSize
+      # rubocop:disable Metrics/MethodLength
       def call
+        logger.info("Begin processing #{chain.count} derivative(s) for repository #{repository.inspect}")
         chain.each do |derivative|
           logger.info("Begin processing derivative #{derivative.inspect} for repository #{repository.inspect}")
+
           process.call(repository: repository, derivative: derivative)
+
           logger.info("Success processing derivative #{derivative.inspect} for repository #{repository.inspect}")
         rescue => e
           logger.error("Error processing derivative #{derivative.inspect} for repository #{repository.inspect}.  Encountered #{e}.")
           @errors << e
         end
-        return true unless errors.any?
-
-        raise Exceptions::ProcessorError, process: self, errors: errors
+        if errors.any?
+          logger.info("Error processing #{chain.count} derivative(s) for repository #{repository.inspect}.  See logs for more details.")
+          raise Exceptions::ProcessorError, process: self, errors: errors
+        else
+          logger.info("Success processing #{chain.count} derivative(s) for repository #{repository.inspect}")
+          true
+        end
       end
+      # rubocop:enable Metrics/AbcSize
+      # rubocop:enable Metrics/MethodLength
     end
   end
 end

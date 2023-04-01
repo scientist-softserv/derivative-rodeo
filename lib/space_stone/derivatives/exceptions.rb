@@ -14,7 +14,7 @@ module SpaceStone
       # Raised when we do not find an identifier and associated derivative.
       #
       # @see Repository#initialize
-      class NotFoundError < Error
+      class DerivativeNotFoundError < Error
         def initialize(derivative:, repository:)
           super("Could not find derivative #{derivative.inspect} for Repository #{repository.inspect}.")
         end
