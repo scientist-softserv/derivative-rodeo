@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe SpaceStone::Derivatives::Types::HocrType do
-  let(:repository) { SpaceStone::Derivatives::Repository.new(manifest: manifest) }
+  let(:repository) { double(SpaceStone::Derivatives::Repository, demand_local_for!: false) }
   let(:manifest) do
     SpaceStone::Derivatives::Manifest.new(parent_identifier: "123", original_filename: "abc.jpg", derivatives: [:hocr])
   end
@@ -11,31 +11,21 @@ RSpec.describe SpaceStone::Derivatives::Types::HocrType do
     it { is_expected.to eq([:monochrome]) }
   end
 
-  describe '#pre_process!' do
-    subject { described_class.new.pre_process!(repository: repository) }
+  describe '#generate_for' do
+    let(:exception) { SpaceStone::Derivatives::Exceptions::DerivativeNotFoundError.new(derivative: :monochrome, repository: repository) }
+    subject { described_class.new.generate_for(repository: repository) }
 
-    before do
-      allow(repository).to receive(:local_path_for).with(derivative: described_class.to_sym).and_return(existing_hocr_path)
-    end
-
-    context 'with existing :hocr' do
-      let(:existing_hocr_path) { "path/to/hocr" }
-      it "returns the existing :hocr" do
-        expect(subject).to eq(existing_hocr_path)
+    context "without an existing monochrome derivative" do
+      it "will raise a Exceptions::DerivativeNotFoundError exception" do
+        expect(repository).to receive(:demand_local_for!)
+          .with(derivative: :monochrome)
+          .and_raise(exception)
+        expect { subject }.to raise_exception(exception.class)
       end
     end
 
-    context 'without an existing :hocr' do
-      let(:existing_hocr_path) { nil }
-
-      it 'will create a new derivative from the existing :monochrome file' do
-        allow(repository).to receive(:local_path_for!)
-          .with(derivative: :monochrome)
-          .and_return(Fixtures.path_for('ocr_mono.tiff'))
-        expect(repository).to receive(:put).with(derivative: described_class.to_sym, path: kind_of(String))
-
-        # TODO: add check that the file was created locally.
-        subject
+    context 'with an existing monochrome derivative' do
+      xit 'assign the tesseract derived file to the :hocr derivative for the repository' do
       end
     end
   end

@@ -4,8 +4,10 @@ require 'spec_helper'
 
 RSpec.describe SpaceStone::Derivatives::StorageAdapters::FileSystem do
   let(:root) { Fixtures.tmp_subdir_of("file_system") }
-  subject(:instance) { described_class.new(root: root) }
+  let(:manifest) { SpaceStone::Derivatives::Manifest.new(parent_identifier: "123", original_filename: __FILE__, derivatives: []) }
   let(:content) { "Hello World\nWelcome to Where Ever You Are\n" }
+
+  subject(:instance) { described_class.new(manifest: manifest, root: root) }
 
   it { is_expected.to be_a(SpaceStone::Derivatives::StorageAdapters::Base) }
   it { is_expected.to respond_to(:exists?) }

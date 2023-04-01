@@ -32,6 +32,10 @@ module SpaceStone
         def inspect
           "<##{self.class} ID=#{id.inspect}>"
         end
+
+        def directory_slugs
+          [parent_identifier.to_s, File.basename(original_filename)]
+        end
       end
 
       ##
@@ -58,7 +62,7 @@ module SpaceStone
       # Spaceship operator).
       extend Forwardable
       include Comparable
-      def_delegators :identifier, :parent_identifier, :original_filename
+      def_delegators :identifier, :parent_identifier, :original_filename, :directory_slugs
 
       def <=>(other)
         identifier <=> other.identifier

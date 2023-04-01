@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'space_stone/derivatives/storage_adapters/base'
+require 'fileutils'
 
 module SpaceStone
   module Derivatives
@@ -10,11 +11,14 @@ module SpaceStone
         include Base
 
         ##
+        # @param manifest [Manifest]
         # @param root [String]
-        def initialize(root:)
+        def initialize(manifest:, root: Dir.mktmpdir)
+          @manifest = manifest
           @root = root
+          @directory_name = File.join(root, *manifest.directory_slugs)
         end
-        attr_reader :root
+        attr_reader :manifest, :root, :directory_name
 
         def exists?(derivative:)
           File.exist?(path_to(derivative))
@@ -27,6 +31,7 @@ module SpaceStone
         end
 
         def write(derivative:)
+          FileUtils.mkdir_p(directory_name)
           File.open(path_to(derivative), "wb") do |file|
             file.puts yield
           end
@@ -35,7 +40,7 @@ module SpaceStone
         private
 
         def path_to(derivative)
-          File.join(root, derivative.to_sym.to_s)
+          File.join(directory_name, derivative.to_sym.to_s)
         end
       end
     end

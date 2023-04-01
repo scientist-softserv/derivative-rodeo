@@ -35,7 +35,8 @@ module SpaceStone
       # @param chain [Chain, #each, Array<Types::BaseType>]
       def initialize(manifest:,
                      process:,
-                     repository: Repository.new(manifest: manifest),
+                     # TODO: Fix this!
+                     repository: Repository.new(manifest: manifest, local_adapter: :file_system, remote_adapter: :file_system),
                      chain: Chain.new(derivatives: manifest.derivatives),
                      logger: Derivatives.logger)
         @repository = repository

@@ -33,12 +33,14 @@ module SpaceStone
         class_attribute :output_base, default: :hocr
         # @!endgroup
 
-        private
+        ##
+        # @param repository [Repository]
+        # @raise [Exceptions::DerivativeNotFoundError] when we don't have a :monochrome {Types}
+        def generate_for(repository:)
+          monochrome_path = repository.demand_local_for!(derivative: :monochrome)
 
-        def create_derivative_for(repository:)
-          monochrome_path = repository.local_path_for!(derivative: :monochrome)
-
-          output_prefix = File.join(repository.local_directory_for(derivative: to_sym), "output_html")
+          # I want a place to put the command's output.
+          output_prefix = repository.local_temporary_path(slugs: "output_html")
 
           cmd = ""
           cmd += command_environment_variables + " " if command_environment_variables.present?
@@ -49,7 +51,7 @@ module SpaceStone
           # TODO: What about error handling?
           `#{cmd}`
 
-          repository.put(derivative: to_sym, path: "#{output_prefix}.#{output_base}")
+          repository.assign(derivative: to_sym, path: "#{output_prefix}.#{output_base}")
         end
       end
     end

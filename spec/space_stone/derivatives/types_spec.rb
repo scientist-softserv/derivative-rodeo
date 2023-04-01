@@ -33,6 +33,6 @@ RSpec.describe SpaceStone::Derivatives::Types do
       it { is_expected.to eq(:base) }
     end
 
-    it { is_expected.to respond_to :pre_process! }
+    it { is_expected.to respond_to :generate_for }
   end
 end

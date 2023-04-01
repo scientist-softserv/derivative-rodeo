@@ -12,9 +12,16 @@ module SpaceStone
     # rubocop:disable Lint/UnusedMethodArgument
     class Repository
       ##
-      # @param manifest [SpaceStone::Derivatives::Manifest]
-      def initialize(manifest:)
+      # @param manifest [Manifest]
+      # @param local_adapter [Symbol]
+      # @param remote_adapter [Symbol]
+      def initialize(manifest:, local_adapter:, remote_adapter:)
         @manifest = manifest
+        @local_storage = StorageAdapters.for(adapter: local_adapter, manifest: manifest)
+        @remote_storage = StorageAdapters.for(adapter: remote_adapter, manifest: manifest)
+        # I need to instantiate the local_storage with:
+        # - adapter
+        # - manifest
       end
       attr_reader :manifest
 
@@ -26,6 +33,10 @@ module SpaceStone
       def local_for(derivative:)
         local_storage.path_to(derivative: derivative)
       end
+
+      def local_temporary_path(slugs:); end
+
+      def assign(derivative:, slug:); end
 
       # @param derivative [#to_sym]
       # @return [Handle] when the file exists in the local storage
@@ -56,47 +67,6 @@ module SpaceStone
         remote_storage.copy(derivative: derivative, to: local_storage)
 
         demand_local_for!(derivative: derivative)
-      end
-
-      ##
-      # @api public
-      #
-      # @param derivative [Symbol]
-      # @param path [String]
-      #
-      # @todo Is contents the correct thing?
-      def put(derivative:, path:); end
-
-      ##
-      # @api public
-      #
-      # @param derivative [Symbol]
-      #
-      # @return [String]
-      # @raise [Exceptions::NotFoundError] when we can't find the :manifest's :derivative.
-      def local_path_for!(derivative:)
-        local_path_for(derivative: derivative).presence ||
-          raise(Exceptions::DerivativeNotFoundError.new(derivative: derivative, repository: self))
-      end
-
-      # @param derivative [Symbol]
-      # @return [String]
-      def local_path_for(derivative:)
-        # TODO: How to implement?  This might mean I pull down from the remote.  Which depends on the adapter?
-      end
-
-      # @param derivative [Symbol]
-      # @return [String]
-      def local_directory_for(derivative:)
-        dir = File.join(tmpdir, derivative.to_s)
-        Dir.mkdir(dir)
-        dir
-      end
-
-      private
-
-      def tmpdir
-        @tmpdir ||= Dir.mktmpdir
       end
     end
   end
