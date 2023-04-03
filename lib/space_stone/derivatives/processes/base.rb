@@ -11,15 +11,15 @@ module SpaceStone
         ##
         # @api public
         #
-        # @param repository [Repository]
-        # @param derivative [Types::BaseType]
+        # @param repository [SpaceStone::Derivatives::Repository]
+        # @param derivative [SpaceStone::Derivatives::Types::BaseType]
         def self.call(repository:, derivative:)
           new(repository: repository, derivative: derivative).call
         end
 
         ##
-        # @param repository [Repository]
-        # @param derivative [Types::BaseType]
+        # @param repository [SpaceStone::Derivatives::Repository]
+        # @param derivative [SpaceStone::Derivatives::Types::BaseType]
         def initialize(repository:, derivative:)
           @repository = repository
           @derivative = derivative

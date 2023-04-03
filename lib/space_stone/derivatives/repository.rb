@@ -19,13 +19,10 @@ module SpaceStone
         @manifest = manifest
         @local_storage = StorageAdapters.for(adapter: local_adapter, manifest: manifest)
         @remote_storage = StorageAdapters.for(adapter: remote_adapter, manifest: manifest)
-        # I need to instantiate the local_storage with:
-        # - adapter
-        # - manifest
       end
       attr_reader :manifest
 
-      # @param derivative [#to_sym]
+      # @param derivative [Symbol]
       #
       # @return [Handle] when the file exists in the local storage
       # @return [NilClass] when the file does not exist in the local storage
@@ -34,9 +31,14 @@ module SpaceStone
         local_storage.path_to(derivative: derivative)
       end
 
-      def local_temporary_path(slugs:); end
+      ##
+      # @param derivative [Symbol]
+      # @param filename [Object]
+      def local_path_for(derivative:, filename:)
+        local_storage.path_for(derivative:, filename:)
+      end
 
-      def assign(derivative:, slug:); end
+      def local_assign(derivative:, path:); end
 
       # @param derivative [#to_sym]
       # @return [Handle] when the file exists in the local storage

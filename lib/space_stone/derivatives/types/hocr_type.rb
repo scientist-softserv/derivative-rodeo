@@ -40,7 +40,7 @@ module SpaceStone
           monochrome_path = repository.demand_local_for!(derivative: :monochrome)
 
           # I want a place to put the command's output.
-          output_prefix = repository.local_temporary_path(slugs: "output_html")
+          output_prefix = repository.local_path_for(derivative: to_sym, filename: "hocr")
 
           cmd = ""
           cmd += command_environment_variables + " " if command_environment_variables.present?
@@ -51,7 +51,7 @@ module SpaceStone
           # TODO: What about error handling?
           `#{cmd}`
 
-          repository.assign(derivative: to_sym, path: "#{output_prefix}.#{output_base}")
+          repository.local_assign(derivative: to_sym, path: "#{output_prefix}.#{output_base}")
         end
       end
     end
