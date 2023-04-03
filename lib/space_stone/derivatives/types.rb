@@ -54,15 +54,6 @@ module SpaceStone
           self.class.to_sym
         end
 
-        ##
-        # @param repository [Repository]
-        #
-        # @see SpaceStone::Derivatives.pre_process_derivatives_for
-        def pre_process!(repository:)
-          repository.local_path_for(derivative: to_sym).presence ||
-            create_derivative_for(repository: repository)
-        end
-
         def generate_for(repository:)
           raise NotImplementedError
         end
