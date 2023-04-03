@@ -15,6 +15,11 @@ module SpaceStone
       # @param manifest [Manifest]
       # @param local_adapter [Symbol]
       # @param remote_adapter [Symbol]
+      #
+      # @todo rename the local and remote adapters.  The local adapter is where we're wanting all
+      #       files to ultimate end up.  And the remote adapter is where we are going to look if we
+      #       don't find the files locally.  These might also make sense as a class_attribute; as
+      #       we'll want to configure things in a per environment basis.
       def initialize(manifest:, local_adapter:, remote_adapter:)
         @manifest = manifest
         @local_storage = StorageAdapters.for(adapter: local_adapter, manifest: manifest)
@@ -22,6 +27,28 @@ module SpaceStone
       end
       attr_reader :manifest, :local_storage, :remote_storage
       private :local_storage, :remote_storage
+
+      ##
+      # The given derivative (via the :from parameter) has identified that it needs SpaceStone to
+      # generate the enumerated :derivatives for the file in the given :index.  We do not want to do
+      # this inline because we may be hitting boundary conditions.
+      #
+      # @param from_derivative [Symbol] the named derivative from which we'll generate the given
+      #        :derivatives.
+      # @param derivatives [Array<Symbol>] the list of derivatives to generate from the given
+      #        derivative.
+      # @param index [Integer] the from_derivative has a file in the given :index.
+      def enqueue(from_derivative:, derivatives:, index: 0)
+        # We likely want to inject a dependency.
+        #
+        # When we're running this in AWS, the queue will add a message to SMQ.
+        #
+        # When we're running this in Bulkrax, the queue might be immediate or we might consider
+        # submitting.  Regardless the queue is different than the AWS queue.
+        #
+        # An assumption of the queue is that the local_storage of this repository and the local
+        # storage of the queue object are the same (or point to the same "global root").
+      end
 
       ##
       # @param derivative [Symbol]
