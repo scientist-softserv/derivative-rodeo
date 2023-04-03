@@ -20,25 +20,21 @@ module SpaceStone
         @local_storage = StorageAdapters.for(adapter: local_adapter, manifest: manifest)
         @remote_storage = StorageAdapters.for(adapter: remote_adapter, manifest: manifest)
       end
-      attr_reader :manifest
-
-      # @param derivative [Symbol]
-      #
-      # @return [Handle] when the file exists in the local storage
-      # @return [NilClass] when the file does not exist in the local storage
-      # @see #demand_local_for!
-      def local_for(derivative:)
-        local_storage.path_to(derivative: derivative)
-      end
+      attr_reader :manifest, :local_storage, :remote_storage
+      private :local_storage, :remote_storage
 
       ##
       # @param derivative [Symbol]
-      # @param filename [Object]
-      def local_path_for(derivative:, filename:)
-        local_storage.path_for(derivative:, filename:)
+      # @param filename [String, NilClass]
+      def local_path(derivative:, filename: nil)
+        local_storage.path_for(derivative: derivative, filename: filename)
       end
 
-      def local_assign(derivative:, path:); end
+      def local_assign(derivative:, path:)
+        local_storage.write(derivative: derivative) do
+          File.read(path)
+        end
+      end
 
       # @param derivative [#to_sym]
       # @return [Handle] when the file exists in the local storage
@@ -48,7 +44,7 @@ module SpaceStone
       # rubocop:disable Style/GuardClause
       def demand_local_for!(derivative:)
         if local_storage.exists?(derivative: derivative)
-          local_for(derivative: derivative)
+          local_storage.path_for(derivative: derivative)
         else
           raise Exceptions::DerivativeNotFoundError, derivative: derivative, repository: self
         end

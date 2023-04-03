@@ -33,7 +33,7 @@ module SpaceStone
       # Yield the derivatives for processing in the correct sequence, accounting for the
       # prerequisites of the derivatives.
       #
-      # @yield [SpaceStone::Derivatives::Types::BaseType]
+      # @yieldparam [SpaceStone::Derivatives::Types::BaseType]
       # @see Sequencer
       def each
         sequence.each do |key|

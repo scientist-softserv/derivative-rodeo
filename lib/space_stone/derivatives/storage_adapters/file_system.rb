@@ -17,11 +17,16 @@ module SpaceStone
           @manifest = manifest
           @root = root
           @directory_name = File.join(root, *manifest.directory_slugs)
+          FileUtils.mkdir_p(directory_name)
         end
         attr_reader :manifest, :root, :directory_name
 
         def exists?(derivative:)
           File.exist?(path_to(derivative))
+        end
+
+        def path_for(derivative:, **)
+          path_to(derivative)
         end
 
         def read(derivative:)
@@ -31,7 +36,6 @@ module SpaceStone
         end
 
         def write(derivative:)
-          FileUtils.mkdir_p(directory_name)
           File.open(path_to(derivative), "wb") do |file|
             file.puts yield
           end

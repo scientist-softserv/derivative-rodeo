@@ -19,6 +19,14 @@ module SpaceStone
           raise NotImplementedError
         end
 
+        # @param derivative [#to_sym]
+        # @param filename [String]
+        #
+        # @return [String]
+        def path_for(derivative:, filename:)
+          raise NotImplementedError
+        end
+
         ##
         # @param derivative [#to_sym]
         #

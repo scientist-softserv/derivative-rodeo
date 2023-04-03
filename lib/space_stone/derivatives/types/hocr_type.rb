@@ -4,7 +4,7 @@ module SpaceStone
   module Derivatives
     module Types
       ##
-      # Responsible for finding or creating a hocr file (or configured :output_base) using
+      # Responsible for finding or creating a hocr file (or configured :output_suffix) using
       # tesseract.
       #
       # @see http://tesseract-ocr.github.io
@@ -30,7 +30,7 @@ module SpaceStone
         class_attribute :additional_tessearct_options, default: nil
         # @!attribute [rw]
         # The tesseract command's output base; default `:hocr`.
-        class_attribute :output_base, default: :hocr
+        class_attribute :output_suffix, default: :hocr
         # @!endgroup
 
         ##
@@ -39,19 +39,22 @@ module SpaceStone
         def generate_for(repository:)
           monochrome_path = repository.demand_local_for!(derivative: :monochrome)
 
-          # I want a place to put the command's output.
-          output_prefix = repository.local_path_for(derivative: to_sym, filename: "hocr")
+          # I'm assuming that if the repository returns a local path for a filename, then the
+          # process can write a file to the same directory as the returned filename.  Because
+          # tesseract takes a base name (e.g. base-hocr) and writes "base-hocr.hocr".
+          output_prefix = repository.local_path(derivative: to_sym, filename: "output_html")
 
           cmd = ""
           cmd += command_environment_variables + " " if command_environment_variables.present?
           cmd += "tesseract #{monochrome_path} #{output_prefix}"
           cmd += " #{additional_tessearct_options}" if additional_tessearct_options.present?
-          cmd += " #{output_base}"
+          cmd += " #{output_suffix}"
 
           # TODO: What about error handling?
           `#{cmd}`
 
-          repository.local_assign(derivative: to_sym, path: "#{output_prefix}.#{output_base}")
+          repository.local_assign(derivative: to_sym, path: "#{output_prefix}.#{output_suffix}")
+          repository.demand_local_for!(derivative: to_sym)
         end
       end
     end
