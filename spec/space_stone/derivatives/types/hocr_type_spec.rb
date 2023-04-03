@@ -21,7 +21,7 @@ RSpec.describe SpaceStone::Derivatives::Types::HocrType do
     subject { described_class.new.generate_for(repository: repository) }
 
     before do
-      allow(repository).to receive(:demand_local_for!).with(derivative: :hocr).and_call_original
+      allow(repository).to receive(:demand_local_for!).with(derivative: :hocr, index: 0).and_call_original
     end
 
     context "without an existing monochrome derivative" do

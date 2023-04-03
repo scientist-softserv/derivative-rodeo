@@ -19,9 +19,7 @@ module SpaceStone
             image.convert(monochrome_path, true)
           end
 
-          repository.local_assign(derivative: to_sym, path: monochrome_path)
-
-          repository.demand_local_for!(derivative: to_sym)
+          repository.local_assign(derivative: to_sym, path: monochrome_path, demand: true)
         end
       end
     end

@@ -21,7 +21,7 @@ RSpec.describe SpaceStone::Derivatives::Types::MonochromeType do
   describe "#generate_for" do
     subject { described_class.new.generate_for(repository: repository) }
     before do
-      allow(repository).to receive(:demand_local_for!).with(derivative: described_class.to_sym).and_call_original
+      allow(repository).to receive(:demand_local_for!).with(derivative: described_class.to_sym, index: 0).and_call_original
     end
 
     context 'with existing :monochrome' do

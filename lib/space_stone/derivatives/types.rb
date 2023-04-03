@@ -19,6 +19,23 @@ module SpaceStone
       end
 
       # @abstract
+      #
+      # @note I'm considering the following DSL where the "image_path" is present because of the
+      #       declared prerequisite :image.  And the local_assign and local_path are delegated to
+      #       the repository.  And then the demand calls are handled by the before and after of the
+      #       generate object.
+      #
+      #    generate do
+      #      image = SpaceStone::Derivatives::Utilities::Image.new(image_path)
+      #      if image.monochrome?
+      #        monochrome_path = image_path
+      #      else
+      #        monochrome_path = local_path(filename: 'monochrome-interim.tif')
+      #        image.convert(monochrome_path, true)
+      #      end
+      #
+      #      local_assign(path: monochrome_path)
+      #    end
       class BaseType
         class_attribute :prerequisites, default: []
 
@@ -57,3 +74,4 @@ end
 require 'space_stone/derivatives/types/hocr_type'
 require 'space_stone/derivatives/types/image_type'
 require 'space_stone/derivatives/types/monochrome_type'
+require 'space_stone/derivatives/types/pdf_split_type'

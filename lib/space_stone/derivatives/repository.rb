@@ -26,14 +26,20 @@ module SpaceStone
       ##
       # @param derivative [Symbol]
       # @param filename [String, NilClass]
-      def local_path(derivative:, filename: nil)
-        local_storage.path_for(derivative: derivative, filename: filename)
+      def local_path(derivative:, filename: nil, index: 0, mkdir: true)
+        local_storage.path_for(derivative: derivative, filename: filename, index: index, mkdir: true)
       end
 
-      def local_assign(derivative:, path:)
-        local_storage.write(derivative: derivative) do
+      ##
+      # @param derivative [Symbol]
+      # @param path [String]
+      # @param demand [Boolean] whether we should automatically call {#demand_local_for!} to verify
+      #        the file exists.
+      def local_assign(derivative:, path:, index: 0, demand: false)
+        local_storage.write(derivative: derivative, index: index) do
           File.read(path)
         end
+        demand_local_for!(derivative: derivative, index: index) if demand
       end
 
       # @param derivative [#to_sym]
@@ -42,9 +48,9 @@ module SpaceStone
       # @see #local_for
       #
       # rubocop:disable Style/GuardClause
-      def demand_local_for!(derivative:)
-        if local_storage.exists?(derivative: derivative)
-          local_storage.path_for(derivative: derivative)
+      def demand_local_for!(derivative:, index: 0)
+        if local_storage.exists?(derivative: derivative, index: index)
+          local_storage.path_for(derivative: derivative, index: index)
         else
           raise Exceptions::DerivativeNotFoundError, derivative: derivative, repository: self
         end
@@ -59,12 +65,12 @@ module SpaceStone
       # @note A bit of a misnomer on implementation details, but provided for symetry.
       #
       # @see #demand_local_for!
-      def remote_for(derivative:)
-        return false unless remote_storage.exists?(derivative: derivative)
+      def remote_for(derivative:, index: 0)
+        return false unless remote_storage.exists?(derivative: derivative, index: index)
 
-        remote_storage.copy(derivative: derivative, to: local_storage)
+        remote_storage.copy(derivative: derivative, to: local_storage, index: index)
 
-        demand_local_for!(derivative: derivative)
+        demand_local_for!(derivative: derivative, index: index)
       end
     end
   end

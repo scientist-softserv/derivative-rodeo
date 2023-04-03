@@ -52,11 +52,10 @@ module SpaceStone
           cmd += " #{additional_tessearct_options}" if additional_tessearct_options.present?
           cmd += " #{output_suffix}"
 
-          # TODO: What about error handling?
+          # TODO: What about error handling?  We do force the demand after-wards
           `#{cmd}`
 
-          repository.local_assign(derivative: to_sym, path: "#{output_prefix}.#{output_suffix}")
-          repository.demand_local_for!(derivative: to_sym)
+          repository.local_assign(derivative: to_sym, path: "#{output_prefix}.#{output_suffix}", demand: true)
         end
       end
     end
