@@ -26,11 +26,14 @@ module SpaceStone
 
         # @return [SpaceStone::Derivatives::TechnicalMetadata]
         def technical_metadata
-          return @metadata if defined?(@metadata)
+          return @technical_metadata if defined?(@technical_metadata)
 
-          @metadata = jp2? ? ImageJp2.technical_metadata_for(path: path) : ImageIdentify.technical_metadata_for(path: path)
+          @technical_metadata = jp2? ? ImageJp2.technical_metadata_for(path: path) : ImageIdentify.technical_metadata_for(path: path)
         end
         alias metadata technical_metadata
+
+        extend Forwardable
+        def_delegator :technical_metadata, :monochrome?
 
         # Convert source image to image at destination path, inferring file type from destination
         # file extension.  In case of JP2 files, create intermediate file using OpenJPEG 2000 that

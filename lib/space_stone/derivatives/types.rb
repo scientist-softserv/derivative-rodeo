@@ -55,4 +55,5 @@ module SpaceStone
 end
 
 require 'space_stone/derivatives/types/hocr_type'
+require 'space_stone/derivatives/types/image_type'
 require 'space_stone/derivatives/types/monochrome_type'

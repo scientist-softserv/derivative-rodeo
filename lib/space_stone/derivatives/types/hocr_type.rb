@@ -35,7 +35,9 @@ module SpaceStone
 
         ##
         # @param repository [Repository]
-        # @raise [Exceptions::DerivativeNotFoundError] when we don't have a :monochrome {Types}
+        #
+        # @raise [Exceptions::DerivativeNotFoundError] when we don't have a :monochrome {Types} or
+        #        we failed to generate the :hocr file.
         def generate_for(repository:)
           monochrome_path = repository.demand_local_for!(derivative: :monochrome)
 

@@ -19,8 +19,10 @@ RSpec.describe SpaceStone::Derivatives::Chain do
 
   describe '#each' do
     it 'will yield instances of SpaceStone::Derivatives::Types::BaseType' do
-      # NOTE: monochrome yields first, then hocr because hocr depends on monochrome
+      # NOTE: image yields first, then monochrome which depends on image, then hocr which depends on
+      # image
       expect { |b| subject.each(&b) }.to yield_successive_args(
+        SpaceStone::Derivatives::Types::ImageType,
         SpaceStone::Derivatives::Types::MonochromeType,
         SpaceStone::Derivatives::Types::HocrType
       )

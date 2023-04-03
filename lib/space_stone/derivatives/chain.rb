@@ -13,7 +13,10 @@ module SpaceStone
     class Chain
       # @param derivatives [Array<#to_sym>]
       def initialize(derivatives:)
-        @chain = Array(derivatives).each_with_object({}) { |key, hash| hash[key.to_sym] = Types.for(key.to_sym) }
+        @chain = Array(derivatives).each_with_object({}) do |key, hash|
+          hash[key.to_sym] = Types.for(key.to_sym)
+        end
+        add_dependencies_to_chain!
       end
 
       ##
@@ -42,6 +45,21 @@ module SpaceStone
       end
 
       private
+
+      # This method ensures that any dependent derivatives that weren't explicitly stated are in
+      # fact added to the chain.
+      def add_dependencies_to_chain!
+        additional_values = {}
+        @chain.values.each_with_object(additional_values) do |type, hash|
+          Array(type.prerequisites).each do |prereq|
+            next if @chain.key?(prereq)
+            hash[prereq] = Types.for(prereq)
+          end
+        end
+        return if additional_values.empty?
+        @chain.merge!(additional_values)
+        add_dependencies_to_chain!
+      end
 
       def sequence
         @sequence ||= Sequencer.call(to_hash)

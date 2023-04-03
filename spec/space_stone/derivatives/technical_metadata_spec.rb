@@ -16,6 +16,7 @@ RSpec.describe SpaceStone::Derivatives::TechnicalMetadata do
   it { is_expected.to respond_to :width }
   it { is_expected.to respond_to :height }
   it { is_expected.to respond_to :content_type }
+  it { is_expected.to respond_to :monochrome? }
 
   context '#to_hash' do
     subject { struct.to_hash }

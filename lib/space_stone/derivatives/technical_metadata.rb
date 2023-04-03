@@ -15,6 +15,10 @@ module SpaceStone
           content_type: content_type
         }
       end
+
+      def monochrome?
+        color.to_s.casecmp('monochrome').zero?
+      end
     end
   end
 end
