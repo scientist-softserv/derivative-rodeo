@@ -4,7 +4,7 @@ module SpaceStone
   module Derivatives
     module StorageAdapters
       ##
-      # @param manifest [Manifest]
+      # @param manifest [SpaceStone::Derivatives::Manifest::Original]
       # @param adapter [Symbol, Hash<Symbol,Object>]
       def self.for(manifest:, adapter:)
         # Why skip the manifest in the adapter?  Because we will assume the provide manifest is the

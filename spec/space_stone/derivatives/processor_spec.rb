@@ -4,7 +4,7 @@ require 'spec_helper'
 
 RSpec.describe SpaceStone::Derivatives::Processor do
   let(:manifest) do
-    SpaceStone::Derivatives::Manifest.new(parent_identifier: 1, original_filename: "hello", derivatives: [:hocr])
+    SpaceStone::Derivatives::Manifest::Original.new(parent_identifier: 1, original_filename: "hello", derivatives: [:hocr])
   end
 
   let(:process) { double(SpaceStone::Derivatives::Processes::Base, call: true) }

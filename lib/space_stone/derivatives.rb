@@ -30,7 +30,7 @@ module SpaceStone
     # predictable location.  The :process will attempt to re-use an existing derivative, and failing
     # that will create the derivative.
     #
-    # @param manifest [Manifest]
+    # @param manifest [SpaceStone::Derivatives::Manifest::Original]
     # @param process [Sybmol]
     #
     # @see Manifest::LocationSet
@@ -41,7 +41,7 @@ module SpaceStone
     ##
     # @api public
     #
-    # @param manifest [Manifest]
+    # @param manifest [SpaceStone::Derivatives::Manifest::Original]
     #
     # @return [Manifest::LocationSet]
     def self.get_file_locators_for(manifest:)

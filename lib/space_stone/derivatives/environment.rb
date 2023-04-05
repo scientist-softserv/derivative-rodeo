@@ -15,14 +15,17 @@ module SpaceStone
       class_attribute :remote_adapter_name, default: nil, attr_accessor: false
       class_attribute :queue_adapter_name, default: nil, attr_accessor: false
 
-      # @param manifest [SpaceStone::Derivatives::Manifest]
+      # @param manifest [SpaceStone::Derivatives::Manifest::Original]
+      # @param local [Symbol]
+      # @param remote [Symbol]
+      # @param queue [Symbol]
       # @see .for_child_manifest
-      def self.for_original_manifest(manifest:)
+      def self.for_original_manifest(manifest:, local: local_adapter_name, queue: queue_adapter_name, remote: remote_adapter_name)
         new(
           manifest: manifest,
-          local: local_adapter_name,
-          queue: queue_adapter_name,
-          remote: remote_adapter_name
+          local: local,
+          queue: queue,
+          remote: remote
         )
       end
 
@@ -37,7 +40,7 @@ module SpaceStone
       # configuration (e.g. the specific temporary directory)
       #
       # @param environment [SpaceStone::Derivatives::Environment]
-      # @param manifest [SpaceStone::Derivatives::Manifest::Child]
+      # @param manifest [SpaceStone::Derivatives::Manifest::Original::Child]
       # @see .for_original_manifest
       def self.for_child_manifest(environment:, manifest:)
         new(
@@ -51,7 +54,7 @@ module SpaceStone
       private_class_method :new
 
       ##
-      # @param manifest [SpaceStone::Derivatives::Manifest]
+      # @param manifest [SpaceStone::Derivatives::Manifest::Original]
       # @param local [Symbol, Hash<Symbol,Object>]
       # @param remote [Symbol, Hash<Symbol,Object>]
       # @param queue [Symbol, Hash<Symbol,Object>]

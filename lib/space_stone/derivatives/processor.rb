@@ -17,7 +17,7 @@ module SpaceStone
       #
       # Call the :process for each derivative in the given :manifest's {Chain}
       #
-      # @param manifest [Manifest]
+      # @param manifest [SpaceStone::Derivatives::Manifest::Original]
       # @param process [Symbol]
       #
       # @raise [NameError] when the given :process is undefined
@@ -29,7 +29,7 @@ module SpaceStone
       end
 
       ##
-      # @param manifest [Manifest]
+      # @param manifest [SpaceStone::Derivatives::Manifest::Original]
       # @param process [Processors::BaseProcessor, #call]
       # @param repository [Repository]
       # @param chain [Chain, #each, Array<Types::BaseType>]

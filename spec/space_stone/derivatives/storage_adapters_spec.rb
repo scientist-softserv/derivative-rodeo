@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe SpaceStone::Derivatives::StorageAdapters do
-  let(:manifest) { SpaceStone::Derivatives::Manifest.new(parent_identifier: "abc", original_filename: "hello.jpg", derivatives: []) }
+  let(:manifest) { SpaceStone::Derivatives::Manifest::Original.new(parent_identifier: "abc", original_filename: "hello.jpg", derivatives: []) }
 
   describe '.for' do
     subject(:instance) { described_class.for(manifest: manifest, adapter: adapter) }

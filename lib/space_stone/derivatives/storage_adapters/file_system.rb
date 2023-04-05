@@ -11,7 +11,7 @@ module SpaceStone
         include Base
 
         ##
-        # @param manifest [Manifest]
+        # @param manifest [SpaceStone::Derivatives::Manifest::Original]
         # @param root [String]
         def initialize(manifest:, root: Dir.mktmpdir, directory_name: File.join(root, *manifest.directory_slugs), **)
           @manifest = manifest

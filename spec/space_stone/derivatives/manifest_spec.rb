@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe SpaceStone::Derivatives::Manifest do
+RSpec.describe SpaceStone::Derivatives::Manifest::Original do
   let(:manifest) { described_class.new(parent_identifier: 'abc', original_filename: 'def.jpg', derivatives: derivatives) }
   let(:derivatives) { [:hocr, "alto"] }
 

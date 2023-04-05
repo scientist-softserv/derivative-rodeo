@@ -12,7 +12,7 @@ module SpaceStone
     # rubocop:disable Lint/UnusedMethodArgument
     class Repository
       ##
-      # @param manifest [Manifest]
+      # @param manifest [SpaceStone::Derivatives::Manifest::Original]
       # @param local_adapter [Symbol]
       # @param remote_adapter [Symbol]
       #

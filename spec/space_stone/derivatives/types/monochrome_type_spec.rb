@@ -15,7 +15,7 @@ RSpec.describe SpaceStone::Derivatives::Types::MonochromeType do
   end
 
   let(:manifest) do
-    SpaceStone::Derivatives::Manifest.new(parent_identifier: "123", original_filename: "abc.jpg", derivatives: [:hocr])
+    SpaceStone::Derivatives::Manifest::Original.new(parent_identifier: "123", original_filename: "abc.jpg", derivatives: [:hocr])
   end
 
   describe "#generate_for" do
