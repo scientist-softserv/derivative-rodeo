@@ -12,6 +12,11 @@ RSpec.describe SpaceStone::Derivatives::StorageAdapters::FileSystem do
   it { is_expected.to be_a(SpaceStone::Derivatives::StorageAdapters::Base) }
   it { is_expected.to respond_to(:exists?) }
 
+  describe '#to_hash' do
+    it "has the :directory_name, :manifest, and :root keys" do
+      expect(instance.to_hash.keys).to eq([:directory_name, :manifest, :root])
+    end
+  end
   describe '#write' do
     it "yields a block for writing content" do
       expect do

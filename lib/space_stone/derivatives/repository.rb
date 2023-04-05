@@ -33,18 +33,18 @@ module SpaceStone
       # generate the enumerated :derivatives for the file in the given :index.  We do not want to do
       # this inline because we may be hitting boundary conditions.
       #
-      # @param from_derivative [Symbol] the named derivative from which we'll generate the given
-      #        :derivatives.
+      # @param source [Symbol] the named source (:original or a derivative type) from which we'll
+      #        generate the given :derivatives.
       # @param derivatives [Array<Symbol>] the list of derivatives to generate from the given
       #        derivative.
-      # @param index [Integer] the from_derivative has a file in the given :index.
-      def enqueue(from_derivative:, derivatives:, index: 0)
+      # @param index [Integer] the source has a file in the given :index.
+      def enqueue(source:, derivatives:, index: 0)
         # We likely want to inject a dependency.
         #
         # When we're running this in AWS, the queue will add a message to SMQ.
         #
         # When we're running this in Bulkrax, the queue might be immediate or we might consider
-        # submitting.  Regardless the queue is different than the AWS queue.
+        # submitting a job.  Regardless the queue is different than the AWS queue.
         #
         # An assumption of the queue is that the local_storage of this repository and the local
         # storage of the queue object are the same (or point to the same "global root").

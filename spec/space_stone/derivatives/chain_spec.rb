@@ -30,15 +30,15 @@ RSpec.describe SpaceStone::Derivatives::Chain do
   end
   describe "Sequencer" do
     describe '.call' do
-      subject { described_class::Sequencer.call(chain, raise_error: raise_error) }
-
-      let(:raise_error) { false }
+      subject { described_class::Sequencer.call(chain, raise_error: false) }
 
       # Creating test table.
       [
         [{}, []],
         [{ peanut: [] }, [:peanut]],
+        [{ a: [:b, :c, :d], b: [:e], c: [:d], e: [:c, :f], d: [:f], f: [] }, [:f, :d, :c, :e, :b, :a]],
         [{ peanut: [:butter, :jelly], jelly: [:butter], butter: [] }, [:butter, :jelly, :peanut]],
+        # Circular dependencies have no chain; see the :raise_error directive
         [{ hocr: [:monochrome, :ketchup], monochrome: [:ketchup], ketchup: [:mustard], mustard: [:hocr] }, []]
       ].each do |chain, expected|
         context "for chain #{chain.inspect}" do

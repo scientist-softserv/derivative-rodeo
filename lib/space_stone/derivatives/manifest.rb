@@ -36,6 +36,13 @@ module SpaceStone
         def directory_slugs
           [parent_identifier.to_s, File.basename(original_filename)]
         end
+
+        def to_hash
+          {
+            parent_identifier: parent_identifier,
+            original_filename: original_filename
+          }
+        end
       end
 
       ##
@@ -47,6 +54,10 @@ module SpaceStone
       def initialize(parent_identifier:, original_filename:, derivatives:)
         @identifier = Identifier.new(parent_identifier: parent_identifier, original_filename: original_filename)
         @derivatives = Array(derivatives).map(&:to_sym)
+      end
+
+      def to_hash
+        identifier.to_hash.merge(derivatives: derivatives)
       end
 
       # @!attribute [rw]

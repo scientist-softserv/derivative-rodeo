@@ -13,13 +13,21 @@ module SpaceStone
         ##
         # @param manifest [Manifest]
         # @param root [String]
-        def initialize(manifest:, root: Dir.mktmpdir)
+        def initialize(manifest:, root: Dir.mktmpdir, directory_name: File.join(root, *manifest.directory_slugs), **)
           @manifest = manifest
           @root = root
-          @directory_name = File.join(root, *manifest.directory_slugs)
+          @directory_name = directory_name
           FileUtils.mkdir_p(directory_name)
         end
-        attr_reader :manifest, :root, :directory_name
+        attr_reader :manifest, :directory_name, :root
+
+        def to_hash
+          {
+            directory_name: directory_name,
+            manifest: manifest.to_hash,
+            root: root
+          }
+        end
 
         def exists?(derivative:, index: 0)
           File.exist?(path_to(derivative: derivative, index: index))

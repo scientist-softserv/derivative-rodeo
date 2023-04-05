@@ -5,10 +5,14 @@ module SpaceStone
     module StorageAdapters
       ##
       # @param manifest [Manifest]
-      # @param adapter [Symbol]
+      # @param adapter [Symbol, Hash<Symbol,Object>]
       def self.for(manifest:, adapter:)
-        klass = "SpaceStone::Derivatives::StorageAdapters::#{adapter.to_s.classify}".constantize
-        klass.new(manifest: manifest)
+        # Why skip the manifest in the adapter?  Because we will assume the provide manifest is the
+        # one we want to configure.
+        kwargs = adapter.is_a?(Symbol) ? {} : adapter.except(:name, :manifest)
+        name = adapter.is_a?(Symbol) ? adapter : adapter.fetch(:name)
+        klass = "SpaceStone::Derivatives::StorageAdapters::#{name.to_s.classify}".constantize
+        klass.new(manifest: manifest, **kwargs)
       end
     end
   end

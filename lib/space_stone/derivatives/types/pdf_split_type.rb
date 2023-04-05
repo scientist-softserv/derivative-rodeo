@@ -41,7 +41,7 @@ module SpaceStone
 
           #   # With the pages split, we now should now move along and let the repository run
           #   # derivatives on the split pages.
-          #   repository.enqueue(from_derivative: to_sym,
+          #   repository.enqueue(source: to_sym,
           #                      derivatives: derivative_types_for_split,
           #                      index: index)
         end

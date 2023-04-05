@@ -9,6 +9,7 @@ RSpec.describe SpaceStone::Derivatives::Manifest do
   subject { manifest }
 
   it { is_expected.to respond_to :parent_identifier }
+  it { is_expected.to respond_to :to_hash }
   it { is_expected.to respond_to :identifier }
   it { is_expected.to respond_to :original_filename }
   it { is_expected.to respond_to :derivatives }
@@ -16,6 +17,12 @@ RSpec.describe SpaceStone::Derivatives::Manifest do
   describe '#derivatives' do
     it "symbolizes the provided values" do
       expect(manifest.derivatives.all? { |d| d.is_a?(Symbol) }).to be_truthy
+    end
+  end
+
+  describe '#to_hash' do
+    it "has the keys :parent_identifier, :original_filename, and :derivatives" do
+      expect(manifest.to_hash.keys).to eq([:parent_identifier, :original_filename, :derivatives])
     end
   end
 
