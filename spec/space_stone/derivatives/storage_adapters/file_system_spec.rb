@@ -7,16 +7,23 @@ RSpec.describe SpaceStone::Derivatives::StorageAdapters::FileSystem do
   let(:manifest) { SpaceStone::Derivatives::Manifest.new(parent_identifier: "123", original_filename: __FILE__, derivatives: []) }
   let(:content) { "Hello World\nWelcome to Where Ever You Are\n" }
 
-  subject(:instance) { described_class.new(manifest: manifest, root: root) }
+  let(:instance) { described_class.new(manifest: manifest, root: root) }
+  subject { instance }
 
   it { is_expected.to be_a(SpaceStone::Derivatives::StorageAdapters::Base) }
   it { is_expected.to respond_to(:exists?) }
 
   describe '#to_hash' do
-    it "has the :directory_name, :manifest, and :root keys" do
-      expect(instance.to_hash.keys).to eq([:directory_name, :manifest, :root])
+    it "has the :directory_name, :manifest, :name, and :root keys" do
+      expect(instance.to_hash.keys).to eq([:directory_name, :manifest, :name, :root])
     end
   end
+
+  describe '#to_sym' do
+    subject { instance.to_sym }
+    it { is_expected.to eq(:file_system) }
+  end
+
   describe '#write' do
     it "yields a block for writing content" do
       expect do

@@ -25,6 +25,7 @@ module SpaceStone
           {
             directory_name: directory_name,
             manifest: manifest.to_hash,
+            name: to_sym,
             root: root
           }
         end

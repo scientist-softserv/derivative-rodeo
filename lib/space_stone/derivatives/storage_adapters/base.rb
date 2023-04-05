@@ -6,6 +6,10 @@ module SpaceStone
     # with the underlying multitude of potential places where we store files.
     module StorageAdapters
       module Base
+        def to_sym
+          self.class.to_s.demodulize.underscore.to_sym
+        end
+
         ##
         # @api public
         # @param derivative [#to_sym]
