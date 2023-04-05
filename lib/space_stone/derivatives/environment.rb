@@ -4,11 +4,11 @@ module SpaceStone
   module Derivatives
     ##
     # The {Environment} class is responsible for ensuring that for a given {Manifest} and its
-    # possible many {Manifest::Child} objects we process the original file and derivatives in the
+    # possible many {Manifest::Derived} objects we process the original file and derivatives in the
     # same environment.
     #
     # @see .for_original_manifest
-    # @see .for_child_manifest
+    # @see .for_derived_manifest
     # @see #to_hash
     class Environment
       class_attribute :local_adapter_name, default: nil, attr_accessor: false
@@ -19,7 +19,7 @@ module SpaceStone
       # @param local [Symbol]
       # @param remote [Symbol]
       # @param queue [Symbol]
-      # @see .for_child_manifest
+      # @see .for_derived_manifest
       def self.for_original_manifest(manifest:, local: local_adapter_name, queue: queue_adapter_name, remote: remote_adapter_name)
         new(
           manifest: manifest,
@@ -30,7 +30,7 @@ module SpaceStone
       end
 
       ##
-      # Given a child :manifest, create an environment that echoes the given :environment.
+      # Given a :derived manifest, create an environment that echoes the given :environment.
       #
       # Why the echo?  Because we want to be writing to similar locations; and the environment helps
       # ensure that.
@@ -40,11 +40,11 @@ module SpaceStone
       # configuration (e.g. the specific temporary directory)
       #
       # @param environment [SpaceStone::Derivatives::Environment]
-      # @param manifest [SpaceStone::Derivatives::Manifest::Original::Child]
+      # @param derived [SpaceStone::Derivatives::Manifest::Derived]
       # @see .for_original_manifest
-      def self.for_child_manifest(environment:, manifest:)
+      def self.for_derived_manifest(environment:, derived:)
         new(
-          manifest: manifest,
+          manifest: derived,
           local: environment.local_adapter.to_hash,
           queue: environment.queue_adapter.to_hash,
           remote: environment.remote_adapter.to_hash
