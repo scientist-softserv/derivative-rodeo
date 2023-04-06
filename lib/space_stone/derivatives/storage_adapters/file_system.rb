@@ -60,6 +60,14 @@ module SpaceStone
           demand!(derivative: derivative) if demand
         end
 
+        def pull(derivative:, to:)
+          return false unless exist?(derivative: derivative)
+
+          to.assign!(derivative: derivative) do
+            read(derivative: derivative)
+          end
+        end
+
         # @api public
         def pull!(derivative:, to:)
           demand!(derivative: derivative)

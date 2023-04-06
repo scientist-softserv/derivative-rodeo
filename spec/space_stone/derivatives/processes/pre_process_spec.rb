@@ -38,8 +38,8 @@ RSpec.describe SpaceStone::Derivatives::Processes::PreProcess do
       end
 
       context 'when nothing returns a handle' do
-        it "raises a Exceptions::FailureToLocateDerivativeError" do
-          expect { instance.call }.to raise_exception(SpaceStone::Derivatives::Exceptions::FailureToLocateDerivativeError)
+        it "raises a Exceptions::DeprecatedFailureToLocateDerivativeError" do
+          expect { instance.call }.to raise_exception(SpaceStone::Derivatives::Exceptions::DeprecatedFailureToLocateDerivativeError)
 
           expect(derivative).to have_received(:generate_for)
           expect(repository).to have_received(:remote_for)

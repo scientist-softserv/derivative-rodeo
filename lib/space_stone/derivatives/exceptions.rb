@@ -20,9 +20,15 @@ module SpaceStone
         end
       end
 
-      class FailureToLocateDerivativeError < Error
+      class DeprecatedFailureToLocateDerivativeError < Error
         def initialize(derivative:, repository:)
           super("Could not locate #{derivative.inspect} for repository #{repository.inspect}.")
+        end
+      end
+
+      class FailureToLocateDerivativeError < Error
+        def initialize(derivative:, environment:)
+          super("Could not locate #{derivative.inspect} for environment #{environment.inspect}.")
         end
       end
 
@@ -46,6 +52,12 @@ module SpaceStone
             backtrace += error.backtrace.map { |line| "#\t\t#{line}" }
           end
           set_backtrace(backtrace)
+        end
+      end
+
+      class UnknownDerivativeRequestForChainError < Error
+        def initialize(chain:, derivative:)
+          super("Expected chain #{chain.inspect} to include derivative #{derivative.inspect}")
         end
       end
     end

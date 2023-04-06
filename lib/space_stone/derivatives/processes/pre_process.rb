@@ -7,7 +7,7 @@ module SpaceStone
     module Processes
       ##
       # Responsible for ensuring that the given :derivative exists as a file in the given
-      # :repository.  And if it can't, then raise a {Exceptions::FailureToLocateDerivativeError}.
+      # :repository.  And if it can't, then raise a {Exceptions::DeprecatedFailureToLocateDerivativeError}.
       #
       # @see #call
       class PreProcess < Processes::Base
@@ -27,12 +27,12 @@ module SpaceStone
         #
         # What is the file “handle”?  Perhaps the path name.
         #
-        # @raise [Exceptions::FailureToLocateDerivativeError]
+        # @raise [Exceptions::DeprecatedFailureToLocateDerivativeError]
         def call
           repository.local_for(derivative: derivative).presence ||
             repository.remote_for(derivative: derivative).presence ||
             derivative.generate_for(repository: repository).presence ||
-            (raise Exceptions::FailureToLocateDerivativeError.new(derivative: derivative, repository: repository))
+            (raise Exceptions::DeprecatedFailureToLocateDerivativeError.new(derivative: derivative, repository: repository))
         end
       end
     end

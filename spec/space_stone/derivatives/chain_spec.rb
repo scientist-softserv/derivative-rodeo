@@ -22,12 +22,27 @@ RSpec.describe SpaceStone::Derivatives::Chain do
       # NOTE: image yields first, then monochrome which depends on image, then hocr which depends on
       # image
       expect { |b| subject.each(&b) }.to yield_successive_args(
-        SpaceStone::Derivatives::Types::ImageType,
-        SpaceStone::Derivatives::Types::MonochromeType,
-        SpaceStone::Derivatives::Types::HocrType
-      )
+                                           SpaceStone::Derivatives::Types::ImageType,
+                                           SpaceStone::Derivatives::Types::MonochromeType,
+                                           SpaceStone::Derivatives::Types::HocrType
+                                         )
     end
   end
+
+  describe '#find_index' do
+    subject { described_class.new(derivatives: derivatives).find_index(derivative) }
+
+    context 'when the derivative exists' do
+      let(:derivative) { SpaceStone::Derivatives::Types::MonochromeType }
+      it { is_expected.to be_a(Integer) }
+    end
+
+    context 'when the derivative does not exist' do
+      let(:derivative) { SpaceStone::Derivatives::Types }
+      it { is_expected.to be_nil }
+    end
+  end
+
   describe "Sequencer" do
     describe '.call' do
       subject { described_class::Sequencer.call(chain, raise_error: false) }

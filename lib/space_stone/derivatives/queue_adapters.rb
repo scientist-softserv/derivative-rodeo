@@ -17,7 +17,7 @@ module SpaceStone
           { name: :inline }
         end
 
-        def enqueue(repository:, source:, derivatives:); end
+        def enqueue(**); end
       end
     end
   end

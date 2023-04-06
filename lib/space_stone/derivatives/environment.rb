@@ -62,7 +62,25 @@ module SpaceStone
         @chain = kwargs.fetch(:chain) { Chain.new(derivatives: manifest.derivatives) }
         @logger = kwargs.fetch(:logger) { Derivatives.logger }
       end
-      attr_reader :manifest, :local, :remote, :queue, :chain, :logger
+
+      # @!attribute [r]
+      attr_reader :manifest
+      # @!attribute [r]
+      #   @return [SpaceStone::Derivatives::StorageAdapters::Base]
+      attr_reader :local
+      # @!attribute [r]
+      #   @return [SpaceStone::Derivatives::StorageAdapters::Base]
+      attr_reader :remote
+      # @!attribute [r]
+      #   @return [SpaceStone::Derivatives::QueueAdapters::Base]
+      attr_reader :queue
+      # @!attribute [r]
+      #   @return [SpaceStone::Derivatives::Chain]
+      attr_reader :chain
+
+      # @!attribute [r]
+      #   @return [#debug, #info, #warn, #error, #fatal]
+      attr_reader :logger
 
       ##
       # A convenience method to pass along "primative" information regarding the environment.
@@ -78,7 +96,36 @@ module SpaceStone
       end
 
       delegate :exists?, :assign!, :path, :demand!, to: :local, prefix: true
-      delegate :pull!, to: :remote, prefix: true
+      delegate :exists?, to: :remote, prefix: true
+
+      ##
+      # @param derivative [#to_sym]
+      def process_start!(derivative: chain.first)
+        queue.enqueue(derivative: derivative, environment: self)
+      end
+
+      ##
+      # @param derivative [#to_sym]
+      # @return [Symbol] :end_of_chain when we are done processing this chain.
+      # @raise [SpaceStone::Derivatives::Exceptions::UnknownDerivativeRequestForChainError] when the
+      #        given :derivative is not part of the {Environment}'s {#chain}.
+      def process_next_chain_link_after!(derivative:)
+        index = chain.find_index(Types.for(derivative))
+        raise Exceptions::UnknownDerivativeRequestForChainError.new(chain: chain, derivative: derivative) unless index
+
+        next_link = chain.to_a[index + 1]
+        return :end_of_chain unless next_link
+
+        process_start!(derivative: next_link)
+      end
+
+      def remote_pull(derivative:)
+        remote.pull(derivative: derivative, to: local)
+      end
+
+      def remote_pull!(derivative:)
+        remote.pull!(derivative: derivative, to: local)
+      end
     end
   end
 end

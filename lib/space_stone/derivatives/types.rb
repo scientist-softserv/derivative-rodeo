@@ -7,12 +7,12 @@ module SpaceStone
       ##
       # @api public
       #
-      # @param type [Symbol]
+      # @param type [#to_sym]
       #
       # @return [SpaceStone::Derivatives::BaseType]
       # @raise [NameError] when given type is not registered.
       def self.for(type)
-        demodulized_klass = "#{type}_type".classify
+        demodulized_klass = "#{type.to_sym}_type".classify
         "SpaceStone::Derivatives::Types::#{demodulized_klass}".constantize
       end
 
@@ -52,7 +52,7 @@ module SpaceStone
           self.class.to_sym
         end
 
-        def generate_for(repository:)
+        def generate_for(**)
           raise NotImplementedError
         end
       end

@@ -9,6 +9,7 @@ require 'space_stone/derivatives/exceptions'
 require 'space_stone/derivatives/environment'
 require 'space_stone/derivatives/manifest'
 require 'space_stone/derivatives/processor'
+require 'space_stone/derivatives/process'
 require 'space_stone/derivatives/storage_adapters'
 require 'space_stone/derivatives/queue_adapters'
 
