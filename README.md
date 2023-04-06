@@ -2,24 +2,13 @@
 
 The goal of `SpaceStone::Derivatives` is to provide interfaces and processing for files.
 
-A [SpaceStone::Derivatives::Manifest::Original](./lib/space_stone/derivatives/manifest.rb)) is a:
+A [SpaceStone::Derivatives::Manifest::Original](./lib/space_stone/derivatives/manifest/original.rb) is a:
 
 - parent identifier
 - an original filename
 - and a set of named derivatives
 
-With a manifest, we want to find each of the named derivatives, and failing that, generate the named derivative from the original filename.
-
-There are two use cases for finding or creating:
-
-1. Pre-processing
-2. Ingesting
-
-In both the *Pre-processing* and *Ingesting* cases, we will be given a [SpaceStone::Derivatives::Manifest::Original](./lib/space_stone/derivatives/manifest.rb) that describes the derivatives we want to either fetch from somewhere or, failing that, generate locally.
-
-A primary difference is related to the strategies we use for fetching.  For the *Pre-processing* of a given named derivative (e.g. `:text`) we will use the provided URL for the `:text` derivative or will create the `:text` derivative.
-
-For *Ingesting* we will check the [Repository](./lib/space_stone/derivatives/repository.rb) for the named `:text` derivative, failing that if there is a URL or file, we will use that, and failing that we will create the `:text` derivative.
+We process the original manifest in an [Environment](./lib/space_stone/derivatives/environment.rb).  Each derivative
 
 ## Installation
 

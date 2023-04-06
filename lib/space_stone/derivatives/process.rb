@@ -4,8 +4,19 @@ module SpaceStone
   module Derivatives
     ##
     # This class is responsible for processing the given {#derivative} in the given {#environment}
-    # and then enqueing the given {#next_chain_link}.
+    # and then requesting that the {#environment} process the next chain link after the given
+    # {#derivative}
     class Process
+      ##
+      # @param derivative [SpaceStone::Derivatives::Types::BaseType]
+      # @param environment [SpaceStone::Derivatives::Environment]
+      #
+      # @raise [SpaceStone::Derivatives::Exceptions::FailureToLocateDerivativeError] when we are
+      #        unable to find (or generate) the derivative in the given environment.
+      def self.call(derivative:, environment:)
+        new(derivative: derivative, environment: environment)
+      end
+
       def initialize(derivative:, environment:)
         @derivative = derivative
         @environment = environment

@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 
+require 'space_stone/derivatives/chain'
+require 'space_stone/derivatives/storage_adapters'
+require 'space_stone/derivatives/queue_adapters'
+
 module SpaceStone
   module Derivatives
     ##
@@ -78,28 +82,22 @@ module SpaceStone
         @logger = kwargs.fetch(:logger) { Derivatives.logger }
       end
 
-      # @!attribute [r]
-      #   @return [SpaceStone::Derivatives::Manifest::Original, SpaceStone::Derivatives::Manifest::Derived]
+      # @return [SpaceStone::Derivatives::Manifest::Original, SpaceStone::Derivatives::Manifest::Derived]
       attr_reader :manifest
 
-      # @!attribute [r]
-      #   @return [SpaceStone::Derivatives::StorageAdapters::Base]
+      # @return [SpaceStone::Derivatives::StorageAdapters::Base]
       attr_reader :local
 
-      # @!attribute [r]
-      #   @return [SpaceStone::Derivatives::StorageAdapters::Base]
+      # @return [SpaceStone::Derivatives::StorageAdapters::Base]
       attr_reader :remote
 
-      # @!attribute [r]
-      #   @return [SpaceStone::Derivatives::QueueAdapters::Base]
+      # @return [SpaceStone::Derivatives::QueueAdapters::Base]
       attr_reader :queue
 
-      # @!attribute [r]
-      #   @return [SpaceStone::Derivatives::Chain]
+      # @return [SpaceStone::Derivatives::Chain]
       attr_reader :chain
 
-      # @!attribute [r]
-      #   @return [#debug, #info, #warn, #error, #fatal]
+      # @return [Logger, Object<#debug, #info, #warn, #error, #fatal>]
       attr_reader :logger
 
       ##

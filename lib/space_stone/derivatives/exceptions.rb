@@ -32,29 +32,6 @@ module SpaceStone
         end
       end
 
-      # Raised when the :processor encounters one or more :errors while processing one or more
-      # derivatives.
-      #
-      # @see Processor
-      class ProcessorError < Error
-        ##
-        # @param processor [Processor]
-        # @param errors [Array<Exception>]
-        def initialize(processor:, errors:)
-          super("Processor #{processor.inspect} encountered #{errors.count} error(s).")
-          backtrace = []
-
-          # Given that we have multiple errors, our backtrace is a bit complicated.  We're going to
-          # create a single backtrace, but provide some wayfinding.
-          errors.each_with_index do |error, i|
-            backtrace << "Error ##{i + 1} #{error.class}"
-            backtrace << "\t#{error.inspect}"
-            backtrace += error.backtrace.map { |line| "#\t\t#{line}" }
-          end
-          set_backtrace(backtrace)
-        end
-      end
-
       class UnknownDerivativeRequestForChainError < Error
         def initialize(chain:, derivative:)
           super("Expected chain #{chain.inspect} to include derivative #{derivative.inspect}")
