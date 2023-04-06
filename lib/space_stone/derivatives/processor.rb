@@ -14,7 +14,6 @@ module SpaceStone
     # @see SpaceStone::Derivatives.pre_process_derivatives_for
     class Processor
       ##
-      #
       # Call the :process for each derivative in the given :manifest's {Chain}
       #
       # @param manifest [SpaceStone::Derivatives::Manifest::Original]

@@ -4,23 +4,24 @@ module SpaceStone
   module Derivatives
     ##
     # The {Environment} class is responsible for ensuring that for a given {Manifest} and its
-    # possible many {Manifest::Derived} objects we process the original file and derivatives in the
+    # many possible {Manifest::Derived} objects we process the original file and derivatives in the
     # same environment.
     #
     # @see .for_original_manifest
     # @see .for_derived_manifest
     # @see #to_hash
     class Environment
-      class_attribute :local_adapter_name, default: nil, attr_accessor: false
-      class_attribute :remote_adapter_name, default: nil, attr_accessor: false
-      class_attribute :queue_adapter_name, default: nil, attr_accessor: false
+      class_attribute :local_adapter_name, default: nil, instance_accessor: false
+      class_attribute :remote_adapter_name, default: nil, instance_accessor: false
+      class_attribute :queue_adapter_name, default: nil, instance_accessor: false
 
+      ##
       # @param manifest [SpaceStone::Derivatives::Manifest::Original]
       # @param local [Symbol]
       # @param remote [Symbol]
       # @param queue [Symbol]
-      # @see .for_derived_manifest
-      def self.for_original_manifest(manifest:, local: local_adapter_name, queue: queue_adapter_name, remote: remote_adapter_name)
+      # @see .for_derived
+      def self.for_original(manifest:, local: local_adapter_name, queue: queue_adapter_name, remote: remote_adapter_name)
         new(
           manifest: manifest,
           local: local,
@@ -40,15 +41,10 @@ module SpaceStone
       # configuration (e.g. the specific temporary directory)
       #
       # @param environment [SpaceStone::Derivatives::Environment]
-      # @param derived [SpaceStone::Derivatives::Manifest::Derived]
-      # @see .for_original_manifest
-      def self.for_derived_manifest(environment:, derived:)
-        new(
-          manifest: derived,
-          local: environment.local_adapter.to_hash,
-          queue: environment.queue_adapter.to_hash,
-          remote: environment.remote_adapter.to_hash
-        )
+      # @param manifest [SpaceStone::Derivatives::Manifest::Derived]
+      # @see .for_original
+      def self.for_derived(manifest:, environment:)
+        new(**environment.to_hash.merge(manifest: manifest))
       end
 
       private_class_method :new
@@ -58,13 +54,15 @@ module SpaceStone
       # @param local [Symbol, Hash<Symbol,Object>]
       # @param remote [Symbol, Hash<Symbol,Object>]
       # @param queue [Symbol, Hash<Symbol,Object>]
-      def initialize(manifest:, local:, remote:, queue:)
+      def initialize(manifest:, local:, remote:, queue:, **kwargs)
         @manifest = manifest
-        @local_adapter = StorageAdapters.for(manifest: manifest, adapter: local)
-        @remote_adapter = StorageAdapters.for(manifest: manifest, adapter: remote)
-        @queue_adapter = QueueAdapters.for(queue)
+        @local = StorageAdapters.for(manifest: manifest, adapter: local)
+        @remote = StorageAdapters.for(manifest: manifest, adapter: remote)
+        @queue = QueueAdapters.for(adapter: queue)
+        @chain = kwargs.fetch(:chain) { Chain.new(derivatives: manifest.derivatives) }
+        @logger = kwargs.fetch(:logger) { Derivatives.logger }
       end
-      attr_reader :manifest, :local_adapter, :remote_adapter, :queue_adapter
+      attr_reader :manifest, :local, :remote, :queue, :chain, :logger
 
       ##
       # A convenience method to pass along "primative" information regarding the environment.
@@ -73,9 +71,9 @@ module SpaceStone
       def to_hash
         {
           manifest: manifest.to_hash,
-          local_adapter: local_adapter.to_hash,
-          remote_adapter: remote_adapter.to_hash,
-          queue_adapter: queue.to_hash
+          local: local.to_hash,
+          remote: remote.to_hash,
+          queue: queue.to_hash
         }
       end
     end

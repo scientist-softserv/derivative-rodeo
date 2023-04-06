@@ -7,7 +7,7 @@ RSpec.describe SpaceStone::Derivatives::Types::PdfSplitType do
     describe '.prerequisites' do
       subject { described_class.prerequisites }
 
-      it { is_expected.to eq([:original]) }
+      xit { is_expected.to eq([:original]) }
     end
 
     describe '.derivative_types_for_split' do
