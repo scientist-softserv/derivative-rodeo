@@ -3,6 +3,8 @@
 require 'space_stone/derivatives'
 require 'tmpdir'
 require 'fileutils'
+require 'simplecov'
+SimpleCov.start
 
 module Fixtures
   def self.path_for(name)

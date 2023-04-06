@@ -41,4 +41,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'solargraph'
   spec.add_development_dependency 'solargraph-rails'
   spec.add_development_dependency 'solargraph-reek'
+  spec.add_development_dependency 'simplecov'
 end
