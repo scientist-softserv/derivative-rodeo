@@ -5,8 +5,7 @@ module SpaceStone
     module Types
       class MonochromeType < BaseType
         self.prerequisites = [:image]
-        ##
-        # @param environment [SpaceStone::Derivatives::Environment]
+
         def generate
           image_path = environment.local_demand!(derivative: :image)
 
