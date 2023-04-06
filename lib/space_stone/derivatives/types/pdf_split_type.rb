@@ -18,6 +18,17 @@ module SpaceStone
         class_attribute :derivative_types_for_split, default: [:ocr]
         # @!endgroup Class Attributes
 
+        # generate do
+        #   return unless mime_type(derivative: original).pdf?
+        #   pages = page_splitting_service.new(environment: environment)
+        #   pages.each_with_index do |page, index|
+        #     derived = Spaces::Derivative::Manifest::Derived.new(original: environment.manifest, derived: :pdf_page, index: index)
+        #     derived_environment = Spaces::Derivatives::Environment.for_derived(manifest: derived, envrionment: environment)
+        #     derived_environment.local_assign!(derivative: :pdf_page, path: page)
+        #     derivatives.process_start!
+        #   end
+        # end
+
         # @param repository [SpaceStone::Derivatives::Repository]
         def generate_for(repository:)
           # TODO: What follows is pseudo code as I think about the file processing and necessary
