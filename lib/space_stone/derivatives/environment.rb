@@ -76,6 +76,9 @@ module SpaceStone
           queue: queue.to_hash
         }
       end
+
+      delegate :exists?, :assign!, :path, :demand!, to: :local, prefix: true
+      delegate :pull!, to: :remote, prefix: true
     end
   end
 end

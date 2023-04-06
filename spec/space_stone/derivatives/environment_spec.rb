@@ -26,6 +26,12 @@ RSpec.describe SpaceStone::Derivatives::Environment do
     it { is_expected.to respond_to :queue }
     it { is_expected.to respond_to :chain }
     it { is_expected.to respond_to :logger }
+
+    it { is_expected.to respond_to :local_exists? }
+    it { is_expected.to respond_to :local_assign! }
+    it { is_expected.to respond_to :local_path }
+    it { is_expected.to respond_to :local_demand! }
+    it { is_expected.to respond_to :remote_pull! }
   end
 
   describe '.for_derived' do
@@ -39,6 +45,11 @@ RSpec.describe SpaceStone::Derivatives::Environment do
     it { is_expected.to respond_to :queue }
     it { is_expected.to respond_to :chain }
     it { is_expected.to respond_to :logger }
+    it { is_expected.to respond_to :local_exists? }
+    it { is_expected.to respond_to :local_assign! }
+    it { is_expected.to respond_to :local_path }
+    it { is_expected.to respond_to :local_demand! }
+    it { is_expected.to respond_to :remote_pull! }
   end
 
   describe '.new' do

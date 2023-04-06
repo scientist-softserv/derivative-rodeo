@@ -3,6 +3,8 @@
 require_relative 'derivatives/version'
 require 'active_support'
 require 'active_support/core_ext/class/attribute'
+require 'active_support/core_ext/module/delegation'
+
 require 'space_stone/derivatives/exceptions'
 require 'space_stone/derivatives/environment'
 require 'space_stone/derivatives/manifest'

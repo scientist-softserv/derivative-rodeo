@@ -30,32 +30,61 @@ module SpaceStone
           }
         end
 
-        def exists?(derivative:, index: 0)
-          File.exist?(path_to(derivative: derivative, index: index))
+        # @api public
+        def exists?(derivative:)
+          File.exist?(path_to(derivative: derivative))
         end
 
-        def path_for(derivative:, index: 0, mkdir: false, **)
-          path_to(derivative: derivative, index: index, mkdir: mkdir)
+        # @api public
+        def path(derivative:, **)
+          path_to(derivative: derivative)
+        end
+        alias path_for path
+
+        # @api public
+        def demand!(derivative:)
+          return path(derivative: derivative) if exists?(derivative: derivative)
+
+          raise Exceptions::DerivativeNotFoundError, derivative: derivative, storage: self
         end
 
-        def read(derivative:, index: 0)
-          return false unless exists?(derivative: derivative, index: index)
-
-          File.read(path_to(derivative: derivative, index: index))
+        # @api public
+        def assign!(derivative:, path: nil, demand: false, &block)
+          if path
+            write(derivative: derivative) do
+              File.read(path)
+            end
+          else
+            write(derivative: derivative, &block)
+          end
+          demand!(derivative: derivative) if demand
         end
 
-        def write(derivative:, index: 0)
-          File.open(path_to(derivative: derivative, index: index, mkdir: true), "wb") do |file|
+        # @api public
+        def pull!(derivative:, to:)
+          demand!(derivative: derivative)
+
+          to.assign!(derivative: derivative) do
+            read(derivative: derivative)
+          end
+        end
+
+        def read(derivative:)
+          return false unless exists?(derivative: derivative)
+
+          File.read(path_to(derivative: derivative))
+        end
+
+        def write(derivative:)
+          File.open(path_to(derivative: derivative), "wb") do |file|
             file.puts yield
           end
         end
 
         private
 
-        def path_to(derivative:, index:, mkdir: false)
-          FileUtils.mkdir_p(File.join(directory_name, derivative.to_sym.to_s)) if mkdir
-
-          File.join(directory_name, derivative.to_sym.to_s, index.to_s)
+        def path_to(derivative:)
+          File.join(directory_name, derivative.to_sym.to_s)
         end
       end
     end
