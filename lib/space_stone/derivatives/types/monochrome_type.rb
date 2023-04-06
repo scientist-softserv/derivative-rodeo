@@ -6,20 +6,20 @@ module SpaceStone
       class MonochromeType < BaseType
         self.prerequisites = [:image]
         ##
-        # @param repository [SpaceStone::Derivatives::Repository]
-        def generate_for(repository:)
-          image_path = repository.demand_local_for!(derivative: :image)
+        # @param environment [SpaceStone::Derivatives::Environment]
+        def generate_for(environment:)
+          image_path = environment.local_demand!(derivative: :image)
 
           image = SpaceStone::Derivatives::Utilities::Image.new(image_path)
 
           if image.monochrome?
             monochrome_path = image_path
           else
-            monochrome_path = repository.local_path(derivative: to_sym, filename: 'monochrome-interim.tif')
+            monochrome_path = environment.local_path(derivative: to_sym, filename: 'monochrome-interim.tif')
             image.convert(monochrome_path, true)
           end
 
-          repository.local_assign(derivative: to_sym, path: monochrome_path, demand: true)
+          environment.local_assign!(derivative: to_sym, path: monochrome_path)
         end
       end
     end

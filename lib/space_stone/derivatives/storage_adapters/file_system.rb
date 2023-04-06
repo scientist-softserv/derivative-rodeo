@@ -49,7 +49,7 @@ module SpaceStone
         end
 
         # @api public
-        def assign!(derivative:, path: nil, demand: false, &block)
+        def assign!(derivative:, path: nil, &block)
           if path
             write(derivative: derivative) do
               File.read(path)
@@ -57,7 +57,7 @@ module SpaceStone
           else
             write(derivative: derivative, &block)
           end
-          demand!(derivative: derivative) if demand
+          demand!(derivative: derivative)
         end
 
         def pull(derivative:, to:)

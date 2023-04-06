@@ -15,8 +15,8 @@ module SpaceStone
       #
       # @see Repository#initialize
       class DerivativeNotFoundError < Error
-        def initialize(derivative:, repository:)
-          super("Could not find derivative #{derivative.inspect} for Repository #{repository.inspect}.")
+        def initialize(derivative:, storage:)
+          super("Could not find derivative #{derivative.inspect} for storage #{storage.inspect}.")
         end
       end
 

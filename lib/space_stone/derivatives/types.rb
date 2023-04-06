@@ -52,7 +52,7 @@ module SpaceStone
           self.class.to_sym
         end
 
-        def generate_for(**)
+        def generate_for(environment:)
           raise NotImplementedError
         end
       end

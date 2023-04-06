@@ -29,8 +29,8 @@ module SpaceStone
         #   end
         # end
 
-        # @param repository [SpaceStone::Derivatives::Repository]
-        def generate_for(repository:)
+        # @param environment [SpaceStone::Derivatives::Environment]
+        def generate_for(environment:)
           # TODO: What follows is pseudo code as I think about the file processing and necessary
           # interfaces.
 

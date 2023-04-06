@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
 RSpec.describe SpaceStone::Derivatives::Types::HocrType do
-  let(:repository) do
-    SpaceStone::Derivatives::Repository.new(manifest: manifest,
-                                            local_adapter: :file_system,
-                                            remote_adapter: :file_system)
+  let(:environment) do
+    SpaceStone::Derivatives::Environment.for_original(manifest: manifest,
+                                                      local: :file_system,
+                                                      remote: :file_system,
+                                                      queue: :inline)
   end
 
   let(:manifest) do
@@ -17,16 +18,16 @@ RSpec.describe SpaceStone::Derivatives::Types::HocrType do
   end
 
   describe '#generate_for' do
-    let(:exception) { SpaceStone::Derivatives::Exceptions::DerivativeNotFoundError.new(derivative: :monochrome, repository: repository) }
-    subject { described_class.new.generate_for(repository: repository) }
+    let(:exception) { SpaceStone::Derivatives::Exceptions::DerivativeNotFoundError.new(derivative: :monochrome, storage: :file_system) }
+    subject { described_class.new.generate_for(environment: environment) }
 
     before do
-      allow(repository).to receive(:demand_local_for!).with(derivative: :hocr).and_call_original
+      allow(environment).to receive(:local_demand!).with(derivative: :hocr).and_call_original
     end
 
     context "without an existing monochrome derivative" do
       it "will raise an Exceptions::DerivativeNotFoundError exception" do
-        expect(repository).to receive(:demand_local_for!)
+        expect(environment).to receive(:local_demand!)
           .with(derivative: :monochrome)
           .and_raise(exception)
         expect { subject }.to raise_exception(exception.class)
@@ -34,8 +35,8 @@ RSpec.describe SpaceStone::Derivatives::Types::HocrType do
     end
 
     context 'with an existing monochrome derivative' do
-      it 'assign the tesseract derived file to the :hocr derivative for the repository' do
-        expect(repository).to receive(:demand_local_for!)
+      it 'assign the tesseract derived file to the :hocr derivative for the environment' do
+        expect(environment).to receive(:local_demand!)
           .with(derivative: :monochrome)
           .and_return(Fixtures.path_for("ocr_mono.tiff"))
 

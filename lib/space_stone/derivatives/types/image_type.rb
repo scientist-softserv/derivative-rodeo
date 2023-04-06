@@ -6,10 +6,10 @@ module SpaceStone
       class ImageType < BaseType
         self.prerequisites = []
         ##
-        # @param repository [Repository]
+        # @param environment [Environment]
         #
         # @raise [Exceptions::DerivativeNotFoundError] when we failed to generate the :image file.
-        def generate_for(repository:); end
+        def generate_for(environment:); end
       end
     end
   end

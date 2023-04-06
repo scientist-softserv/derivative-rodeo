@@ -34,17 +34,17 @@ module SpaceStone
         # @!endgroup
 
         ##
-        # @param repository [Repository]
+        # @param environment [SpaceStone::Derivatives::Environment]
         #
         # @raise [Exceptions::DerivativeNotFoundError] when we don't have a :monochrome {Types} or
         #        we failed to generate the :hocr file.
-        def generate_for(repository:)
-          monochrome_path = repository.demand_local_for!(derivative: :monochrome)
+        def generate_for(environment:)
+          monochrome_path = environment.local_demand!(derivative: :monochrome)
 
-          # I'm assuming that if the repository returns a local path for a filename, then the
+          # I'm assuming that if the environment returns a local path for a filename, then the
           # process can write a file to the same directory as the returned filename.  Because
           # tesseract takes a base name (e.g. base-hocr) and writes "base-hocr.hocr".
-          output_prefix = repository.local_path(derivative: to_sym, filename: "output_html")
+          output_prefix = environment.local_path(derivative: to_sym, filename: "output_html")
 
           cmd = ""
           cmd += command_environment_variables + " " if command_environment_variables.present?
@@ -55,7 +55,7 @@ module SpaceStone
           # TODO: What about error handling?  We do force the demand after-wards
           `#{cmd}`
 
-          repository.local_assign(derivative: to_sym, path: "#{output_prefix}.#{output_suffix}", demand: true)
+          environment.local_assign!(derivative: to_sym, path: "#{output_prefix}.#{output_suffix}")
         end
       end
     end

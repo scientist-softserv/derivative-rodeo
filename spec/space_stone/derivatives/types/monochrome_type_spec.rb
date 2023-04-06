@@ -8,10 +8,11 @@ RSpec.describe SpaceStone::Derivatives::Types::MonochromeType do
     it { is_expected.to eq([:image]) }
   end
 
-  let(:repository) do
-    SpaceStone::Derivatives::Repository.new(manifest: manifest,
-                                            local_adapter: :file_system,
-                                            remote_adapter: :file_system)
+  let(:environment) do
+    SpaceStone::Derivatives::Environment.for_original(manifest: manifest,
+                                                      local: :file_system,
+                                                      remote: :file_system,
+                                                      queue: :inline)
   end
 
   let(:manifest) do
@@ -19,22 +20,22 @@ RSpec.describe SpaceStone::Derivatives::Types::MonochromeType do
   end
 
   describe "#generate_for" do
-    subject { described_class.new.generate_for(repository: repository) }
+    subject { described_class.new.generate_for(environment: environment) }
     before do
-      allow(repository).to receive(:demand_local_for!).with(derivative: described_class.to_sym).and_call_original
+      allow(environment).to receive(:local_demand!).with(derivative: described_class.to_sym).and_call_original
     end
 
     context 'with existing :monochrome' do
       let(:image_path) { Fixtures.path_for("ocr_mono.tiff") }
 
       it "re-uses the file" do
-        expect(repository).to receive(:demand_local_for!)
+        expect(environment).to receive(:local_demand!)
           .with(derivative: :image)
           .and_return(image_path)
 
-        expect(repository).not_to receive(:local_path)
+        expect(environment).not_to receive(:local_path)
 
-        # The original monochrome image is in the monochrome slot in the repository.
+        # The original monochrome image is in the monochrome slot in the environment.
         expect(subject).not_to eq(image_path)
         # However, the content of each file is identical
         expect(File.read(subject)).to eq(File.read(image_path))
@@ -44,7 +45,7 @@ RSpec.describe SpaceStone::Derivatives::Types::MonochromeType do
     context 'without existing :monochrome' do
       let(:image_path) { Fixtures.path_for("ocr_color.tiff") }
       it "it converts the existing image" do
-        expect(repository).to receive(:demand_local_for!)
+        expect(environment).to receive(:local_demand!)
           .with(derivative: :image)
           .and_return(image_path)
 
