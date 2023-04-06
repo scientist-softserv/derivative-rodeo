@@ -11,15 +11,26 @@ module SpaceStone
     # @see .for_derived_manifest
     # @see #to_hash
     class Environment
+      # TODO: Consider extracting to configuration; as class attributes it makes testing difficult.
       class_attribute :local_adapter_name, default: nil, instance_accessor: false
       class_attribute :remote_adapter_name, default: nil, instance_accessor: false
       class_attribute :queue_adapter_name, default: nil, instance_accessor: false
 
       ##
       # @param manifest [SpaceStone::Derivatives::Manifest::Original]
+      # @see #process_start!
+      # @see .for_original
+      def self.start_processing!(manifest:)
+        for_original(manifest: manifest).process_start!
+      end
+
+      ##
+      # @param manifest [SpaceStone::Derivatives::Manifest::Original]
       # @param local [Symbol]
       # @param remote [Symbol]
       # @param queue [Symbol]
+      #
+      # @return [SpaceStone::Derivatives::Environment]
       # @see .for_derived
       def self.for_original(manifest:, local: local_adapter_name, queue: queue_adapter_name, remote: remote_adapter_name)
         new(
@@ -40,11 +51,15 @@ module SpaceStone
       # named, but not "configured" adapter self-configure.  Once named, we can "reconstitue" that
       # configuration (e.g. the specific temporary directory)
       #
-      # @param environment [SpaceStone::Derivatives::Environment]
       # @param manifest [SpaceStone::Derivatives::Manifest::Derived]
+      # @param environment [SpaceStone::Derivatives::Environment]
+      #
+      # @return [SpaceStone::Derivatives::Environment]
+      #
       # @see .for_original
       def self.for_derived(manifest:, environment:)
-        new(**environment.to_hash.merge(manifest: manifest))
+        kwargs = environment.to_hash.slice(:local, :remote, :queue).merge(manifest: manifest)
+        new(**kwargs)
       end
 
       private_class_method :new
@@ -64,16 +79,21 @@ module SpaceStone
       end
 
       # @!attribute [r]
+      #   @return [SpaceStone::Derivatives::Manifest::Original, SpaceStone::Derivatives::Manifest::Derived]
       attr_reader :manifest
+
       # @!attribute [r]
       #   @return [SpaceStone::Derivatives::StorageAdapters::Base]
       attr_reader :local
+
       # @!attribute [r]
       #   @return [SpaceStone::Derivatives::StorageAdapters::Base]
       attr_reader :remote
+
       # @!attribute [r]
       #   @return [SpaceStone::Derivatives::QueueAdapters::Base]
       attr_reader :queue
+
       # @!attribute [r]
       #   @return [SpaceStone::Derivatives::Chain]
       attr_reader :chain
@@ -88,10 +108,11 @@ module SpaceStone
       # @return [Hash<Symbol, Hash>]
       def to_hash
         {
-          manifest: manifest.to_hash,
+          chain: chain.to_hash,
           local: local.to_hash,
-          remote: remote.to_hash,
-          queue: queue.to_hash
+          manifest: manifest.to_hash,
+          queue: queue.to_hash,
+          remote: remote.to_hash
         }
       end
 
@@ -106,6 +127,7 @@ module SpaceStone
 
       ##
       # @param derivative [#to_sym]
+      #
       # @return [Symbol] :end_of_chain when we are done processing this chain.
       # @raise [SpaceStone::Derivatives::Exceptions::UnknownDerivativeRequestForChainError] when the
       #        given :derivative is not part of the {Environment}'s {#chain}.
@@ -119,10 +141,20 @@ module SpaceStone
         process_start!(derivative: next_link)
       end
 
+      ##
+      # @param derivative [#to_sym]
+      #
+      # @note Instead of relying on the delegate method and prefix, I want to ensure that the
+      #       {#remote}'s pull method receives the {#local} as the to: keyword.
       def remote_pull(derivative:)
         remote.pull(derivative: derivative, to: local)
       end
 
+      ##
+      # @param derivative [#to_sym]
+      #
+      # @note Instead of relying on the delegate method and prefix, I want to ensure that the
+      #       {#remote}'s pull! method receives the {#local} as the to: keyword.
       def remote_pull!(derivative:)
         remote.pull!(derivative: derivative, to: local)
       end

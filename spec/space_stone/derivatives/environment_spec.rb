@@ -62,6 +62,14 @@ RSpec.describe SpaceStone::Derivatives::Environment do
     end
   end
 
+  describe "#to_hash" do
+    subject(:hash) { original_environment.to_hash }
+
+    it do
+      expect(hash.keys).to eq([:chain, :local, :manifest, :queue, :remote])
+    end
+  end
+
   describe "#process_start!" do
     let(:derivative) { original_environment.chain.first }
 
