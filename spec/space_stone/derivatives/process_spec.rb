@@ -4,7 +4,7 @@ require 'spec_helper'
 
 RSpec.describe SpaceStone::Derivatives::Process do
   let(:derivative) { double(SpaceStone::Derivatives::Types::BaseType, generate_for: false) }
-  let(:environment) { double(SpaceStone::Derivatives::Environment, local_path: false, remote_pull: false, process_next_chain_link_after!: false) }
+  let(:environment) { double(SpaceStone::Derivatives::Environment, local_path: false, remote_pull: false, process_next_chain_link_after!: false, local_exists?: true) }
   let(:instance) { described_class.new(derivative: derivative, environment: environment) }
   let(:handle) { :handle }
 
@@ -41,11 +41,12 @@ RSpec.describe SpaceStone::Derivatives::Process do
 
       context 'when nothing returns a handle' do
         it "raises a Exceptions::FailureToLocateDerivativeError" do
+          expect(instance).to receive(:local_exists?).with(derivative: derivative).and_return(false).at_least(:once)
           expect { instance.call }.to raise_exception(SpaceStone::Derivatives::Exceptions::FailureToLocateDerivativeError)
 
           expect(derivative).to have_received(:generate_for)
           expect(environment).to have_received(:remote_pull)
-          expect(environment).to have_received(:local_path)
+          expect(environment).not_to have_received(:local_path)
           expect(environment).not_to have_received(:process_next_chain_link_after!)
         end
       end

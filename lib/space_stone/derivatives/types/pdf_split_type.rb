@@ -7,6 +7,7 @@ module SpaceStone
       # behavior similar to originals in that they have their own processing chain.
       class PdfSplitType < BaseType
         self.prerequisites = []
+        self.spawns = [:ocr]
 
         # @!group Class Attributes
         # @!attribute [rw]
@@ -30,7 +31,7 @@ module SpaceStone
         # end
 
         # @param environment [SpaceStone::Derivatives::Environment]
-        def generate_for(environment:)
+        def generate
           # TODO: What follows is pseudo code as I think about the file processing and necessary
           # interfaces.
 

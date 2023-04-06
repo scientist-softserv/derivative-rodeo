@@ -11,6 +11,7 @@ require 'space_stone/derivatives/manifest'
 require 'space_stone/derivatives/process'
 require 'space_stone/derivatives/storage_adapters'
 require 'space_stone/derivatives/queue_adapters'
+require 'space_stone/derivatives/types'
 
 # These are the files conceptually lifted from the IIIF Print gem.
 require 'space_stone/derivatives/pdf_pages_summary'

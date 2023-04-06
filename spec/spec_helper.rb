@@ -11,6 +11,10 @@ module Fixtures
     File.join(File.expand_path("fixtures/files/#{name}", __dir__))
   end
 
+  def self.remote_file_system_root
+    File.expand_path("fixtures/remote_file_system", __dir__)
+  end
+
   def self.tmp_subdir_of(*name)
     parent_dir = Dir.mktmpdir
 

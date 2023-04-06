@@ -36,6 +36,17 @@ module SpaceStone
       #    end
       class BaseType
         class_attribute :prerequisites, default: []
+        class_attribute :spawns, default: []
+
+        ##
+        # @api public
+        #
+        # @param environment [SpaceStone::Derivatives::Environment]
+        #
+        # @see #generate
+        def self.generate_for(environment:)
+          new(environment: environment).generate
+        end
 
         ##
         # @api public
@@ -52,7 +63,12 @@ module SpaceStone
           self.class.to_sym
         end
 
-        def generate_for(environment:)
+        def initialize(environment:)
+          @environment = environment
+        end
+        attr_reader :environment
+
+        def generate
           raise NotImplementedError
         end
       end
@@ -63,4 +79,5 @@ end
 require 'space_stone/derivatives/types/hocr_type'
 require 'space_stone/derivatives/types/image_type'
 require 'space_stone/derivatives/types/monochrome_type'
+require 'space_stone/derivatives/types/original_type'
 require 'space_stone/derivatives/types/pdf_split_type'

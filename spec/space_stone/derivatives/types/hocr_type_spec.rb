@@ -12,6 +12,8 @@ RSpec.describe SpaceStone::Derivatives::Types::HocrType do
     SpaceStone::Derivatives::Manifest::Original.new(parent_identifier: "123", original_filename: "abc.jpg", derivatives: [:hocr])
   end
 
+  let(:instance) { described_class.new(environment: environment) }
+
   describe ".prerequisites" do
     subject { described_class.prerequisites }
     it { is_expected.to eq([:monochrome]) }
@@ -19,7 +21,7 @@ RSpec.describe SpaceStone::Derivatives::Types::HocrType do
 
   describe '#generate_for' do
     let(:exception) { SpaceStone::Derivatives::Exceptions::DerivativeNotFoundError.new(derivative: :monochrome, storage: :file_system) }
-    subject { described_class.new.generate_for(environment: environment) }
+    subject { instance.generate }
 
     before do
       allow(environment).to receive(:local_demand!).with(derivative: :hocr).and_call_original

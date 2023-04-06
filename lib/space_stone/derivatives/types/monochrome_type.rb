@@ -7,7 +7,7 @@ module SpaceStone
         self.prerequisites = [:image]
         ##
         # @param environment [SpaceStone::Derivatives::Environment]
-        def generate_for(environment:)
+        def generate
           image_path = environment.local_demand!(derivative: :image)
 
           image = SpaceStone::Derivatives::Utilities::Image.new(image_path)

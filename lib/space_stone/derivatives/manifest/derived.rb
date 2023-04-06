@@ -56,7 +56,7 @@ module SpaceStone
         attr_reader :derivatives
 
         extend Forwardable
-        def_delegators :identifier, :original, :derived, :index
+        def_delegators :identifier, :original, :derived, :directory_slugs, :index
 
         include Comparable
         def <=>(other)

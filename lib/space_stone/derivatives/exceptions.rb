@@ -32,6 +32,12 @@ module SpaceStone
         end
       end
 
+      class UnexpectedStorageAdapterNameError < Error
+        def initialize(adapter:, manifest:)
+          super("Unexpected adapter #{adapter.inspect} for manifest #{manifest.inspect}.")
+        end
+      end
+
       class UnknownDerivativeRequestForChainError < Error
         def initialize(chain:, derivative:)
           super("Expected chain #{chain.inspect} to include derivative #{derivative.inspect}")

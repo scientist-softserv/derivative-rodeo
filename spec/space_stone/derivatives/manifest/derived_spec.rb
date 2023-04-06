@@ -15,6 +15,7 @@ RSpec.describe SpaceStone::Derivatives::Manifest::Derived do
   it { is_expected.to respond_to :derived }
   it { is_expected.to respond_to :index }
   it { is_expected.to respond_to :derivatives }
+  it { is_expected.to respond_to :directory_slugs }
 
   describe '#derivatives' do
     it "symbolizes the provided values" do

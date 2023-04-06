@@ -25,7 +25,8 @@ RSpec.describe SpaceStone::Derivatives::Types do
       it { is_expected.to eq(:base) }
     end
 
-    let(:instance) { described_class::BaseType.new }
+    let(:environment) { double(SpaceStone::Derivatives::Environment) }
+    let(:instance) { described_class::BaseType.new(environment: environment) }
     subject { instance }
 
     describe '#to_sym' do
@@ -33,6 +34,6 @@ RSpec.describe SpaceStone::Derivatives::Types do
       it { is_expected.to eq(:base) }
     end
 
-    it { is_expected.to respond_to :generate_for }
+    it { is_expected.to respond_to :generate }
   end
 end

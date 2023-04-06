@@ -118,9 +118,10 @@ module SpaceStone
       delegate :exists?, to: :remote, prefix: true
 
       ##
-      # @param derivative [#to_sym]
-      def process_start!(derivative: chain.first)
-        queue.enqueue(derivative: derivative, environment: self)
+      # Begin the derivating!
+      def process_start!
+        # Ensure we have the original file stored locally.
+        enqueue(derivative: chain.first)
       end
 
       ##
@@ -136,8 +137,14 @@ module SpaceStone
         next_link = chain.to_a[index + 1]
         return :end_of_chain unless next_link
 
-        process_start!(derivative: next_link)
+        enqueue(derivative: next_link)
       end
+
+      def enqueue(derivative:)
+        queue.enqueue(derivative: derivative, environment: self)
+      end
+
+      private :enqueue
 
       ##
       # @param derivative [#to_sym]

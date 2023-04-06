@@ -61,7 +61,7 @@ module SpaceStone
         end
 
         def pull(derivative:, to:)
-          return false unless exist?(derivative: derivative)
+          return false unless exists?(derivative: derivative)
 
           to.assign!(derivative: derivative) do
             read(derivative: derivative)

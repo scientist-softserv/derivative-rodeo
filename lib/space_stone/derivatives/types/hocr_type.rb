@@ -38,7 +38,7 @@ module SpaceStone
         #
         # @raise [Exceptions::DerivativeNotFoundError] when we don't have a :monochrome {Types} or
         #        we failed to generate the :hocr file.
-        def generate_for(environment:)
+        def generate
           monochrome_path = environment.local_demand!(derivative: :monochrome)
 
           # I'm assuming that if the environment returns a local path for a filename, then the

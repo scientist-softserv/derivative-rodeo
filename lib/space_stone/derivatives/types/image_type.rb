@@ -9,7 +9,7 @@ module SpaceStone
         # @param environment [Environment]
         #
         # @raise [Exceptions::DerivativeNotFoundError] when we failed to generate the :image file.
-        def generate_for(environment:); end
+        def generate; end
       end
     end
   end

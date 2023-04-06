@@ -19,8 +19,10 @@ RSpec.describe SpaceStone::Derivatives::Types::MonochromeType do
     SpaceStone::Derivatives::Manifest::Original.new(parent_identifier: "123", original_filename: "abc.jpg", derivatives: [:hocr])
   end
 
+  let(:instance) { described_class.new(environment: environment) }
+
   describe "#generate_for" do
-    subject { described_class.new.generate_for(environment: environment) }
+    subject { instance.generate }
     before do
       allow(environment).to receive(:local_demand!).with(derivative: described_class.to_sym).and_call_original
     end
