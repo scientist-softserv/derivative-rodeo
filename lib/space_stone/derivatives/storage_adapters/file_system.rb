@@ -44,7 +44,7 @@ module SpaceStone
         def demand!(derivative:)
           return path(derivative: derivative) if exists?(derivative: derivative)
 
-          raise Exceptions::DerivativeNotFoundError, derivative: derivative, storage: self
+          raise Exceptions::DerivativeNotFoundError.new(derivative: derivative, storage: self)
         end
 
         ##

@@ -2,7 +2,7 @@
 
 module SpaceStone
   module Derivatives
-    module Types
+    module Type
       ##
       # Responsible for finding or creating a hocr file (or configured :output_suffix) using
       # tesseract.
@@ -23,7 +23,7 @@ module SpaceStone
         # Command environment variables to for tesseract command; default `nil`.
         #
         # @example
-        #   SpaceStone::Derivatives::Types::HocrType.command_environment_variables = "OMP_THREAD_LIMIT=1"
+        #   SpaceStone::Derivatives::Type::HocrType.command_environment_variables = "OMP_THREAD_LIMIT=1"
         class_attribute :command_environment_variables, default: nil
         # @!attribute [rw]
         # Additional options to send to tesseract command; default `nil`.

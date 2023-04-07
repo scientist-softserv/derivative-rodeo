@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe SpaceStone::Derivatives::Process do
-  let(:derivative) { double(SpaceStone::Derivatives::Types::BaseType, generate_for: false) }
+  let(:derivative) { double(SpaceStone::Derivatives::Type::BaseType, generate_for: false) }
   let(:environment) { double(SpaceStone::Derivatives::Environment, local_demand!: true, remote_pull: false, process_next_chain_link_after!: false, local_exists?: false) }
   subject(:instance) { described_class.new(derivative: derivative, environment: environment) }
   let(:handle) { :handle }

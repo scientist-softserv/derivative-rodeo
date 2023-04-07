@@ -1,8 +1,4 @@
-# frozen_string_literal: true
-
-require 'space_stone/derivatives/type'
-
-
+require 'active_support/core_ext/string/inflections'
 module SpaceStone
   module Derivatives
     ##
@@ -69,13 +65,12 @@ module SpaceStone
         end
       end
     end
-
-
-    module Types
-      def self.for(type)
-        raise
-        Type(type)
-      end
-    end
   end
 end
+
+require 'space_stone/derivatives/type/fits_type'
+require 'space_stone/derivatives/type/hocr_type'
+require 'space_stone/derivatives/type/image_type'
+require 'space_stone/derivatives/type/monochrome_type'
+require 'space_stone/derivatives/type/original_type'
+require 'space_stone/derivatives/type/pdf_split_type'

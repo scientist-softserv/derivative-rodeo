@@ -12,7 +12,7 @@ module SpaceStone
       ##
       # @api public
       #
-      # @param derivative [SpaceStone::Derivatives::Types::BaseType]
+      # @param derivative [SpaceStone::Derivatives::Type::BaseType]
       # @param environment [SpaceStone::Derivatives::Environment]
       #
       # @raise [SpaceStone::Derivatives::Exceptions::FailureToLocateDerivativeError] when we are

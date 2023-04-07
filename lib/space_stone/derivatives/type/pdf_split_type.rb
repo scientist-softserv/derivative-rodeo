@@ -2,7 +2,7 @@
 
 module SpaceStone
   module Derivatives
-    module Types
+    module Type
       # The :pdf_split derivative processes one file and creates additional files which have some
       # behavior similar to originals in that they have their own processing chain.
       class PdfSplitType < BaseType

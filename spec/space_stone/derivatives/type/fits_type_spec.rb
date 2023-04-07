@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe SpaceStone::Derivatives::Types::FitsType do
+RSpec.describe SpaceStone::Derivatives::Type::FitsType do
   let(:manifest) { Fixtures.pre_processing_manifest(mime_type: nil) }
   let(:environment) { Fixtures.pre_processing_environment(manifest: manifest) }
   subject(:instance) { described_class.new(environment: environment) }

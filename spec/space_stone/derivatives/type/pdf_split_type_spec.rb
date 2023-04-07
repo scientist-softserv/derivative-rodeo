@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe SpaceStone::Derivatives::Types::PdfSplitType do
+RSpec.describe SpaceStone::Derivatives::Type::PdfSplitType do
   describe 'defaults for' do
     describe '.prerequisites' do
       subject { described_class.prerequisites }

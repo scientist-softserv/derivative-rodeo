@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe SpaceStone::Derivatives::Types::MonochromeType do
+RSpec.describe SpaceStone::Derivatives::Type::MonochromeType do
   describe ".prerequisites" do
     subject { described_class.prerequisites }
     it { is_expected.to eq([:image]) }

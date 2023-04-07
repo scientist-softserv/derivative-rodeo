@@ -2,7 +2,7 @@
 
 module SpaceStone
   module Derivatives
-    module Types
+    module Type
       class MonochromeType < BaseType
         self.prerequisites = [:image]
 

@@ -18,14 +18,14 @@ RSpec.describe SpaceStone::Derivatives::Chain do
   end
 
   describe '#each' do
-    it 'will yield instances of SpaceStone::Derivatives::Types::BaseType' do
+    it 'will yield instances of SpaceStone::Derivatives::Type::BaseType' do
       # NOTE: image yields first, then monochrome which depends on image, then hocr which depends on
       # image
       expect { |b| subject.each(&b) }.to yield_successive_args(
-                                           SpaceStone::Derivatives::Types::OriginalType,
-                                           SpaceStone::Derivatives::Types::ImageType,
-                                           SpaceStone::Derivatives::Types::MonochromeType,
-                                           SpaceStone::Derivatives::Types::HocrType
+                                           SpaceStone::Derivatives::Type::OriginalType,
+                                           SpaceStone::Derivatives::Type::ImageType,
+                                           SpaceStone::Derivatives::Type::MonochromeType,
+                                           SpaceStone::Derivatives::Type::HocrType
                                          )
     end
   end
@@ -34,7 +34,7 @@ RSpec.describe SpaceStone::Derivatives::Chain do
     subject { described_class.new(derivatives: derivatives).find_index(derivative) }
 
     context 'when the derivative exists' do
-      let(:derivative) { SpaceStone::Derivatives::Types::MonochromeType }
+      let(:derivative) { SpaceStone::Derivatives::Type::MonochromeType }
       it { is_expected.to be_a(Integer) }
     end
 

@@ -132,7 +132,7 @@ module SpaceStone
       # @raise [SpaceStone::Derivatives::Exceptions::UnknownDerivativeRequestForChainError] when the
       #        given :derivative is not part of the {Environment}'s {#chain}.
       def process_next_chain_link_after!(derivative:)
-        index = chain.find_index(Types.for(derivative))
+        index = chain.find_index(SpaceStone::Derivatives::Type(derivative))
         raise Exceptions::UnknownDerivativeRequestForChainError.new(chain: chain, derivative: derivative) unless index
 
         next_link = chain.to_a[index + 1]

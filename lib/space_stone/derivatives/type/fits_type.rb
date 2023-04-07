@@ -4,7 +4,7 @@ require 'hydra/file_characterization'
 
 module SpaceStone
   module Derivatives
-    module Types
+    module Type
       class FitsType < BaseType
         self.prerequisites = [:original]
 

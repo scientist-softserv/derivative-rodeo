@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 
-RSpec.describe SpaceStone::Derivatives::Types do
-  describe '.for' do
-    subject { described_class.for(type) }
+require 'spec_helper'
+
+RSpec.describe SpaceStone::Derivatives::Type do
+  describe '.Type' do
+    subject { SpaceStone::Derivatives.Type(type) }
     {
-      hocr: SpaceStone::Derivatives::Types::HocrType,
-      monochrome: SpaceStone::Derivatives::Types::MonochromeType
+      hocr: SpaceStone::Derivatives::Type::HocrType,
+      monochrome: SpaceStone::Derivatives::Type::MonochromeType
     }.each do |type, expected|
       context type.inspect.to_s do
         let(:type) { type }
@@ -15,7 +17,7 @@ RSpec.describe SpaceStone::Derivatives::Types do
 
     context "for un-registered type" do
       it "is expected to raise an error" do
-        expect { described_class.for(:obviously_missing) }.to raise_exception(NameError)
+        expect { described_class.Type(:obviously_missing) }.to raise_exception(NameError)
       end
     end
   end

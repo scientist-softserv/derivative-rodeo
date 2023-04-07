@@ -29,7 +29,7 @@ module SpaceStone
       def initialize(derivatives:)
         # Don't mind us, these preliminary_chain_links are going to push to the front of the line.
         @chain = (Array(preliminary_chain_links) + Array(derivatives)).each_with_object({}) do |(key, _), hash|
-          hash[key.to_sym] = Types.for(key.to_sym)
+          hash[key.to_sym] = SpaceStone::Derivatives::Type(key.to_sym)
         end
         add_dependencies_to_chain!
       end
@@ -51,7 +51,7 @@ module SpaceStone
       # Yield the derivatives for processing in the correct sequence, accounting for the
       # prerequisites of the derivatives.
       #
-      # @yieldparam [SpaceStone::Derivatives::Types::BaseType]
+      # @yieldparam [SpaceStone::Derivatives::Type::BaseType]
       # @see Sequencer
       def each
         sequence.each do |key|
@@ -68,7 +68,7 @@ module SpaceStone
         @chain.values.each_with_object(additional_values) do |type, hash|
           Array(type.prerequisites).each do |prereq|
             next if @chain.key?(prereq)
-            hash[prereq] = Types.for(prereq)
+            hash[prereq] = SpaceStone::Derivatives::Type(prereq)
           end
         end
         return if additional_values.empty?

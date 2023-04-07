@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe SpaceStone::Derivatives::Types::HocrType do
+RSpec.describe SpaceStone::Derivatives::Type::HocrType do
   let(:environment) do
     SpaceStone::Derivatives::Environment.for_original(manifest: manifest,
                                                       local: :file_system,

@@ -4,6 +4,7 @@ require_relative 'derivatives/version'
 require 'active_support'
 require 'active_support/core_ext/class/attribute'
 require 'active_support/core_ext/module/delegation'
+require 'active_support/core_ext/string/inflections'
 
 require 'space_stone/derivatives/exceptions'
 require 'space_stone/derivatives/environment'
@@ -11,6 +12,7 @@ require 'space_stone/derivatives/manifest'
 require 'space_stone/derivatives/process'
 require 'space_stone/derivatives/storage_adapters'
 require 'space_stone/derivatives/queue_adapters'
+require 'space_stone/derivatives/type'
 require 'space_stone/derivatives/types'
 
 # These are the files conceptually lifted from the IIIF Print gem.
