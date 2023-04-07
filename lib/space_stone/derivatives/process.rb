@@ -26,7 +26,7 @@ module SpaceStone
 
       attr_reader :derivative, :environment
 
-      delegate :local_path, :remote_pull, :process_next_chain_link_after!, :local_exists?, :logger, to: :environment
+      delegate :local_read, :local_path, :remote_pull, :process_next_chain_link_after!, :local_exists?, :logger, to: :environment
       delegate :generate_for, to: :derivative
 
       def call

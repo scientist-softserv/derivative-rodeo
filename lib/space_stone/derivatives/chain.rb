@@ -6,7 +6,10 @@ require 'space_stone/derivatives/types'
 module SpaceStone
   module Derivatives
     ##
-    # This class is responsible for sequencing (and validating) a set of :derivatives.
+    # This class is responsible for sequencing (and validating) a set of :derivatives.  The {Chain}
+    # is necessary to resolve the necessary sequence of derivative generation in the case where we
+    # might have second order derivatives.  For example we create an alto file based on a hocr file
+    # based on an image.  The alto file would be a second order derivative.
     #
     # @see #each
     # @see #to_hash
@@ -25,7 +28,7 @@ module SpaceStone
       # @param derivatives [Array<#to_sym>]
       def initialize(derivatives:)
         # Don't mind us, these preliminary_chain_links are going to push to the front of the line.
-        @chain = (Array(preliminary_chain_links) + Array(derivatives)).each_with_object({}) do |key, hash|
+        @chain = (Array(preliminary_chain_links) + Array(derivatives)).each_with_object({}) do |(key, _), hash|
           hash[key.to_sym] = Types.for(key.to_sym)
         end
         add_dependencies_to_chain!

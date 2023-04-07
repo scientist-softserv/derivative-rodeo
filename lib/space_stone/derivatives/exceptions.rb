@@ -11,18 +11,18 @@ module SpaceStone
         end
       end
 
+      class ConflictingMethodArgumentsError < Error
+        def initialize(receiver:, method:)
+          super("Error with arguments for method #{method.inspect} with receiver #{receiver.inspect}.")
+        end
+      end
+
       # Raised when we do not find an identifier and associated derivative.
       #
       # @see Repository#initialize
       class DerivativeNotFoundError < Error
         def initialize(derivative:, storage:)
           super("Could not find derivative #{derivative.inspect} for storage #{storage.inspect}.")
-        end
-      end
-
-      class DeprecatedFailureToLocateDerivativeError < Error
-        def initialize(derivative:, repository:)
-          super("Could not locate #{derivative.inspect} for repository #{repository.inspect}.")
         end
       end
 

@@ -15,6 +15,8 @@ module SpaceStone
             monochrome_path = image_path
           else
             monochrome_path = environment.local_path(derivative: to_sym, filename: 'monochrome-interim.tif')
+
+            # Convert the above image to a file at the monochrome_path
             image.convert(monochrome_path, true)
           end
 

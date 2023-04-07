@@ -27,6 +27,8 @@ RSpec.describe SpaceStone::Derivatives::Environment do
     it { is_expected.to respond_to :chain }
     it { is_expected.to respond_to :logger }
 
+    it { is_expected.to delegate_method(:exists?).to(:local).with_prefix(true) }
+    it { is_expected.to delegate_method(:mime_type).to(:manifest) }
     it { is_expected.to respond_to :local_exists? }
     it { is_expected.to respond_to :local_assign! }
     it { is_expected.to respond_to :local_path }

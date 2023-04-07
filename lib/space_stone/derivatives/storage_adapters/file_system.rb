@@ -39,7 +39,6 @@ module SpaceStone
         def path(derivative:, **)
           path_to(derivative: derivative)
         end
-        alias path_for path
 
         # @api public
         def demand!(derivative:)
@@ -48,18 +47,29 @@ module SpaceStone
           raise Exceptions::DerivativeNotFoundError, derivative: derivative, storage: self
         end
 
+        ##
         # @api public
-        def assign!(derivative:, path: nil, &block)
+        #
+        # @param path [String] Assign the contents of the file at the path to the given :derivative
+        #        slot.
+        # @yield Assign the results of the yielded block to the :derivative slot.
+        #
+        # @raise [SpaceStone::Derivatives::Exceptions::ConflictingMethodArgumentsError]
+        # @raise [Exceptions::DerivativeNotFoundError]
+        #
+        # @see #demand!
+        def assign!(derivative:, path: nil)
+          raise Exceptions::ConflictingMethodArgumentsError.new(receiver: self, method: :assign!) if path && block_given?
+
           if path
-            write(derivative: derivative) do
-              File.read(path)
-            end
+            write(derivative: derivative) { File.read(path) }
           else
-            write(derivative: derivative, &block)
+            write(derivative: derivative) { yield }
           end
           demand!(derivative: derivative)
         end
 
+        # @api public
         def pull(derivative:, to:)
           return false unless exists?(derivative: derivative)
 
@@ -78,18 +88,16 @@ module SpaceStone
         end
 
         def read(derivative:)
-          return false unless exists?(derivative: derivative)
-
           File.read(path_to(derivative: derivative))
         end
+
+        private
 
         def write(derivative:)
           File.open(path_to(derivative: derivative), "wb") do |file|
             file.puts yield
           end
         end
-
-        private
 
         def path_to(derivative:)
           File.join(directory_name, derivative.to_sym.to_s)

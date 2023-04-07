@@ -114,8 +114,9 @@ module SpaceStone
         }
       end
 
-      delegate :exists?, :assign!, :path, :demand!, to: :local, prefix: true
+      delegate :exists?, :assign!, :path, :demand!, :read, to: :local, prefix: true
       delegate :exists?, to: :remote, prefix: true
+      delegate :original_filename, :mime_type, :mime_type=, to: :manifest
 
       ##
       # Begin the derivating!

@@ -24,24 +24,41 @@ RSpec.describe SpaceStone::Derivatives::StorageAdapters::FileSystem do
     it { is_expected.to eq(:file_system) }
   end
 
-  describe '#write' do
-    it "yields a block for writing content" do
-      expect do
-        instance.write(derivative: :text) { content }
-      end.to change { instance.exists?(derivative: :text) }.from(false).to(true)
+  describe '#assign!' do
+    context 'when given a block' do
+      it "writes the results of the block" do
+        expect do
+          instance.assign!(derivative: :text) { content }
+        end.to change { instance.exists?(derivative: :text) }.from(false).to(true)
+      end
+    end
+
+    context 'when given a path' do
+      it 'writes the content of the given path' do
+        expect do
+          instance.assign!(derivative: :text, path: __FILE__)
+        end.to change { instance.exists?(derivative: :text) }.from(false).to(true)
+      end
+    end
+
+    context 'when given a path and a block' do
+      it "raises Exceptions::ConflictingMethodArgumentsError" do
+        expect do
+          instance.assign!(derivative: :text, path: __FILE__) { content }
+        end.to raise_exception(SpaceStone::Derivatives::Exceptions::ConflictingMethodArgumentsError)
+      end
     end
   end
 
   describe '#read' do
-    # TODO: Should this be a NullHandle?
-    it "returns nil when the file does not exist" do
-      expect(instance.read(derivative: :text)).to be_falsey
+    it "raises Errno::ENOENT when the file does not exist" do
+      expect { instance.read(derivative: :text) }.to raise_exception(Errno::ENOENT)
     end
 
     it "returns the content of the file when it exists" do
-      instance.write(derivative: :text) { content }
+      instance.assign!(derivative: :text) { content }
 
-      expect(instance.read(derivative: :text)).to eq(content)
+      expect(instance.send(:read, derivative: :text)).to eq(content)
     end
   end
 end

@@ -31,3 +31,4 @@ end
 
 require 'space_stone/derivatives/storage_adapters/base'
 require 'space_stone/derivatives/storage_adapters/file_system'
+require 'space_stone/derivatives/storage_adapters/from_manifest'

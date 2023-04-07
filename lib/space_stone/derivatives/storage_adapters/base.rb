@@ -10,36 +10,37 @@ module SpaceStone
           self.class.to_s.demodulize.underscore.to_sym
         end
 
-        ##
         # @api public
-        # @param derivative [#to_sym]
         def exists?(derivative:)
           raise NotImplementedError
         end
 
-        # @param derivative [#to_sym]
-        #
-        # @return [String]
+        # @api public
+        def path(derivative:, **)
+          raise NotImplementedError
+        end
+
+        # @api public
+        def demand!(derivative:)
+          raise NotImplementedError
+        end
+
+        # @api public
+        def assign!(derivative:, path: nil, &block)
+          raise NotImplementedError
+        end
+
         def read(derivative:)
           raise NotImplementedError
         end
 
-        # @param derivative [#to_sym]
-        # @param filename [String]
-        #
-        # @return [String]
-        def path_for(derivative:, filename:)
+        # @api public
+        def pull(derivative:, to:)
           raise NotImplementedError
         end
 
-        ##
-        # @param derivative [#to_sym]
-        #
-        # @yield the content to write for the given derivative
-        #
-        # @example
-        #   adapter.write(derivative: :text) { "This is the text" }
-        def write(derivative:, &block)
+        # @api public
+        def pull!(derivative:, to:)
           raise NotImplementedError
         end
       end

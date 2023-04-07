@@ -4,6 +4,7 @@ module SpaceStone
   module Derivatives
     module Types
       ##
+      #
       class OriginalType < BaseType
         self.prerequisites = []
 

@@ -9,4 +9,5 @@ module SpaceStone
 end
 
 require 'space_stone/derivatives/manifest/original'
+require 'space_stone/derivatives/manifest/pre_process'
 require 'space_stone/derivatives/manifest/derived'

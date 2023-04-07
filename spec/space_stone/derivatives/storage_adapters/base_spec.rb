@@ -10,9 +10,10 @@ RSpec.describe SpaceStone::Derivatives::StorageAdapters::Base do
 
       it { is_expected.to be_a SpaceStone::Derivatives::StorageAdapters::Base }
       it { is_expected.to respond_to :exists? }
-      it { is_expected.to respond_to :path_for }
-      it { is_expected.to respond_to :read }
-      it { is_expected.to respond_to :write }
+      it { is_expected.to respond_to :path }
+      it { is_expected.to respond_to :assign! }
+      it { is_expected.to respond_to :pull }
+      it { is_expected.to respond_to :pull! }
     end
   end
 end

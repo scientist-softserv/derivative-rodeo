@@ -10,20 +10,12 @@ end
 require 'space_stone/derivatives'
 require 'tmpdir'
 require 'fileutils'
+require 'shoulda-matchers'
+require_relative "./support/support_modules.rb"
 
-module Fixtures
-  def self.path_for(name)
-    File.join(File.expand_path("fixtures/files/#{name}", __dir__))
-  end
-
-  def self.remote_file_system_root
-    File.expand_path("fixtures/remote_file_system", __dir__)
-  end
-
-  def self.tmp_subdir_of(*name)
-    parent_dir = Dir.mktmpdir
-
-    FileUtils.mkdir_p(File.join(parent_dir, *name)).first
+Shoulda::Matchers.configure do |config|
+  config.integrate do |with|
+    with.test_framework :rspec
   end
 end
 
@@ -109,17 +101,17 @@ RSpec.configure do |config|
   #   # Print the 10 slowest examples and example groups at the
   #   # end of the spec run, to help surface which specs are running
   #   # particularly slow.
-  #   config.profile_examples = 10
+  config.profile_examples = 5
   #
   #   # Run specs in random order to surface order dependencies. If you find an
   #   # order dependency and want to debug it, you can fix the order by providing
   #   # the seed, which is printed after each run.
   #   #     --seed 1234
-  #   config.order = :random
+  config.order = :random
   #
   #   # Seed global randomization in this process using the `--seed` CLI option.
   #   # Setting this allows you to use `--seed` to deterministically reproduce
   #   # test failures related to randomization by passing the same `--seed` value
   #   # as the one that triggered the failure.
-  #   Kernel.srand config.seed
+  Kernel.srand config.seed
 end

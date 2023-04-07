@@ -3,9 +3,8 @@
 require 'spec_helper'
 
 RSpec.describe "Features" do
-  let(:manifest) { SpaceStone::Derivatives::Manifest::Original.new(parent_identifier: parent_identifier, original_filename: basename, derivatives: derivatives) }
-  let(:environment) { SpaceStone::Derivatives::Environment.for_original(manifest: manifest, local: local, remote: :file_system, queue: :inline) }
-  let(:local) { SpaceStone::Derivatives::StorageAdapters::FileSystem.new(manifest: manifest, root: Fixtures.remote_file_system_root) }
+  let(:manifest) { Fixtures.pre_processing_manifest }
+  let(:environment) { SpaceStone::Derivatives::Environment.for_original(manifest: manifest, remote: :from_manifest, local: :file_system, queue: :inline) }
 
   context "with a 2 page color PDF" do
     let(:basename) { "sample-color-newsletter.pdf" }
