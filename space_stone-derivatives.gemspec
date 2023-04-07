@@ -36,7 +36,10 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'mini_magick'
   spec.add_dependency 'activesupport', ">= 5"
   spec.add_dependency 'nokogiri'
+  spec.add_dependency 'hydra-file_characterization'
+  spec.add_dependency 'marcel'
   spec.add_development_dependency 'bixby'
   spec.add_development_dependency 'rspec'
   spec.add_development_dependency 'solargraph'
+  spec.add_development_dependency 'shoulda-matchers'
 end
