@@ -3,6 +3,12 @@
 require 'active_support/core_ext/string/inflections'
 module SpaceStone
   module Derivatives
+    ##
+    # The module space for declaring named derivative type (e.g. `:image`, `:monochrome`, etc.).  A
+    # named derivative type should be able to generate itself based on the given {Environment}.
+    #
+    # @see BaseType
+    # @see BaseType.generate_for
     module Types
       ##
       # @api public
@@ -16,24 +22,9 @@ module SpaceStone
         "SpaceStone::Derivatives::Types::#{demodulized_klass}".constantize
       end
 
+      ##
       # @abstract
-      #
-      # @note I'm considering the following DSL where the "image_path" is present because of the
-      #       declared prerequisite :image.  And the local_assign and local_path are delegated to
-      #       the repository.  And then the demand calls are handled by the before and after of the
-      #       generate object.
-      #
-      #    generate do
-      #      image = SpaceStone::Derivatives::Utilities::Image.new(image_path)
-      #      if image.monochrome?
-      #        monochrome_path = image_path
-      #      else
-      #        monochrome_path = local_path(filename: 'monochrome-interim.tif')
-      #        image.convert(monochrome_path, true)
-      #      end
-      #
-      #      local_assign(path: monochrome_path)
-      #    end
+      # @see Types
       class BaseType
         class_attribute :prerequisites, default: []
         class_attribute :spawns, default: []

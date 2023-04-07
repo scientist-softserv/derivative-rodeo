@@ -5,7 +5,9 @@ module SpaceStone
     ##
     # This class is responsible for processing the given {#derivative} in the given {#environment}
     # and then requesting that the {#environment} process the next chain link after the given
-    # {#derivative}
+    # {#derivative}.
+    #
+    # Fundamentally it says
     class Process
       ##
       # @api public
@@ -28,19 +30,16 @@ module SpaceStone
 
       attr_reader :derivative, :environment
 
-      delegate :local_read, :local_path, :remote_pull, :process_next_chain_link_after!, :local_exists?, :logger, to: :environment
+      delegate :process_next_chain_link_after!, :local_demand!, :local_exists?, :remote_pull, to: :environment
       delegate :generate_for, to: :derivative
 
+      # @api private
       def call
-        returning_value = nil
-        returning_value = local_path(derivative: derivative) if local_exists?(derivative: derivative)
-        returning_value ||= remote_pull(derivative: derivative).presence
-        returning_value ||= generate_for(environment: environment).presence
+        local_exists?(derivative: derivative) ||
+          remote_pull(derivative: derivative) ||
+          generate_for(environment: environment)
 
-        raise Exceptions::FailureToLocateDerivativeError.new(derivative: derivative, environment: environment) unless local_exists?(derivative: derivative)
-
-        process_next_chain_link_after!(derivative: derivative)
-        returning_value
+        local_demand!(derivative: derivative) && process_next_chain_link_after!(derivative: derivative)
       end
     end
   end

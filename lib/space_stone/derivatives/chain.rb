@@ -80,8 +80,12 @@ module SpaceStone
         @sequence ||= Sequencer.call(to_hash)
       end
 
+      ##
+      # @api private
       class Sequencer
         ##
+        # @api private
+        #
         # @param chain [Hash<Symbol, Array<Symbol>>]
         # @param raise_error [true,false] provided as a testing facilitator.
         #
