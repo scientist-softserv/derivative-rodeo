@@ -8,6 +8,8 @@ module SpaceStone
     # {#derivative}
     class Process
       ##
+      # @api public
+      #
       # @param derivative [SpaceStone::Derivatives::Types::BaseType]
       # @param environment [SpaceStone::Derivatives::Environment]
       #
