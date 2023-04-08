@@ -5,7 +5,7 @@ require 'spec_helper'
 RSpec.describe SpaceStone::Derivatives::Type::MonochromeType do
   describe ".prerequisites" do
     subject { described_class.prerequisites }
-    it { is_expected.to eq([:image]) }
+    it { is_expected.to eq([:original]) }
   end
 
   let(:environment) do
@@ -32,7 +32,7 @@ RSpec.describe SpaceStone::Derivatives::Type::MonochromeType do
 
       it "re-uses the file" do
         expect(environment).to receive(:local_demand!)
-          .with(derivative: :image)
+          .with(derivative: :original)
           .and_return(image_path)
 
         expect(environment).not_to receive(:local_path)
@@ -48,7 +48,7 @@ RSpec.describe SpaceStone::Derivatives::Type::MonochromeType do
       let(:image_path) { Fixtures.path_for("ocr_color.tiff") }
       it "it converts the existing image" do
         expect(environment).to receive(:local_demand!)
-          .with(derivative: :image)
+          .with(derivative: :original)
           .and_return(image_path)
 
         expect(File.read(subject)).not_to eq(File.read(image_path))

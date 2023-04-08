@@ -45,5 +45,13 @@ module SpaceStone
     def self.start_processing!(manifest:)
       Environment.start_processing!(manifest: manifest)
     end
+
+    ##
+    # @api public
+    #
+    # @param manifest [SpaceStone::Derivatives::Manifest::Manifest]
+    def self.start_pre_processing!(manifest:)
+      Environment.for_pre_processing(manifest: manifest).process_start!
+    end
   end
 end

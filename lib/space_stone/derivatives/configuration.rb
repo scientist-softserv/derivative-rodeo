@@ -9,7 +9,7 @@ module SpaceStone
       # !@group Derivative Configurations
       # !@attribute [rw]
       class_attribute :derivatives_by_media_type, default: {
-        "image" => [:hocr, :thumbnail]
+        "image" => [:hocr]
       }
       # !@attribute [rw]
       class_attribute :derivatives_by_mime_type, default: {
@@ -30,6 +30,21 @@ module SpaceStone
           derivatives_by_sub_type.fetch(mime_type.sub_type, []) +
           derivatives_by_sub_type.fetch(mime_type.sub_type.to_sym, [])
       end
+
+      def queue
+        @queue || :inline
+      end
+      attr_writer :queue
+
+      def local_storage
+        @local_storage || :file_system
+      end
+      attr_writer :local_storage
+
+      def remote_storage
+        @remote_storage || :file_system
+      end
+      attr_writer :remote_storage
     end
   end
 end

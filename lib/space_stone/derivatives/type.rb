@@ -47,6 +47,18 @@ module SpaceStone
         ##
         # @api public
         #
+        # @param manifest [SpaceStone::Derivatives::Manifest]
+        # @param storage [SpaceStone::Derivatives::StorageAdapters::Base]
+        #
+        # rubocop:disable Lint/UnusedMethodArgument
+        def self.demand!(manifest:, storage:)
+          storage.demand!(derivative: to_sym)
+        end
+        # rubocop:enable Lint/UnusedMethodArgument
+
+        ##
+        # @api public
+        #
         # @return [Symbol]
         def self.to_sym
           to_s.demodulize.underscore.sub("_type", "").to_sym
@@ -65,7 +77,7 @@ module SpaceStone
         attr_reader :environment
 
         def generate
-          raise NotImplementedError
+          raise NotImplementedError, "#{self.class}#generate not implemented"
         end
       end
     end

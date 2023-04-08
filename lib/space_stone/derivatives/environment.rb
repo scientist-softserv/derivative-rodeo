@@ -29,6 +29,19 @@ module SpaceStone
       end
 
       ##
+      # @param manifest [SpaceStone::Derivatives::Manifest::PreProcess]
+      # @param config [SpaceStone::Derivatives::Configuration]
+      def self.for_pre_processing(manifest:, config: Derivatives.config)
+        new(
+          manifest: manifest,
+          remote: :from_manifest,
+          queue: config.queue,
+          local: config.local_storage,
+          chain: Chain.new(derivatives: [:original, :mime])
+        )
+      end
+
+      ##
       # @param manifest [SpaceStone::Derivatives::Manifest::Original]
       # @param local [Symbol]
       # @param remote [Symbol]
@@ -131,7 +144,7 @@ module SpaceStone
         }
       end
 
-      delegate :exists?, :assign!, :path, :demand!, :read, to: :local, prefix: true
+      delegate :exists?, :assign!, :path, :read, to: :local, prefix: true
       delegate :exists?, to: :remote, prefix: true
       delegate :original_filename, :mime_type, :mime_type=, to: :manifest
 
@@ -180,6 +193,14 @@ module SpaceStone
       #       {#remote}'s pull! method receives the {#local} as the to: keyword.
       def remote_pull!(derivative:)
         remote.pull!(derivative: derivative, to: local)
+      end
+
+      ##
+      # Delegate the local demand to the given :derivative.  The :derivative knows best.
+      #
+      # @param derivative [#to_sym]
+      def local_demand!(derivative:)
+        Derivatives.Type(derivative).demand!(manifest: manifest, storage: local)
       end
     end
   end
