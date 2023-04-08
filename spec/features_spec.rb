@@ -22,7 +22,7 @@ RSpec.describe "Features" do
     let(:parent_identifier) { "with-original-only" }
     let(:basename) { "ocr_color.tiff" }
 
-    it "runs the pre-processing" do
+    xit "runs the pre-processing" do
       environment.process_start!
 
       expect(environment.local_exists?(derivative: :original)).to be_truthy

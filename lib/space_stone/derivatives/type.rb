@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'active_support/core_ext/string/inflections'
 module SpaceStone
   module Derivatives
@@ -10,10 +11,13 @@ module SpaceStone
     #
     # @return [SpaceStone::Derivatives::BaseType]
     # @raise [NameError] when given type is not registered.
+    #
+    # rubocop:disable Naming/MethodName
     def self.Type(symbol)
       demodulized_klass = "#{symbol.to_sym}_type".classify
       "SpaceStone::Derivatives::Type::#{demodulized_klass}".constantize
     end
+    # rubocop:enable Naming/MethodName
 
     ##
     # The module space for declaring named derivative type (e.g. `:image`, `:monochrome`, etc.).  A

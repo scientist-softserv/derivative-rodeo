@@ -38,6 +38,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'nokogiri'
   spec.add_dependency 'hydra-file_characterization'
   spec.add_dependency 'marcel'
+  spec.add_dependency 'mime-types'
   spec.add_development_dependency 'bixby'
   spec.add_development_dependency 'rspec'
   spec.add_development_dependency 'solargraph'

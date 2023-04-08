@@ -7,6 +7,7 @@ require 'active_support/core_ext/module/delegation'
 require 'active_support/core_ext/string/inflections'
 
 require 'space_stone/derivatives/exceptions'
+require 'space_stone/derivatives/configuration'
 require 'space_stone/derivatives/environment'
 require 'space_stone/derivatives/manifest'
 require 'space_stone/derivatives/process'
@@ -26,6 +27,12 @@ module SpaceStone
   ##
   # Welcome to SpaceStone::Derivatives, a gem responsible
   module Derivatives
+    def self.config
+      @config ||= Configuration.new
+      yield(@config) if block_given?
+      @config
+    end
+
     def self.logger
       # For testing I really want to set a Logger::FATAL level so I'm not seeing all of the chatter.
       @logger ||= Logger.new(STDERR, level: Logger::FATAL)
