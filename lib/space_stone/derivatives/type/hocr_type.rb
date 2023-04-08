@@ -49,8 +49,7 @@ module SpaceStone
           cmd += " #{additional_tessearct_options}" if additional_tessearct_options.present?
           cmd += " #{output_suffix}"
 
-          # TODO: What about error handling?  We do force the demand after-wards
-          `#{cmd}`
+          local_run_command!(cmd)
 
           environment.local_assign!(derivative: to_sym, path: "#{output_prefix}.#{output_suffix}")
         end

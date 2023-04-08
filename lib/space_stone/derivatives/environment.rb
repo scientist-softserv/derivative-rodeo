@@ -168,6 +168,18 @@ module SpaceStone
       def local_demand!(derivative:)
         Derivatives.Type(derivative).demand!(manifest: manifest, storage: local_storage)
       end
+
+      ##
+      # A bit of indirection to create a common interface for running a shell command; and thus
+      # allowing for introducing a dry-run to help in debugging/logging.
+      #
+      # @param command [String]
+      #
+      # @note The name of this function follows the idioms of delegator prefix.  It could be that
+      #       this function should be on the #local_storage object.
+      def local_run_command!(command)
+        `#{command}`
+      end
     end
   end
 end

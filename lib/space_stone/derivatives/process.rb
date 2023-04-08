@@ -7,18 +7,24 @@ module SpaceStone
     # and then requesting that the {#environment} process the next chain link after the given
     # {#derivative}.
     #
-    # Fundamentally it says
+    # @see .call
     class Process
       ##
       # @api public
+      #
+      # This is some of the core conceptual logic of the application:
+      #
+      # - I have the file locally…
+      # - failing that, I get the remote…
+      # - failing that I generate it…
+      # - failing that I raise [#Exceptions::FailureToLocateDerivativeError]
+      # - and if no exception is raised, I proceed with processing the next derivative.
       #
       # @param derivative [SpaceStone::Derivatives::Type::BaseType]
       # @param environment [SpaceStone::Derivatives::Environment]
       #
       # @raise [SpaceStone::Derivatives::Exceptions::FailureToLocateDerivativeError] when we are
       #        unable to find (or generate) the derivative in the given environment.
-      #
-      # @see #call
       def self.call(derivative:, environment:)
         new(derivative: derivative, environment: environment).call
       end

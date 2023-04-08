@@ -8,6 +8,7 @@ module SpaceStone
     # @api public
     class Configuration
       class_attribute :logger_level, default: Logger::FATAL
+      class_attribute :dry_run, default: false
 
       def initialize
         @logger = Logger.new(STDERR, logger_level)

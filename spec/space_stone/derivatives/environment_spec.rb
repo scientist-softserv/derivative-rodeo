@@ -96,4 +96,6 @@ RSpec.describe SpaceStone::Derivatives::Environment do
       environment.remote_pull!(derivative: :hocr)
     end
   end
+
+  it { is_expected.to respond_to(:local_run_command!) }
 end

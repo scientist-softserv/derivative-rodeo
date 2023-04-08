@@ -31,6 +31,8 @@ RSpec.describe SpaceStone::Derivatives::Type do
     let(:instance) { described_class::BaseType.new(environment: environment) }
     subject { instance }
 
+    it { is_expected.to delegate_method(:local_run_command!).to(:environment) }
+
     describe '#to_sym' do
       subject { instance.to_sym }
       it { is_expected.to eq(:base) }

@@ -79,6 +79,8 @@ module SpaceStone
         end
         attr_reader :environment
 
+        delegate :local_run_command!, to: :environment
+
         def generate
           raise NotImplementedError, "#{self.class}#generate not implemented"
         end

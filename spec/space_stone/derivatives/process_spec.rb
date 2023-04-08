@@ -8,11 +8,11 @@ RSpec.describe SpaceStone::Derivatives::Process do
   subject(:instance) { described_class.new(derivative: derivative, environment: environment) }
   let(:handle) { :handle }
 
+  it { is_expected.to delegate_method(:local_demand!).to(:environment) }
   it { is_expected.to delegate_method(:local_exists?).to(:environment) }
   it { is_expected.to delegate_method(:remote_pull).to(:environment) }
   it { is_expected.to delegate_method(:process_next_chain_link_after!).to(:environment) }
   it { is_expected.to delegate_method(:generate_for).to(:derivative) }
-  it { is_expected.to delegate_method(:local_demand!).to(:environment) }
 
   describe ".call" do
     subject { described_class.call(derivative: derivative, environment: environment) }
