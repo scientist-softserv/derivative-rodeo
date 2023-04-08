@@ -13,6 +13,8 @@ module SpaceStone
     #
     # @see .for_pre_processing
     # @see .for_mime_type
+    #
+    # rubocop:disable Metrics/ClassLength
     class Environment
       ##
       # @api public
@@ -20,15 +22,14 @@ module SpaceStone
       # @param manifest [SpaceStone::Derivatives::Manifest::PreProcess]
       # @param config [SpaceStone::Derivatives::Configuration]
       def self.for_pre_processing(manifest:, config: Derivatives.config, &block)
-        new(
-          manifest: manifest,
-          remote_storage: config.remote_storage,
-          queue: config.queue,
-          local_storage: config.local_storage,
-          chain: Chain.for_pre_processing(config: config),
-          logger: config.logger,
-          &block
-        )
+        new(manifest: manifest,
+            remote_storage: config.remote_storage,
+            queue: config.queue,
+            local_storage: config.local_storage,
+            chain: Chain.for_pre_processing(config: config),
+            logger: config.logger,
+            config: config,
+            &block)
       end
 
       ##
@@ -39,14 +40,13 @@ module SpaceStone
       # @param config [SpaceStone::Derivatives::Configuration]
       # @see .for_pre_processing
       def self.for_mime_type_processing(environment:, config: Derivatives.config)
-        new(
-          local_storage: environment.local_storage,
-          remote_storage: environment.remote_storage,
-          queue: environment.queue,
-          manifest: environment.manifest,
-          chain: Chain.from_mime_types_for(manifest: environment.manifest, config: config),
-          logger: environment.logger
-        )
+        new(local_storage: environment.local_storage,
+            remote_storage: environment.remote_storage,
+            queue: environment.queue,
+            manifest: environment.manifest,
+            chain: Chain.from_mime_types_for(manifest: environment.manifest, config: config),
+            logger: environment.logger,
+            config: config)
       end
 
       private_class_method :new
@@ -58,6 +58,7 @@ module SpaceStone
       # @param queue [Symbol, Hash<Symbol,Object>]
       # @param chain [Chain]
       # @param logger [Logger, Object<#debug, #info, #warn, #error, #fatal>]
+      # @param config [SpaceStone::Derivatives::Configuration]
       #
       # @note We have disabled the Metrics/ParameterLists and consider that acceptable because we
       #       have privatized the .new method.
@@ -66,17 +67,38 @@ module SpaceStone
       # @see .for_mime_type_processing
       #
       # rubocop:disable Metrics/ParameterLists
-      def initialize(manifest:, local_storage:, remote_storage:, queue:, chain:, logger:)
+      # rubocop:disable Metrics/MethodLength
+      def initialize(manifest:, local_storage:, remote_storage:, queue:, chain:, logger:, config:)
         @manifest = manifest
         @local_storage = StorageAdapters.for(manifest: manifest, adapter: local_storage)
         @remote_storage = StorageAdapters.for(manifest: manifest, adapter: remote_storage)
         @queue = QueueAdapters.for(adapter: queue)
         @chain = chain
         @logger = logger
+        @config = config
 
         yield(self) if block_given?
+
+        # rubocop:disable Style/GuardClause
+        if dry_run?
+          extend Derivatives::DryRun.for(method_names: [
+                                           :local_assign!,
+                                           :local_demand!,
+                                           :local_exists?,
+                                           :local_path,
+                                           :local_read,
+                                           :local_run_command!,
+                                           :remote_exists?,
+                                           :remote_pull!,
+                                           :remote_pull
+                                         ],
+                                         contexts: dry_run_context,
+                                         config: config)
+        end
+        # rubocop:enable Style/GuardClause
       end
       # rubocop:enable Metrics/ParameterLists
+      # rubocop:disable Metrics/MethodLength
 
       # @return [SpaceStone::Derivatives::Manifest::Original, SpaceStone::Derivatives::Manifest::Derived]
       attr_reader :manifest
@@ -96,6 +118,9 @@ module SpaceStone
       # @return [Logger, Object<#debug, #info, #warn, #error, #fatal>]
       attr_reader :logger
 
+      # @return [SpaceStone::Derivatives::Configuration]
+      attr_reader :config
+
       ##
       # A convenience method to pass along "primative" information regarding the environment.
       #
@@ -113,6 +138,7 @@ module SpaceStone
       delegate :exists?, :assign!, :path, :read, to: :local_storage, prefix: "local"
       delegate :exists?, to: :remote_storage, prefix: "remote"
       delegate :original_filename, :mime_type, :mime_type=, to: :manifest
+      delegate :dry_run, :dry_run?, to: :config
 
       ##
       # Begin the derivating!
@@ -147,7 +173,7 @@ module SpaceStone
       # @param derivative [#to_sym]
       #
       # @note Instead of relying on the delegate method and prefix, I want to ensure that the
-      #       {#remote}'s pull method receives the {#local} as the to: keyword.
+      #       {#remote_storage}'s pull method receives the {#local_storage} as the to: keyword.
       def remote_pull(derivative:)
         remote_storage.pull(derivative: derivative, to: local_storage)
       end
@@ -156,7 +182,7 @@ module SpaceStone
       # @param derivative [#to_sym]
       #
       # @note Instead of relying on the delegate method and prefix, I want to ensure that the
-      #       {#remote}'s pull! method receives the {#local} as the to: keyword.
+      #       {#remote_storage}'s pull! method receives the {#local_storage} as the to: keyword.
       def remote_pull!(derivative:)
         remote_storage.pull!(derivative: derivative, to: local_storage)
       end
@@ -180,6 +206,18 @@ module SpaceStone
       def local_run_command!(command)
         `#{command}`
       end
+
+      # @api private
+      def dry_run_context
+        {
+          manifest: manifest,
+          local_storage: local_storage.to_sym,
+          remote_storage: remote_storage.to_sym,
+          queue: queue.to_sym,
+          chain: chain.to_a
+        }
+      end
     end
+    # rubocop:enable Metrics/ClassLength
   end
 end

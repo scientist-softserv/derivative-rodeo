@@ -3,13 +3,29 @@
 require 'spec_helper'
 
 RSpec.describe SpaceStone::Derivatives::Environment do
-  subject(:environment) { Fixtures.pre_processing_environment }
+  let(:config) { Fixtures.pre_processing_config }
+  subject(:environment) { Fixtures.pre_processing_environment(config: config) }
+
+  describe 'when dry run is configured' do
+    let(:config) do
+      Fixtures.pre_processing_config do |cfg|
+        cfg.dry_run_reporter = dry_run_reporter
+        cfg.dry_run = true
+      end
+    end
+    let(:dry_run_reporter) { double(Proc, call: true) }
+
+    it "logs activity without calling" do
+      expect(environment).to be_dry_run
+
+      environment.start_processing!
+      expect(dry_run_reporter).to have_received(:call).at_least(1).times
+    end
+  end
 
   describe '.for_pre_processing' do
     subject(:environment) { Fixtures.pre_processing_environment }
 
-    it 'build a pre_process chain' do
-    end
     it { is_expected.to be_a described_class }
   end
 

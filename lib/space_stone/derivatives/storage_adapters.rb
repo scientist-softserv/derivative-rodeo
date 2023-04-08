@@ -6,7 +6,7 @@ module SpaceStone
     # Given that SpaceStone::Derivatives is intended to run in different environments and move data
     # from one storage location to another, we introduce the {StorageAdapters} concept.
     #
-    # One adapter is the {StorageAdaptesr::FileSystem}; useful for local testing and perhaps
+    # One adapter is the {StorageAdapters::FileSystemAdapter}; useful for local testing and perhaps
     # elsewhere.  Other adapters might interact with cloud file storage.
     #
     # @note There is an assumption that all adapters will include the {StorageAdapters::Base} module

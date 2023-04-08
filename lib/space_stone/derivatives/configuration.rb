@@ -7,15 +7,28 @@ module SpaceStone
     ##
     # @api public
     class Configuration
-      class_attribute :logger_level, default: Logger::FATAL
       class_attribute :dry_run, default: false
 
       def initialize
-        @logger = Logger.new(STDERR, logger_level)
+        @logger = Logger.new(STDERR, Logger::FATAL)
+        # Note the log level synchronization.
+        @dry_run_reporter = ->(string) { logger.fatal(string) }
         yield self if block_given?
       end
 
       attr_accessor :logger
+
+      ##
+      # The desired mechanism for reporting on the {DryRun} activity.
+      #
+      # @example
+      #   ##
+      #   # Send the dry notices to STDERR
+      #   SpaceStone::Derivatives.config do |cfg|
+      #     cfg.dry_run_reporter = ->(text) { $stderr.puts text }
+      #   end
+      # @return [#call]
+      attr_accessor :dry_run_reporter
 
       # !@group Derivative Configurations
       # !@attribute [rw]

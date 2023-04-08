@@ -17,6 +17,7 @@ require 'active_support/core_ext'
 ####################################################################################################
 ####################################################################################################
 require 'space_stone/derivatives/configuration'
+require 'space_stone/derivatives/dry_run'
 require 'space_stone/derivatives/environment'
 require 'space_stone/derivatives/exceptions'
 require 'space_stone/derivatives/manifest'

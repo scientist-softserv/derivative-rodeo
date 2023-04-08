@@ -45,7 +45,10 @@ module SpaceStone
           remote_pull(derivative: derivative) ||
           generate_for(environment: environment)
 
-        local_demand!(derivative: derivative) && process_next_chain_link_after!(derivative: derivative)
+        # Will raise exception if things fail
+        local_demand!(derivative: derivative)
+
+        process_next_chain_link_after!(derivative: derivative)
       end
     end
   end

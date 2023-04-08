@@ -27,7 +27,7 @@ RSpec.describe SpaceStone::Derivatives::Type do
       it { is_expected.to eq(:base) }
     end
 
-    let(:environment) { double(SpaceStone::Derivatives::Environment) }
+    let(:environment) { double(SpaceStone::Derivatives::Environment, dry_run?: false) }
     let(:instance) { described_class::BaseType.new(environment: environment) }
     subject { instance }
 
