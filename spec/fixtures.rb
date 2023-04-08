@@ -19,12 +19,16 @@ module Fixtures
     )
   end
 
-  def self.pre_processing_environment(manifest: Fixtures.pre_processing_manifest, config: nil)
-    config ||= SpaceStone::Derivatives::Configuration.new do |cfg|
+  def self.pre_processing_config
+    SpaceStone::Derivatives::Configuration.new do |cfg|
       cfg.local_storage = :file_system
       cfg.remote_storage = :from_manifest
       cfg.queue = :inline
+      yield(cfg) if block_given?
     end
+  end
+
+  def self.pre_processing_environment(manifest: Fixtures.pre_processing_manifest, config: pre_processing_config)
     SpaceStone::Derivatives::Environment.for_pre_processing(manifest: manifest, config: config)
   end
 

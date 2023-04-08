@@ -19,14 +19,15 @@ module SpaceStone
       #
       # @param manifest [SpaceStone::Derivatives::Manifest::PreProcess]
       # @param config [SpaceStone::Derivatives::Configuration]
-      def self.for_pre_processing(manifest:, config: Derivatives.config)
+      def self.for_pre_processing(manifest:, config: Derivatives.config, &block)
         new(
           manifest: manifest,
           remote_storage: config.remote_storage,
           queue: config.queue,
           local_storage: config.local_storage,
           chain: Chain.for_pre_processing(config: config),
-          logger: config.logger
+          logger: config.logger,
+          &block
         )
       end
 
@@ -72,6 +73,8 @@ module SpaceStone
         @queue = QueueAdapters.for(adapter: queue)
         @chain = chain
         @logger = logger
+
+        yield(self) if block_given?
       end
       # rubocop:enable Metrics/ParameterLists
 

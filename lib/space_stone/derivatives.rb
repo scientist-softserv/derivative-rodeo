@@ -62,9 +62,11 @@ module SpaceStone
     # @param manifest [SpaceStone::Derivatives::Manifest::PreProcess]
     # @param config [SpaceStone::Derivatives::Configuration]
     #
+    # @return [SpaceStone::Derivatives::Environment]
+    #
     # @see SpaceStone::Derivatives::Environment
     def self.start_pre_processing!(manifest:, config: Derivatives.config)
-      Environment.for_pre_processing(manifest: manifest, config: config).start_processing!
+      Environment.for_pre_processing(manifest: manifest, config: config, &:start_processing!)
     end
   end
 end

@@ -45,6 +45,7 @@ module SpaceStone
         @derivatives_for_pre_process || [:original, :mime]
       end
 
+      # @param derivatives [Array<#to_sym>]
       def derivatives_for_pre_process=(derivatives)
         @derivatives_for_pre_process = Array(derivatives).map(&:to_sym)
       end
