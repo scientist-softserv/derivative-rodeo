@@ -20,7 +20,7 @@ module SpaceStone
       # !@endgroup Derivative Configurations
 
       ##
-      # @param [#media_type, #to_s, #sub_type]
+      # @param mime_type [#media_type, #to_s, #sub_type]
       def derivatives_for(mime_type:)
         # Yes a bit of antics to ensure string or symbol keys; maybe not worth it.
         derivatives_by_media_type.fetch(mime_type.media_type, []) +

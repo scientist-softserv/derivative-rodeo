@@ -5,9 +5,9 @@ module SpaceStone
     ##
     # @api public
     #
-    # A coercing function, similart to Array().
+    # A coercing function, similar to Array().
     #
-    # @param type [#to_sym]
+    # @param symbol [#to_sym]
     #
     # @return [SpaceStone::Derivatives::BaseType]
     # @raise [NameError] when given type is not registered.
