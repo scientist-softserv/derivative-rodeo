@@ -8,12 +8,7 @@ RSpec.describe SpaceStone::Derivatives::Type::MonochromeType do
     it { is_expected.to eq([:original]) }
   end
 
-  let(:environment) do
-    SpaceStone::Derivatives::Environment.for_original(manifest: manifest,
-                                                      local: :file_system,
-                                                      remote: :file_system,
-                                                      queue: :inline)
-  end
+  let(:environment) { Fixtures.pre_processing_environment(manifest: manifest) }
 
   let(:manifest) do
     SpaceStone::Derivatives::Manifest::Original.new(parent_identifier: "123", original_filename: "abc.jpg", derivatives: [:hocr])

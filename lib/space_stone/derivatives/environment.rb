@@ -11,22 +11,13 @@ module SpaceStone
     # many possible {Manifest::Derived} objects we process the original file and derivatives in the
     # same environment.
     #
-    # @see .for_original_manifest
-    # @see .for_derived_manifest
-    # @see #to_hash
+    # @see .for_pre_processing
+    # @see .for_mime_type
     class Environment
       # TODO: Consider extracting to configuration; as class attributes it makes testing difficult.
       class_attribute :local_adapter_name, default: nil, instance_accessor: false
       class_attribute :remote_adapter_name, default: nil, instance_accessor: false
       class_attribute :queue_adapter_name, default: nil, instance_accessor: false
-
-      ##
-      # @param manifest [SpaceStone::Derivatives::Manifest::Original]
-      # @see #process_start!
-      # @see .for_original
-      def self.start_processing!(manifest:)
-        for_original(manifest: manifest).process_start!
-      end
 
       ##
       # @api public
@@ -39,24 +30,8 @@ module SpaceStone
           remote: config.remote_storage,
           queue: config.queue,
           local: config.local_storage,
-          chain: Chain.new(derivatives: config.derivatives_for_pre_process)
-        )
-      end
-
-      ##
-      # @param manifest [SpaceStone::Derivatives::Manifest::Original]
-      # @param local [Symbol]
-      # @param remote [Symbol]
-      # @param queue [Symbol]
-      #
-      # @return [SpaceStone::Derivatives::Environment]
-      # @see .for_derived
-      def self.for_original(manifest:, local: local_adapter_name, queue: queue_adapter_name, remote: remote_adapter_name)
-        new(
-          manifest: manifest,
-          local: local,
-          queue: queue,
-          remote: remote
+          chain: Chain.for_pre_processing(config: config),
+          logger: config.logger
         )
       end
 
@@ -65,14 +40,16 @@ module SpaceStone
       # {Type::OriginalType} and {Type::MimeType}) to the mime type specific processing.
       #
       # @param environment [SpaceStone::Derivatives::Environment]
+      # @param config [SpaceStone::Derivatives::Configuration]
       # @see .for_pre_processing
-      def self.for_mime_type(environment:)
+      def self.for_mime_type_processing(environment:, config: Derivatives.config)
         new(
           local: environment.local,
           remote: environment.remote,
           queue: environment.queue,
           manifest: environment.manifest,
-          chain: Chain.from_mime_types_for(manifest: environment.manifest)
+          chain: Chain.from_mime_types_for(manifest: environment.manifest),
+          logger: config.logger
         )
       end
 
@@ -83,14 +60,25 @@ module SpaceStone
       # @param local [Symbol, Hash<Symbol,Object>]
       # @param remote [Symbol, Hash<Symbol,Object>]
       # @param queue [Symbol, Hash<Symbol,Object>]
-      def initialize(manifest:, local:, remote:, queue:, **kwargs)
+      # @param chain [Chain]
+      # @param logger [Logger, Object<#debug, #info, #warn, #error, #fatal>]
+      #
+      # @note We have disabled the Metrics/ParameterLists and consider that acceptable because we
+      #       have privatized the .new method.
+      #
+      # @see .for_pre_processing
+      # @see .for_mime_type_processing
+      #
+      # rubocop:disable Metrics/ParameterLists
+      def initialize(manifest:, local:, remote:, queue:, chain:, logger:)
         @manifest = manifest
         @local = StorageAdapters.for(manifest: manifest, adapter: local)
         @remote = StorageAdapters.for(manifest: manifest, adapter: remote)
         @queue = QueueAdapters.for(adapter: queue)
-        @chain = kwargs.fetch(:chain) { Chain.new(derivatives: manifest.derivatives) }
-        @logger = kwargs.fetch(:logger) { Derivatives.logger }
+        @chain = chain
+        @logger = logger
       end
+      # rubocop:enable Metrics/ParameterLists
 
       # @return [SpaceStone::Derivatives::Manifest::Original, SpaceStone::Derivatives::Manifest::Derived]
       attr_reader :manifest

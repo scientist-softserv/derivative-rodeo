@@ -16,9 +16,20 @@ module SpaceStone
     class Chain
       ##
       # @param manifest [SpaceStone::Derivatives::Manifest]
-      def self.from_mime_types_for(manifest:)
-        derivatives = Types.for(manifest: manifest)
+      # @param config [SpaceStone::Derivatives::Configuration]
+      #
+      # @return [Chain]
+      def self.from_mime_types_for(manifest:, config: Derivatives.config)
+        derivatives = Types.for(manifest: manifest, config: config)
         new(derivatives: derivatives)
+      end
+
+      ##
+      # @param config [SpaceStone::Derivatives::Configuration]
+      #
+      # @return [Chain]
+      def self.for_pre_processing(config: Derivatives.config)
+        new(derivatives: config.derivatives_for_pre_process)
       end
 
       ##

@@ -22,7 +22,7 @@ module SpaceStone
 
           # QUESTION: Should this be a method on the environment?
           SpaceStone::Derivatives::Environment
-            .for_mime_type(environment: environment)
+            .for_mime_type_processing(environment: environment)
             .start_processing!
         end
       end

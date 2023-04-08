@@ -13,39 +13,21 @@ RSpec.describe SpaceStone::Derivatives::Environment do
     it { is_expected.to respond_to :queue_adapter_name= }
   end
 
-  let(:original) { SpaceStone::Derivatives::Manifest::Original.new(parent_identifier: "abc", original_filename: 'efg.png', derivatives: [:hocr]) }
-  let(:original_environment) { described_class.for_original(manifest: original, local: :file_system, remote: :file_system, queue: :inline) }
+  subject(:environment) { Fixtures.pre_processing_environment }
 
-  describe '.for_original' do
-    subject { original_environment }
+  describe '.for_pre_processing' do
+    subject(:environment) { Fixtures.pre_processing_environment }
 
+    it 'build a pre_process chain' do
+    end
     it { is_expected.to be_a described_class }
-    it { is_expected.to respond_to :manifest }
-    it { is_expected.to respond_to :local }
-    it { is_expected.to respond_to :remote }
-    it { is_expected.to respond_to :queue }
-    it { is_expected.to respond_to :chain }
-    it { is_expected.to respond_to :logger }
-
-    it { is_expected.to delegate_method(:exists?).to(:local).with_prefix(true) }
-    it { is_expected.to delegate_method(:assign!).to(:local).with_prefix(true) }
-    it { is_expected.to delegate_method(:path).to(:local).with_prefix(true) }
-
-    it { is_expected.to delegate_method(:mime_type).to(:manifest) }
-    it { is_expected.to delegate_method(:original_filename).to(:manifest) }
-
-    it { is_expected.to delegate_method(:exists?).to(:remote).with_prefix(true) }
-
-    it { is_expected.to respond_to :local_demand! }
-    it { is_expected.to respond_to :remote_pull! }
-    it { is_expected.to respond_to :remote_pull }
   end
 
-  describe '.for_mime_type!' do
+  describe '.for_mime_type_processing' do
     let(:environment) { Fixtures.pre_processing_environment }
-    subject { described_class.for_mime_type(environment: environment) }
+    subject { described_class.for_mime_type_processing(environment: environment) }
 
-    it "builds a chain" do
+    it "builds a chain for the given mime_type" do
       expect(SpaceStone::Derivatives::Chain).to receive(:from_mime_types_for).with(manifest: environment.manifest).and_call_original
       subject
     end
@@ -59,7 +41,7 @@ RSpec.describe SpaceStone::Derivatives::Environment do
   end
 
   describe "#to_hash" do
-    subject(:hash) { original_environment.to_hash }
+    subject(:hash) { environment.to_hash }
 
     it do
       expect(hash.keys).to eq([:chain, :local, :manifest, :queue, :remote])
@@ -67,36 +49,36 @@ RSpec.describe SpaceStone::Derivatives::Environment do
   end
 
   describe "#process_start!" do
-    let(:derivative) { original_environment.chain.first }
+    let(:derivative) { environment.chain.first }
 
     it 'enqueues the first link in the chain' do
-      expect(original_environment.queue).to receive(:enqueue).with(derivative: derivative, environment: original_environment)
-      original_environment.process_start!
+      expect(environment.queue).to receive(:enqueue).with(derivative: derivative, environment: environment)
+      environment.process_start!
     end
   end
 
   describe "#process_next_chain_link_after!" do
-    let(:chain) { original_environment.chain.to_a }
+    let(:chain) { environment.chain.to_a }
 
-    subject { original_environment.process_next_chain_link_after!(derivative: derivative) }
+    subject { environment.process_next_chain_link_after!(derivative: derivative) }
 
     context 'when given a derivative that has a next chain link' do
       let(:derivative) { chain[-2] }
       let(:next_link) { chain[-1] }
 
       it 'enqueues the next chain link' do
-        expect(original_environment.queue).to receive(:enqueue).with(derivative: next_link, environment: original_environment)
+        expect(environment.queue).to receive(:enqueue).with(derivative: next_link, environment: environment)
         subject
       end
 
       context 'when given derivative is last in chain' do
         let(:derivative) { chain[-1] }
-        subject { original_environment.process_next_chain_link_after!(derivative: derivative) }
+        subject { environment.process_next_chain_link_after!(derivative: derivative) }
 
         it { is_expected.to eq(:end_of_chain) }
 
         it "does not enqueue any further jobs" do
-          expect(original_environment.queue).not_to receive(:enqueue)
+          expect(environment.queue).not_to receive(:enqueue)
           subject
         end
       end
@@ -111,14 +93,14 @@ RSpec.describe SpaceStone::Derivatives::Environment do
 
   describe '#remote_pull' do
     it "forward delegates to the :remote" do
-      expect(original_environment.remote).to receive(:pull).with(derivative: :hocr, to: original_environment.local)
-      original_environment.remote_pull(derivative: :hocr)
+      expect(environment.remote).to receive(:pull).with(derivative: :hocr, to: environment.local)
+      environment.remote_pull(derivative: :hocr)
     end
   end
   describe '#remote_pull!' do
     it "forward delegates to the :remote" do
-      expect(original_environment.remote).to receive(:pull!).with(derivative: :hocr, to: original_environment.local)
-      original_environment.remote_pull!(derivative: :hocr)
+      expect(environment.remote).to receive(:pull!).with(derivative: :hocr, to: environment.local)
+      environment.remote_pull!(derivative: :hocr)
     end
   end
 end
