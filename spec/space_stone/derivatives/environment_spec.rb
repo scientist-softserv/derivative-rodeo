@@ -3,16 +3,6 @@
 require 'spec_helper'
 
 RSpec.describe SpaceStone::Derivatives::Environment do
-  describe 'configuration' do
-    subject { described_class }
-    it { is_expected.to respond_to :local_adapter_name }
-    it { is_expected.to respond_to :local_adapter_name= }
-    it { is_expected.to respond_to :remote_adapter_name }
-    it { is_expected.to respond_to :remote_adapter_name= }
-    it { is_expected.to respond_to :queue_adapter_name }
-    it { is_expected.to respond_to :queue_adapter_name= }
-  end
-
   subject(:environment) { Fixtures.pre_processing_environment }
 
   describe '.for_pre_processing' do
@@ -44,7 +34,7 @@ RSpec.describe SpaceStone::Derivatives::Environment do
     subject(:hash) { environment.to_hash }
 
     it do
-      expect(hash.keys).to eq([:chain, :local, :manifest, :queue, :remote])
+      expect(hash.keys).to eq([:chain, :local_storage, :manifest, :queue, :remote_storage])
     end
   end
 
@@ -93,13 +83,13 @@ RSpec.describe SpaceStone::Derivatives::Environment do
 
   describe '#remote_pull' do
     it "forward delegates to the :remote" do
-      expect(environment.remote).to receive(:pull).with(derivative: :hocr, to: environment.local)
+      expect(environment.remote_storage).to receive(:pull).with(derivative: :hocr, to: environment.local_storage)
       environment.remote_pull(derivative: :hocr)
     end
   end
   describe '#remote_pull!' do
     it "forward delegates to the :remote" do
-      expect(environment.remote).to receive(:pull!).with(derivative: :hocr, to: environment.local)
+      expect(environment.remote_storage).to receive(:pull!).with(derivative: :hocr, to: environment.local_storage)
       environment.remote_pull!(derivative: :hocr)
     end
   end

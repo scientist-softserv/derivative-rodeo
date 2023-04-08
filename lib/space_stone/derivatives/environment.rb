@@ -14,11 +14,6 @@ module SpaceStone
     # @see .for_pre_processing
     # @see .for_mime_type
     class Environment
-      # TODO: Consider extracting to configuration; as class attributes it makes testing difficult.
-      class_attribute :local_adapter_name, default: nil, instance_accessor: false
-      class_attribute :remote_adapter_name, default: nil, instance_accessor: false
-      class_attribute :queue_adapter_name, default: nil, instance_accessor: false
-
       ##
       # @api public
       #
@@ -27,9 +22,9 @@ module SpaceStone
       def self.for_pre_processing(manifest:, config: Derivatives.config)
         new(
           manifest: manifest,
-          remote: config.remote_storage,
+          remote_storage: config.remote_storage,
           queue: config.queue,
-          local: config.local_storage,
+          local_storage: config.local_storage,
           chain: Chain.for_pre_processing(config: config),
           logger: config.logger
         )
@@ -44,8 +39,8 @@ module SpaceStone
       # @see .for_pre_processing
       def self.for_mime_type_processing(environment:, config: Derivatives.config)
         new(
-          local: environment.local,
-          remote: environment.remote,
+          local_storage: environment.local_storage,
+          remote_storage: environment.remote_storage,
           queue: environment.queue,
           manifest: environment.manifest,
           chain: Chain.from_mime_types_for(manifest: environment.manifest),
@@ -57,8 +52,8 @@ module SpaceStone
 
       ##
       # @param manifest [SpaceStone::Derivatives::Manifest::Original]
-      # @param local [Symbol, Hash<Symbol,Object>]
-      # @param remote [Symbol, Hash<Symbol,Object>]
+      # @param local_storage [Symbol, Hash<Symbol,Object>, StorageAdapters::Base]
+      # @param remote_storage [Symbol, Hash<Symbol,Object>, StorageAdapters::Base]
       # @param queue [Symbol, Hash<Symbol,Object>]
       # @param chain [Chain]
       # @param logger [Logger, Object<#debug, #info, #warn, #error, #fatal>]
@@ -70,10 +65,10 @@ module SpaceStone
       # @see .for_mime_type_processing
       #
       # rubocop:disable Metrics/ParameterLists
-      def initialize(manifest:, local:, remote:, queue:, chain:, logger:)
+      def initialize(manifest:, local_storage:, remote_storage:, queue:, chain:, logger:)
         @manifest = manifest
-        @local = StorageAdapters.for(manifest: manifest, adapter: local)
-        @remote = StorageAdapters.for(manifest: manifest, adapter: remote)
+        @local_storage = StorageAdapters.for(manifest: manifest, adapter: local_storage)
+        @remote_storage = StorageAdapters.for(manifest: manifest, adapter: remote_storage)
         @queue = QueueAdapters.for(adapter: queue)
         @chain = chain
         @logger = logger
@@ -84,10 +79,10 @@ module SpaceStone
       attr_reader :manifest
 
       # @return [SpaceStone::Derivatives::StorageAdapters::Base]
-      attr_reader :local
+      attr_reader :local_storage
 
       # @return [SpaceStone::Derivatives::StorageAdapters::Base]
-      attr_reader :remote
+      attr_reader :remote_storage
 
       # @return [SpaceStone::Derivatives::QueueAdapters::Base]
       attr_reader :queue
@@ -105,15 +100,15 @@ module SpaceStone
       def to_hash
         {
           chain: chain.to_hash,
-          local: local.to_hash,
+          local_storage: local_storage.to_hash,
           manifest: manifest.to_hash,
           queue: queue.to_hash,
-          remote: remote.to_hash
+          remote_storage: remote_storage.to_hash
         }
       end
 
-      delegate :exists?, :assign!, :path, :read, to: :local, prefix: true
-      delegate :exists?, to: :remote, prefix: true
+      delegate :exists?, :assign!, :path, :read, to: :local_storage, prefix: "local"
+      delegate :exists?, to: :remote_storage, prefix: "remote"
       delegate :original_filename, :mime_type, :mime_type=, to: :manifest
 
       ##
@@ -151,7 +146,7 @@ module SpaceStone
       # @note Instead of relying on the delegate method and prefix, I want to ensure that the
       #       {#remote}'s pull method receives the {#local} as the to: keyword.
       def remote_pull(derivative:)
-        remote.pull(derivative: derivative, to: local)
+        remote_storage.pull(derivative: derivative, to: local_storage)
       end
 
       ##
@@ -160,7 +155,7 @@ module SpaceStone
       # @note Instead of relying on the delegate method and prefix, I want to ensure that the
       #       {#remote}'s pull! method receives the {#local} as the to: keyword.
       def remote_pull!(derivative:)
-        remote.pull!(derivative: derivative, to: local)
+        remote_storage.pull!(derivative: derivative, to: local_storage)
       end
 
       ##
@@ -168,7 +163,7 @@ module SpaceStone
       #
       # @param derivative [#to_sym]
       def local_demand!(derivative:)
-        Derivatives.Type(derivative).demand!(manifest: manifest, storage: local)
+        Derivatives.Type(derivative).demand!(manifest: manifest, storage: local_storage)
       end
     end
   end
