@@ -28,5 +28,16 @@ RSpec.describe SpaceStone::Derivatives::Types do
         expect(subject).not_to be_empty
       end
     end
+
+    context 'with a MIME::Type object' do
+      let(:mime_type) { MIME::Types['application/pdf'].first }
+
+      it 'uses that for determining the derivatives' do
+        expect(SpaceStone::Derivatives.config).to receive(:derivatives_for).with(mime_type: mime_type).and_call_original
+
+        expect(subject).to be_a(Array)
+        expect(subject).not_to be_empty
+      end
+    end
   end
 end

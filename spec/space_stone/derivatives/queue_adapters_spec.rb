@@ -23,10 +23,15 @@ RSpec.describe SpaceStone::Derivatives::QueueAdapters do
       end
     end
 
-    context 'with :no_such_thing' do
+    context 'with a named but not registered adapter' do
       let(:adapter) { :no_such_thing }
 
       it { within_block_is_expected.to raise_exception(NameError) }
+    end
+    context 'with an unexpected adapter format' do
+      let(:adapter) { 123 }
+
+      it { within_block_is_expected.to raise_exception(SpaceStone::Derivatives::Exceptions::UnexpectedQueueAdapterError) }
     end
   end
 end
