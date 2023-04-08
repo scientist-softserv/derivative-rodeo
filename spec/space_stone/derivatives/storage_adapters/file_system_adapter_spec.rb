@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe SpaceStone::Derivatives::StorageAdapters::FileSystem do
+RSpec.describe SpaceStone::Derivatives::StorageAdapters::FileSystemAdapter do
   let(:root) { Fixtures.tmp_subdir_of("file_system") }
   let(:manifest) { SpaceStone::Derivatives::Manifest::Original.new(parent_identifier: "123", original_filename: __FILE__, derivatives: []) }
   let(:content) { "Hello World\nWelcome to Where Ever You Are\n" }

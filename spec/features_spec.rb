@@ -22,7 +22,7 @@ RSpec.describe "Features" do
     let(:path_to_original) { Fixtures.path_for(original_filename) }
 
     xit "splits the pages into images and extracts text" do
-      environment.process_start!
+      environment.start_processing!
     end
   end
 
@@ -35,7 +35,7 @@ RSpec.describe "Features" do
     let(:path_to_original) { Fixtures.path_for(original_filename) }
 
     it "runs the pre-processing and mime type processing" do
-      environment.process_start!
+      environment.start_processing!
 
       expect(environment.local_exists?(derivative: :original)).to be_truthy
       expect(environment.local_exists?(derivative: :monochrome)).to be_truthy

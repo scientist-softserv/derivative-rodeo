@@ -48,12 +48,12 @@ RSpec.describe SpaceStone::Derivatives::Environment do
     end
   end
 
-  describe "#process_start!" do
+  describe "#start_processing!" do
     let(:derivative) { environment.chain.first }
 
     it 'enqueues the first link in the chain' do
       expect(environment.queue).to receive(:enqueue).with(derivative: derivative, environment: environment)
-      environment.process_start!
+      environment.start_processing!
     end
   end
 

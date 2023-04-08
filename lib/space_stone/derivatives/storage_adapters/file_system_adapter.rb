@@ -6,7 +6,7 @@ require 'fileutils'
 module SpaceStone
   module Derivatives
     module StorageAdapters
-      class FileSystem
+      class FileSystemAdapter
         # Included to provide the method interface and to answer "instance.is_a?(Base)"
         include Base
 

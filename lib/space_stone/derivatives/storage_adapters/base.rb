@@ -2,12 +2,11 @@
 
 module SpaceStone
   module Derivatives
-    # The StorageAdapter defines the narrow interface for how {SpaceStone::Derivatives} interacts
-    # with the underlying multitude of potential places where we store files.
     module StorageAdapters
+      # A module to help document and describe the expected interface for a storage adapter.
       module Base
         def to_sym
-          self.class.to_s.demodulize.underscore.to_sym
+          self.class.to_s.demodulize.underscore.sub(/_adapter$/, '').to_sym
         end
 
         # @api public

@@ -118,11 +118,10 @@ module SpaceStone
 
       ##
       # Begin the derivating!
-      def process_start!
+      def start_processing!
         # Ensure we have the original file stored locally.
         enqueue(derivative: chain.first)
       end
-      alias start_processing! process_start!
 
       ##
       # @param derivative [#to_sym]

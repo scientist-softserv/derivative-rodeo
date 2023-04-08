@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
-require 'shoulda/matchers/independent/delegate_method_matcher'
 require 'spec_helper'
 
-RSpec.describe SpaceStone::Derivatives::StorageAdapters::FromManifest do
+RSpec.describe SpaceStone::Derivatives::StorageAdapters::FromManifestAdapter do
   let(:manifest) { Fixtures.pre_processing_manifest(path_to_original: __FILE__) }
   let(:instance) { described_class.new(manifest: manifest) }
   subject { instance }

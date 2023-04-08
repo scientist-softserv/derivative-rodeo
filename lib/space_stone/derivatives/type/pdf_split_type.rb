@@ -27,7 +27,7 @@ module SpaceStone
           #     derived = Spaces::Derivative::Manifest::Derived.new(original: environment.manifest, derived: :pdf_page, index: index)
           #     derived_environment = Spaces::Derivatives::Environment.for_derived(manifest: derived, envrionment: environment)
           #     derived_environment.local_assign!(derivative: :pdf_page, path: page)
-          #     derivatives.process_start!
+          #     derivatives.start_processing!
           #   end
           # end
         end

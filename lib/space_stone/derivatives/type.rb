@@ -1,5 +1,8 @@
 # frozen_string_literal: true
-require 'active_support/core_ext/string/inflections'
+
+# This require is technically not needed here, but it helps narrow the concepts elsewhere.
+require 'space_stone/derivatives/types'
+
 module SpaceStone
   module Derivatives
     ##

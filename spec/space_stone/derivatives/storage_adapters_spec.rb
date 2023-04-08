@@ -11,14 +11,14 @@ RSpec.describe SpaceStone::Derivatives::StorageAdapters do
     context 'when adapter is a symbol' do
       let(:adapter) { :file_system }
 
-      it { is_expected.to be_a SpaceStone::Derivatives::StorageAdapters::FileSystem }
+      it { is_expected.to be_a described_class::FileSystemAdapter }
     end
 
     context 'when adapter is a hash' do
       let(:root) { Fixtures.tmp_subdir_of("file_system") }
       let(:adapter) { { name: :file_system, root: root } }
 
-      it { is_expected.to be_a SpaceStone::Derivatives::StorageAdapters::FileSystem }
+      it { is_expected.to be_a described_class::FileSystemAdapter }
 
       it 'uses the provide root' do
         expect(instance.root).to eq(root)

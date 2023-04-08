@@ -7,7 +7,7 @@ module SpaceStone
   module Derivatives
     module StorageAdapters
       #rubocop:disable Lint/UnusedMethodArgument
-      class FromManifest
+      class FromManifestAdapter
         # Included to provide the method interface and to answer "instance.is_a?(Base)"
         include Base
 
