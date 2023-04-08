@@ -16,7 +16,8 @@ RSpec.describe "Features" do
   end
 
   context "with a color image" do
-    it "runs the pre-processing" do
+    let(:manifest) { Fixtures.pre_processing_manifest }
+    it "runs the pre-processing and mime type processing" do
       environment.process_start!
 
       expect(environment.local_exists?(derivative: :original)).to be_truthy

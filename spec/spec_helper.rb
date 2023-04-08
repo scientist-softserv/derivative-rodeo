@@ -11,7 +11,7 @@ require 'space_stone/derivatives'
 require 'tmpdir'
 require 'fileutils'
 require 'shoulda-matchers'
-require_relative "./support/support_modules.rb"
+require_relative "./fixtures"
 
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|
