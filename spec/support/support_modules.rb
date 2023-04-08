@@ -19,11 +19,13 @@ module Fixtures
     )
   end
 
-  def self.pre_processing_environment(manifest: Fixtures.pre_processing_manifest, local: :file_system)
-    SpaceStone::Derivatives::Environment.for_original(manifest: manifest,
-                                                      local: local,
-                                                      remote: :from_manifest,
-                                                      queue: :inline)
+  def self.pre_processing_environment(manifest: Fixtures.pre_processing_manifest, config: nil)
+    config ||= SpaceStone::Derivatives::Configuration.new do |cfg|
+      cfg.local_storage = :file_system
+      cfg.remote_storage = :from_manifest
+      cfg.queue = :inline
+    end
+    SpaceStone::Derivatives::Environment.for_pre_processing(manifest: manifest, config: config)
   end
 
   def self.path_for(name)

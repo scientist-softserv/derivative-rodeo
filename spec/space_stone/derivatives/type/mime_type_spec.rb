@@ -14,7 +14,9 @@ RSpec.describe SpaceStone::Derivatives::Type::MimeType do
 
   describe "#generate" do
     before do
-      allow(SpaceStone::Derivatives::Environment).to receive(:start_processing_for_mime_type!)
+      allow(SpaceStone::Derivatives::Environment).to receive(:for_mime_type).and_call_original
+      allow_any_instance_of(SpaceStone::Derivatives::Environment).to receive(:start_processing!)
+
       # Need to ensure that this is here!
       environment.remote_pull!(derivative: :original)
     end
@@ -24,8 +26,9 @@ RSpec.describe SpaceStone::Derivatives::Type::MimeType do
     end
 
     it "starts processing for the given mime type" do
+      expect_any_instance_of(SpaceStone::Derivatives::Environment).to receive(:start_processing!)
       instance.generate
-      expect(SpaceStone::Derivatives::Environment).to have_received(:start_processing_for_mime_type!).with(environment: environment)
+      expect(SpaceStone::Derivatives::Environment).to have_received(:for_mime_type).with(environment: environment)
     end
   end
 end

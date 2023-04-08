@@ -1,11 +1,21 @@
 # frozen_string_literal: true
 
 require 'mime/types'
+require 'logger'
 module SpaceStone
   module Derivatives
     ##
     # @api public
     class Configuration
+      class_attribute :logger_level, default: Logger::FATAL
+
+      def initialize
+        @logger = Logger.new(STDERR, logger_level)
+        yield self if block_given?
+      end
+
+      attr_accessor :logger
+
       # !@group Derivative Configurations
       # !@attribute [rw]
       class_attribute :derivatives_by_media_type, default: {
@@ -29,6 +39,14 @@ module SpaceStone
           derivatives_by_mime_type.fetch(mime_type.to_s.to_sym, []) +
           derivatives_by_sub_type.fetch(mime_type.sub_type, []) +
           derivatives_by_sub_type.fetch(mime_type.sub_type.to_sym, [])
+      end
+
+      def derivatives_for_pre_process
+        @derivatives_for_pre_process || [:original, :mime]
+      end
+
+      def derivatives_for_pre_process=(derivatives)
+        @derivatives_for_pre_process = Array(derivatives).map(&:to_sym)
       end
 
       def queue

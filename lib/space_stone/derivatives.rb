@@ -34,16 +34,7 @@ module SpaceStone
     end
 
     def self.logger
-      # For testing I really want to set a Logger::FATAL level so I'm not seeing all of the chatter.
-      @logger ||= Logger.new(STDERR, level: Logger::FATAL)
-    end
-
-    ##
-    # @api public
-    #
-    # @param manifest [SpaceStone::Derivatives::Manifest::Original]
-    def self.start_processing!(manifest:)
-      Environment.start_processing!(manifest: manifest)
+      config.logger
     end
 
     ##

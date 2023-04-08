@@ -41,34 +41,15 @@ RSpec.describe SpaceStone::Derivatives::Environment do
     it { is_expected.to respond_to :remote_pull }
   end
 
-  describe '.for_derived' do
-    let(:derived) { SpaceStone::Derivatives::Manifest::Derived.new(original: original, derived: :split_pdf, index: 0, derivatives: [:pdf_split]) }
-    subject { described_class.for_derived(manifest: derived, environment: original_environment) }
-
-    it { is_expected.to be_a described_class }
-    it { is_expected.to respond_to :manifest }
-    it { is_expected.to respond_to :local }
-    it { is_expected.to respond_to :remote }
-    it { is_expected.to respond_to :queue }
-    it { is_expected.to respond_to :chain }
-    it { is_expected.to respond_to :logger }
-    it { is_expected.to respond_to :local_exists? }
-    it { is_expected.to respond_to :local_assign! }
-    it { is_expected.to respond_to :local_path }
-    it { is_expected.to respond_to :local_demand! }
-    it { is_expected.to respond_to :remote_pull! }
-    it { is_expected.to respond_to :remote_pull }
-    it { is_expected.to respond_to :remote_exists? }
-  end
-
-  describe '.start_processing_for_mime_type!' do
+  describe '.for_mime_type!' do
     let(:environment) { Fixtures.pre_processing_environment }
-    it "builds a chain and starts processing it" do
-      expect(SpaceStone::Derivatives::Chain).to receive(:from_mime_types_for).with(manifest: environment.manifest).and_call_original
-      expect_any_instance_of(SpaceStone::Derivatives::Environment).to receive(:process_start!)
+    subject { described_class.for_mime_type(environment: environment) }
 
-      described_class.start_processing_for_mime_type!(environment: environment)
+    it "builds a chain" do
+      expect(SpaceStone::Derivatives::Chain).to receive(:from_mime_types_for).with(manifest: environment.manifest).and_call_original
+      subject
     end
+    it { is_expected.to be_a described_class }
   end
 
   describe '.new' do

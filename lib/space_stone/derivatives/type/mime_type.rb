@@ -20,7 +20,10 @@ module SpaceStone
           content = environment.local_read(derivative: :original)
           environment.mime_type ||= ::Marcel::MimeType.for(content)
 
-          SpaceStone::Derivatives::Environment.start_processing_for_mime_type!(environment: environment)
+          # QUESTION: Should this be a method on the environment?
+          SpaceStone::Derivatives::Environment
+            .for_mime_type(environment: environment)
+            .start_processing!
         end
       end
     end

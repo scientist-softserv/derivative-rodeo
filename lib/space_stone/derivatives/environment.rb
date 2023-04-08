@@ -29,15 +29,17 @@ module SpaceStone
       end
 
       ##
+      # @api public
+      #
       # @param manifest [SpaceStone::Derivatives::Manifest::PreProcess]
       # @param config [SpaceStone::Derivatives::Configuration]
       def self.for_pre_processing(manifest:, config: Derivatives.config)
         new(
           manifest: manifest,
-          remote: :from_manifest,
+          remote: config.remote_storage,
           queue: config.queue,
           local: config.local_storage,
-          chain: Chain.new(derivatives: [:original, :mime])
+          chain: Chain.new(derivatives: config.derivatives_for_pre_process)
         )
       end
 
@@ -59,41 +61,19 @@ module SpaceStone
       end
 
       ##
-      # This function helps transition from preliminary processing (via {Type::OriginalType} and
-      # {Type::MimeType}) to the mime type specific processing.
+      # This function builds the environment that transitions from preliminary processing (via
+      # {Type::OriginalType} and {Type::MimeType}) to the mime type specific processing.
       #
       # @param environment [SpaceStone::Derivatives::Environment]
-      #
-      # @see SpaceStone::Derivatives::Configuration#derivatives_for
-      def self.start_processing_for_mime_type!(environment:)
+      # @see .for_pre_processing
+      def self.for_mime_type(environment:)
         new(
           local: environment.local,
           remote: environment.remote,
           queue: environment.queue,
           manifest: environment.manifest,
           chain: Chain.from_mime_types_for(manifest: environment.manifest)
-        ).process_start!
-      end
-
-      ##
-      # Given a :derived manifest, create an environment that echoes the given :environment.
-      #
-      # Why the echo?  Because we want to be writing to similar locations; and the environment helps
-      # ensure that.
-      #
-      # Why not just use the same names as in {.for_original_manifest}?  Because we're letting a
-      # named, but not "configured" adapter self-configure.  Once named, we can "reconstitue" that
-      # configuration (e.g. the specific temporary directory)
-      #
-      # @param manifest [SpaceStone::Derivatives::Manifest::Derived]
-      # @param environment [SpaceStone::Derivatives::Environment]
-      #
-      # @return [SpaceStone::Derivatives::Environment]
-      #
-      # @see .for_original
-      def self.for_derived(manifest:, environment:)
-        kwargs = environment.to_hash.slice(:local, :remote, :queue).merge(manifest: manifest)
-        new(**kwargs)
+        )
       end
 
       private_class_method :new
@@ -154,6 +134,7 @@ module SpaceStone
         # Ensure we have the original file stored locally.
         enqueue(derivative: chain.first)
       end
+      alias start_processing! process_start!
 
       ##
       # @param derivative [#to_sym]
