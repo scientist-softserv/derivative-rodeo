@@ -1,6 +1,13 @@
 # Derivative::Zoo
 
-The goal of `Derivative::Zoo` is to provide interfaces  and processing for files.
+Welcome to the zoo!  The goal of `Derivative::Zoo` is to provide interfaces and processing for files.
+
+The conceptual logic of `Derivative::Zoo` is:
+
+- Use the file I have locally…
+- Else pull to local the file from a remote source…
+- Else generate a local version…
+- Demand a local copy of the file and proceed to the next step.
 
 We start from a [Derivative::Zoo::Manifest::Original](./lib/derivative/zoo/manifest/original.rb), which is comprised of:
 
@@ -20,7 +27,48 @@ Last, the test suite covers a significant portion of the code; exercising both u
 
 ## Diagrams
 
-TODO
+![Conceptual Diagram](./artifacts/derivative-zoo.png)
+
+<details>
+<summary>The PlantUML Text for the Conceptual Diagram</summary>
+
+```plantuml
+@startuml
+!theme amiga
+
+component "Pre-Process Environment" {
+	() "Local" as pre_process_local
+	() "Remote" as pre_process_remote
+	control Processor as pre_processor
+	pre_processor -- pre_process_local
+	pre_processor -- pre_process_remote
+}
+
+cloud "Original Storage" as original_storage
+
+cloud "Processing Storage" as processing_storage
+
+
+component "Ingest Environment" {
+	() "Remote" as ingest_remote
+	() "Local" as ingest_local
+	control Processor as ingest_processor
+	ingest_processor -- ingest_remote
+	ingest_processor -- ingest_local
+}
+
+folder "Ingest\nFile\nSystem" as ingest_storage
+
+original_storage --> pre_process_remote
+pre_process_local --> processing_storage
+processing_storage --> ingest_remote
+ingest_local --> ingest_storage
+
+@enduml
+
+```
+
+</details>
 
 ## Installation
 
