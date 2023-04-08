@@ -16,9 +16,9 @@ RSpec.describe SpaceStone::Derivatives::Type do
     end
 
     context "for un-registered type" do
-      it "is expected to raise an error" do
-        expect { described_class.Type(:obviously_missing) }.to raise_exception(NameError)
-      end
+      subject { described_class.Type(:obviously_missing) }
+
+      it { within_block_is_expected.to raise_exception(NameError) }
     end
   end
   describe "BaseType" do

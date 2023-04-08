@@ -20,6 +20,9 @@ module SpaceStone
       #
       # @param manifest [SpaceStone::Derivatives::Manifest::Original]
       # @param adapter [Symbol, Hash<Symbol,Object>]
+      #
+      # @raise [NameError]
+      # @raise [Exceptions::UnexpectedStorageAdapterNameError]
       # rubocop:disable Metrics/MethodLength
       def self.for(manifest:, adapter:)
         # Why skip the manifest in the adapter?  Because we will assume the provided :manifest is the

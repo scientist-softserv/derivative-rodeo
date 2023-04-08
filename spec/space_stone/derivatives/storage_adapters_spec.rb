@@ -24,5 +24,17 @@ RSpec.describe SpaceStone::Derivatives::StorageAdapters do
         expect(instance.root).to eq(root)
       end
     end
+
+    context 'when you provide an unknown adapter format' do
+      let(:adapter) { 123 }
+
+      it { within_block_is_expected.to raise_exception SpaceStone::Derivatives::Exceptions::UnexpectedStorageAdapterNameError }
+    end
+
+    context 'when you provide an unregistered adapter name' do
+      let(:adapter) { :so_very_missing }
+
+      it { within_block_is_expected.to raise_exception NameError }
+    end
   end
 end

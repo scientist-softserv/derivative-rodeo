@@ -25,9 +25,8 @@ RSpec.describe SpaceStone::Derivatives::QueueAdapters do
 
     context 'with :no_such_thing' do
       let(:adapter) { :no_such_thing }
-      it "raises a NameError" do
-        expect { subject }.to raise_exception(NameError)
-      end
+
+      it { within_block_is_expected.to raise_exception(NameError) }
     end
   end
 end

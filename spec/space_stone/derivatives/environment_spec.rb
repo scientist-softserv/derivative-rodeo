@@ -78,9 +78,8 @@ RSpec.describe SpaceStone::Derivatives::Environment do
       end
       context 'when the given derivative is not part of the chain' do
         let(:derivative) { :base }
-        it "raises Exceptions::UnknownDerivativeRequestForChainError" do
-          expect { subject }.to raise_exception(SpaceStone::Derivatives::Exceptions::UnknownDerivativeRequestForChainError)
-        end
+
+        it { within_block_is_expected.to raise_exception(SpaceStone::Derivatives::Exceptions::UnknownDerivativeRequestForChainError) }
       end
     end
   end

@@ -51,14 +51,18 @@ RSpec.describe SpaceStone::Derivatives::StorageAdapters::FileSystemAdapter do
   end
 
   describe '#read' do
-    it "raises Errno::ENOENT when the file does not exist" do
-      expect { instance.read(derivative: :text) }.to raise_exception(Errno::ENOENT)
+    subject { instance.read(derivative: :text) }
+
+    context 'when the file does not exist' do
+      it { within_block_is_expected.to raise_exception(Errno::ENOENT) }
     end
 
-    it "returns the content of the file when it exists" do
-      instance.assign!(derivative: :text) { content }
+    context 'when the file exists' do
+      before { instance.assign!(derivative: :text) { content } }
 
-      expect(instance.send(:read, derivative: :text)).to eq(content)
+      it "returns the contents of the file" do
+        expect(subject).to eq(content)
+      end
     end
   end
 end

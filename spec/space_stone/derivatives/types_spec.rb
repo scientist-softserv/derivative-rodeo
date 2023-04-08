@@ -10,17 +10,13 @@ RSpec.describe SpaceStone::Derivatives::Types do
     context 'with a bad mime type' do
       let(:mime_type) { "really/bad" }
 
-      it "raises a Exceptions::UnknownMimeTypeError" do
-        expect { subject }.to raise_exception(SpaceStone::Derivatives::Exceptions::UnknownMimeTypeError)
-      end
+      it { within_block_is_expected.to raise_exception(SpaceStone::Derivatives::Exceptions::UnknownMimeTypeError) }
     end
 
     context 'without a mime type' do
       let(:mime_type) { nil }
 
-      it "raises a Exceptions::ManifestMissingMimeTypeError" do
-        expect { subject }.to raise_exception(SpaceStone::Derivatives::Exceptions::ManifestMissingMimeTypeError)
-      end
+      it { within_block_is_expected.to raise_exception(SpaceStone::Derivatives::Exceptions::ManifestMissingMimeTypeError) }
     end
 
     context 'with a valid mime type' do
