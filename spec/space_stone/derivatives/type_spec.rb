@@ -36,6 +36,10 @@ RSpec.describe SpaceStone::Derivatives::Type do
       it { is_expected.to eq(:base) }
     end
 
-    it { is_expected.to respond_to :generate }
+    describe "#generate" do
+      it "raises a NotImplementedError" do
+        expect { instance.generate }.to raise_error(NotImplementedError, "#{described_class::BaseType}#generate not implemented")
+      end
+    end
   end
 end

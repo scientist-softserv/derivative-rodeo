@@ -43,8 +43,8 @@ module SpaceStone
           remote_storage: environment.remote_storage,
           queue: environment.queue,
           manifest: environment.manifest,
-          chain: Chain.from_mime_types_for(manifest: environment.manifest),
-          logger: config.logger
+          chain: Chain.from_mime_types_for(manifest: environment.manifest, config: config),
+          logger: environment.logger
         )
       end
 

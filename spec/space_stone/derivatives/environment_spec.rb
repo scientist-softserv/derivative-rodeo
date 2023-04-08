@@ -18,7 +18,11 @@ RSpec.describe SpaceStone::Derivatives::Environment do
     subject { described_class.for_mime_type_processing(environment: environment) }
 
     it "builds a chain for the given mime_type" do
-      expect(SpaceStone::Derivatives::Chain).to receive(:from_mime_types_for).with(manifest: environment.manifest).and_call_original
+      expect(SpaceStone::Derivatives::Chain).to(
+        receive(:from_mime_types_for)
+          .with(manifest: environment.manifest, config: kind_of(SpaceStone::Derivatives::Configuration))
+          .and_call_original
+      )
       subject
     end
     it { is_expected.to be_a described_class }
