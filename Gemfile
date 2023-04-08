@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in space_stone-derivatives.gemspec
+# Specify your gem's dependencies in derivative-zoo.gemspec
 gemspec
 
 gem 'rake', '~> 13.0'

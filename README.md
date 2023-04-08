@@ -1,20 +1,20 @@
-# SpaceStone::Derivatives
+# Derivative::Zoo
 
-The goal of `SpaceStone::Derivatives` is to provide interfaces  and processing for files.
+The goal of `Derivative::Zoo` is to provide interfaces  and processing for files.
 
-We start from a [SpaceStone::Derivatives::Manifest::Original](./lib/space_stone/derivatives/manifest/original.rb), which is comprised of:
+We start from a [Derivative::Zoo::Manifest::Original](./lib/derivative/zoo/manifest/original.rb), which is comprised of:
 
 - a parent identifier
 - an original filename
 - a set of named derivatives; each named derivative might have path to a "known" already extisting file.
 
-We process the original manifest in an [Environment](./lib/space_stone/derivatives/environment.rb).  During processing we might spawn multiple "child" processes from one derivative.  For example splitting a PDF into one image per page.  Each of those page images would then have their own [SpaceStone::Derivatives::Manifest::Derived](./lib/space_stone/derivatives/manifest/derived.rb) for further processing.
+We process the original manifest in an [Environment](./lib/derivative/zoo/environment.rb).  During processing we might spawn multiple "child" processes from one derivative.  For example splitting a PDF into one image per page.  Each of those page images would then have their own [Derivative::Zoo::Manifest::Derived](./lib/derivative/zoo/manifest/derived.rb) for further processing.
 
 ## Design Goals
 
-`SpaceStone::Derivatives` is designed in such a way that it can run within an application or as part of a distributed architecture (e.g. AWS Lambdas).  Further, it is designed for extension and configuration; through well-documented interfaces and modular boundaries.
+`Derivative::Zoo` is designed in such a way that it can run within an application or as part of a distributed architecture (e.g. AWS Lambdas).  Further, it is designed for extension and configuration; through well-documented interfaces and modular boundaries.
 
-It is also designed to provide insight into configuration and failures through custom exceptions and logging.  It has a fail early mindset; first verifying that the desired derivatives don't creat circular dependencies; flattening those dependencies into a chain which we process one link at a time, via [SpaceStone::Derivatives::Process](./lib/space_stone/derivatives/process.rb).
+It is also designed to provide insight into configuration and failures through custom exceptions and logging.  It has a fail early mindset; first verifying that the desired derivatives don't creat circular dependencies; flattening those dependencies into a chain which we process one link at a time, via [Derivative::Zoo::Process](./lib/derivative/zoo/process.rb).
 
 Last, the test suite covers a significant portion of the code; exercising both unit tests and functional tests that can run on a developers machine to help ensure the desired behavior.
 
@@ -26,11 +26,11 @@ TODO
 
 Install the gem  and add to the application's Gemfile by executing:
 
-    $ bundle add space_stone-derivatives
+    $ bundle add derivative-zoo
 
 If bundler is not being used to manage dependencies, install the gem by executing:
 
-    $ gem install space_stone-derivatives
+    $ gem install derivative-zoo
 
 ### Dependencies
 
@@ -55,4 +55,4 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/jeremyf/space_stone-derivatives.
+Bug reports and pull requests are welcome on GitHub at https://github.com/jeremyf/derivative-zoo.

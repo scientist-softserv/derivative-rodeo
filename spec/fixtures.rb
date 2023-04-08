@@ -10,7 +10,7 @@ module Fixtures
     path_to_original: Fixtures.path_for("ocr_color.tiff")
   )
 
-    SpaceStone::Derivatives::Manifest::PreProcess.new(
+    Derivative::Zoo::Manifest::PreProcess.new(
       parent_identifier: parent_identifier,
       original_filename: original_filename,
       derivatives: derivatives,
@@ -20,7 +20,7 @@ module Fixtures
   end
 
   def self.pre_processing_config
-    SpaceStone::Derivatives::Configuration.new do |cfg|
+    Derivative::Zoo::Configuration.new do |cfg|
       cfg.local_storage = :file_system
       cfg.remote_storage = :from_manifest
       cfg.queue = :inline
@@ -29,7 +29,7 @@ module Fixtures
   end
 
   def self.pre_processing_environment(manifest: Fixtures.pre_processing_manifest, config: pre_processing_config)
-    SpaceStone::Derivatives::Environment.for_pre_processing(manifest: manifest, config: config)
+    Derivative::Zoo::Environment.for_pre_processing(manifest: manifest, config: config)
   end
 
   def self.path_for(name)

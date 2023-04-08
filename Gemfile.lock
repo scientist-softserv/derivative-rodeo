@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    space_stone-derivatives (0.1.0)
+    derivative-zoo (0.1.0)
       activesupport (>= 5)
       hydra-file_characterization
       marcel
@@ -131,12 +131,12 @@ PLATFORMS
 
 DEPENDENCIES
   bixby
+  derivative-zoo!
   rake (~> 13.0)
   rspec
   shoulda-matchers
   simplecov
   solargraph
-  space_stone-derivatives!
   yard-activerecord
 
 BUNDLED WITH
