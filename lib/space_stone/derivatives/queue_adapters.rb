@@ -8,10 +8,17 @@ module SpaceStone
       #
       # @return [SpaceStone::Derivatives::QueueAdapters::Base]
       def self.for(adapter:)
-        name = adapter.is_a?(Symbol) ? adapter : adapter.fetch(:name)
-
-        klass = "SpaceStone::Derivatives::QueueAdapters::#{name.to_s.classify}Adapter".constantize
-        klass.new
+        case adapter
+        when Symbol
+          klass = "SpaceStone::Derivatives::QueueAdapters::#{adapter.to_s.classify}Adapter".constantize
+          klass.new
+        when Hash
+          self.for(adapter: adapter.fetch(:name))
+        when SpaceStone::Derivatives::QueueAdapters::Base
+          adapter
+        else
+          raise Exceptions::UnexpectedQueueAdapterError.new(adapter: adapter)
+        end
       end
 
       module Base

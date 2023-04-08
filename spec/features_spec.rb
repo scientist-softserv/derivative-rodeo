@@ -3,8 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe "Features" do
-  let(:manifest) { Fixtures.pre_processing_manifest }
-  let(:environment) { SpaceStone::Derivatives::Environment.for_original(manifest: manifest, remote: :from_manifest, local: :file_system, queue: :inline) }
+  let(:environment) { Fixtures.pre_processing_environment }
 
   context "with a 2 page color PDF" do
     let(:basename) { "sample-color-newsletter.pdf" }
@@ -13,7 +12,6 @@ RSpec.describe "Features" do
 
     xit "splits the pages into images and extracts text" do
       environment.process_start!
-      # TODO: Verify the expected files exist
     end
   end
 

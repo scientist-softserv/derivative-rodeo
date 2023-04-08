@@ -3,6 +3,14 @@
 require 'spec_helper'
 
 RSpec.describe SpaceStone::Derivatives::Chain do
+  describe '.from_mime_types_for' do
+    let(:manifest) { Fixtures.pre_processing_manifest(mime_type: 'application/pdf') }
+    subject { described_class.from_mime_types_for(manifest: manifest) }
+
+    it { is_expected.to respond_to(:to_hash) }
+    it { is_expected.to be_a(Enumerable) }
+  end
+
   # These two derivatives are a known "good derivative" chain.
   let(:derivatives) { [:hocr, :monochrome] }
   subject { described_class.new(derivatives: derivatives) }
@@ -22,7 +30,6 @@ RSpec.describe SpaceStone::Derivatives::Chain do
       # NOTE: image yields first, then monochrome which depends on image, then hocr which depends on
       # image
       expect { |b| subject.each(&b) }.to yield_successive_args(
-                                           SpaceStone::Derivatives::Type::OriginalType,
                                            SpaceStone::Derivatives::Type::ImageType,
                                            SpaceStone::Derivatives::Type::MonochromeType,
                                            SpaceStone::Derivatives::Type::HocrType

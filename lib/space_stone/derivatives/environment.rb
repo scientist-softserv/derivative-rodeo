@@ -46,6 +46,23 @@ module SpaceStone
       end
 
       ##
+      # This function helps transition from preliminary processing (via {Type::OriginalType} and
+      # {Type::MimeType}) to the mime type specific processing.
+      #
+      # @param environment [SpaceStone::Derivatives::Environment]
+      #
+      # @see SpaceStone::Derivatives::Configuration#derivatives_for
+      def self.start_processing_for_mime_type!(environment:)
+        new(
+          local: environment.local,
+          remote: environment.remote,
+          queue: environment.queue,
+          manifest: environment.manifest,
+          chain: Chain.from_mime_types_for(manifest: environment.manifest)
+        ).process_start!
+      end
+
+      ##
       # Given a :derived manifest, create an environment that echoes the given :environment.
       #
       # Why the echo?  Because we want to be writing to similar locations; and the environment helps

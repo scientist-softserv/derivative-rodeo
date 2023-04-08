@@ -58,6 +58,16 @@ RSpec.describe SpaceStone::Derivatives::Environment do
     it { is_expected.to respond_to :remote_exists? }
   end
 
+  describe '.start_processing_for_mime_type!' do
+    let(:environment) { Fixtures.pre_processing_environment }
+    it "builds a chain and starts processing it" do
+      expect(SpaceStone::Derivatives::Chain).to receive(:from_mime_types_for).with(manifest: environment.manifest).and_call_original
+      expect_any_instance_of(SpaceStone::Derivatives::Environment).to receive(:process_start!)
+
+      described_class.start_processing_for_mime_type!(environment: environment)
+    end
+  end
+
   describe '.new' do
     it "is a private method (don't call it directly)" do
       expect(described_class.private_methods).to include(:new)

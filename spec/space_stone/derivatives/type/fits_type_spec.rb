@@ -30,9 +30,5 @@ RSpec.describe SpaceStone::Derivatives::Type::FitsType do
     it "runs fits against the original file" do
       expect { instance.generate }.to change { environment.local_exists?(derivative: :fits) }.from(false).to(true)
     end
-
-    it "assigns the mime_type to the environment" do
-      expect { instance.generate }.to change(environment, :mime_type).from(nil).to("image/tiff")
-    end
   end
 end

@@ -38,6 +38,12 @@ module SpaceStone
         end
       end
 
+      class UnexpectedQueueAdapterError < Error
+        def initialize(adapter:)
+          super("Unexpected adapter #{adapter.inspect}.")
+        end
+      end
+
       class UnexpectedStorageAdapterNameError < Error
         def initialize(adapter:, manifest:)
           super("Unexpected adapter #{adapter.inspect} for manifest #{manifest.inspect}.")

@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require 'marcel'
 require 'hydra/file_characterization'
 
 module SpaceStone
@@ -15,10 +14,6 @@ module SpaceStone
           environment.local_assign!(derivative: to_sym) do
             Hydra::FileCharacterization.characterize(content, filename, to_sym)
           end
-
-          environment.mime_type ||= ::Marcel::MimeType.for(content)
-
-          environment.local_path(derivative: :original)
         end
       end
     end

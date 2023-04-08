@@ -20,30 +20,16 @@ module SpaceStone
         # @!endgroup Class Attributes
 
         def generate
-          # TODO: What follows is pseudo code as I think about the file processing and necessary
-          # interfaces.
-
-          # original_path = repository.demand_local_for!(derivative: original)
-
-          # # If the original is not a PDF nor an image, bail.  If it is a PDF, split it.
-          # return unless repository.mime_type(derivative: original).pdf?
-
-          # pages = page_splitting_service.new(
-          #   path: original_path,
-          #   directory: repository.local_path(derivative: self)
-          # )
-
-          # pages.each_with_index do |page, index|
-          #   # Make sure that we write page to the derivative's index.
-          #   repository.local_assign(derivative: self, index: index, path: page.path)
-
-          #   repository.demand_local_for!(derivative: self, index: index)
-
-          #   # With the pages split, we now should now move along and let the repository run
-          #   # derivatives on the split pages.
-          #   repository.enqueue(source: self,
-          #                      derivatives: derivative_types_for_split,
-          #                      index: index)
+          # generate do
+          #   return unless mime_type(derivative: original).pdf?
+          #   pages = page_splitting_service.new(environment: environment)
+          #   pages.each_with_index do |page, index|
+          #     derived = Spaces::Derivative::Manifest::Derived.new(original: environment.manifest, derived: :pdf_page, index: index)
+          #     derived_environment = Spaces::Derivatives::Environment.for_derived(manifest: derived, envrionment: environment)
+          #     derived_environment.local_assign!(derivative: :pdf_page, path: page)
+          #     derivatives.process_start!
+          #   end
+          # end
         end
       end
     end

@@ -14,21 +14,18 @@ module SpaceStone
     # @see #each
     # @see #to_hash
     class Chain
-      # @!group Class Attributes
-      # @!attribute [rw]
-      # The preliminary processing that needs to happen to kick start the processing.
-      #
-      # @note Without an initial process to ensure that we have a copy of the :original file in the
-      #       {Environment#local}'s storage, we are going to encounter numerous issues.
-      # @return [Array<Symbol>]
-      class_attribute :preliminary_chain_links, default: [:original]
-      # @!endgroup
+      ##
+      # @param manifest [SpaceStone::Derivatives::Manifest]
+      def self.from_mime_types_for(manifest:)
+        derivatives = Types.for(manifest: manifest)
+        new(derivatives: derivatives)
+      end
 
       ##
       # @param derivatives [Array<#to_sym>]
       def initialize(derivatives:)
         # Don't mind us, these preliminary_chain_links are going to push to the front of the line.
-        @chain = (Array(preliminary_chain_links) + Array(derivatives)).each_with_object({}) do |(key, _), hash|
+        @chain = Array(derivatives).each_with_object({}) do |(key, _), hash|
           hash[key.to_sym] = SpaceStone::Derivatives::Type(key.to_sym)
         end
         add_dependencies_to_chain!
