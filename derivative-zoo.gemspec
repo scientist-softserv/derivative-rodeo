@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.authors = ['Jeremy Friesen']
   spec.email = ['jeremy.n.friesen@gmail.com']
 
-  spec.summary = 'A plugin for Derivative to handle splitting of PDFs.'
+  spec.summary = 'An ETL Ecosystem for Derivative Processing.'
   spec.description = spec.summary
   spec.homepage = 'https://github.com/scientist-softserv/derivative-zoo'
   spec.required_ruby_version = '>= 2.7.0'
