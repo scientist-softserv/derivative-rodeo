@@ -28,14 +28,17 @@ RSpec.describe SpaceStone::Derivatives::Environment do
     it { is_expected.to respond_to :logger }
 
     it { is_expected.to delegate_method(:exists?).to(:local).with_prefix(true) }
+    it { is_expected.to delegate_method(:assign!).to(:local).with_prefix(true) }
+    it { is_expected.to delegate_method(:path).to(:local).with_prefix(true) }
+
     it { is_expected.to delegate_method(:mime_type).to(:manifest) }
-    it { is_expected.to respond_to :local_exists? }
-    it { is_expected.to respond_to :local_assign! }
-    it { is_expected.to respond_to :local_path }
+    it { is_expected.to delegate_method(:original_filename).to(:manifest) }
+
+    it { is_expected.to delegate_method(:exists?).to(:remote).with_prefix(true) }
+
     it { is_expected.to respond_to :local_demand! }
     it { is_expected.to respond_to :remote_pull! }
     it { is_expected.to respond_to :remote_pull }
-    it { is_expected.to respond_to :remote_exists? }
   end
 
   describe '.for_derived' do
