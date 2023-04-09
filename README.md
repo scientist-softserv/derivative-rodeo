@@ -9,7 +9,7 @@ The conceptual logic of `Derivative::Rodeo` is:
 - Else generate a local version…
 - Demand a local copy of the file and proceed to the next step.
 
-The above is outlined in [Derivative::Rodeo::Process](./lib/derivative/rodeo/process.rb).
+The above is encoded in [Derivative::Rodeo::Process](./lib/derivative/rodeo/process.rb).
 
 We start from a [Derivative::Rodeo::Manifest::Original](./lib/derivative/rodeo/manifest/original.rb), which is comprised of:
 

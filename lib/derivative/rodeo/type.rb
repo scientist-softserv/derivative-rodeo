@@ -79,10 +79,7 @@ module Derivative
 
           # rubocop:disable Style/GuardClause
           if environment.dry_run?
-            extend DryRun.for(method_names: [
-                                :local_run_command!,
-                                :generate
-                              ],
+            extend DryRun.for(method_names: [:local_run_command!, :generate],
                               config: environment.config,
                               contexts: { derivative: self }.merge(environment.dry_run_context))
           end

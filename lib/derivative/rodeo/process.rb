@@ -45,7 +45,8 @@ module Derivative
           remote_pull(derivative: derivative) ||
           generate_for(environment: environment)
 
-        # Will raise exception if things fail
+        # Will raise an exception if the above failed to put the derivative in the correct local
+        # location.
         local_demand!(derivative: derivative)
 
         process_next_chain_link_after!(derivative: derivative)
