@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    derivative-zoo (0.1.0)
+    derivative-rodeo (0.1.0)
       activesupport (>= 5)
       hydra-file_characterization
       marcel
@@ -131,7 +131,7 @@ PLATFORMS
 
 DEPENDENCIES
   bixby
-  derivative-zoo!
+  derivative-rodeo!
   rake (~> 13.0)
   rspec
   shoulda-matchers

@@ -7,7 +7,7 @@ SimpleCov.start do
   track_files "lib/**/*.rb"
 end
 
-require 'derivative/zoo'
+require 'derivative/rodeo'
 require 'tmpdir'
 require 'fileutils'
 require 'shoulda-matchers'
