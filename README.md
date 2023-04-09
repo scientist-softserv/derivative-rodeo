@@ -9,6 +9,8 @@ The conceptual logic of `Derivative::Rodeo` is:
 - Else generate a local version…
 - Demand a local copy of the file and proceed to the next step.
 
+The above is outlined in [Derivative::Rodeo::Process](./lib/derivative/rodeo/process.rb).
+
 We start from a [Derivative::Rodeo::Manifest::Original](./lib/derivative/rodeo/manifest/original.rb), which is comprised of:
 
 - a parent identifier
@@ -26,6 +28,8 @@ It is also designed to provide insight into configuration and failures through c
 Last, the test suite covers a significant portion of the code; exercising both unit tests and functional tests that can run on a developers machine to help ensure the desired behavior.
 
 ## Diagrams
+
+“This ain’t my first rodeo.” (an idiomatic American slang for “I’m prepared for what comes next.”)
 
 ![Conceptual Diagram](./artifacts/derivative-rodeo.png)
 
@@ -100,6 +104,33 @@ TODO: Write usage instructions here
 After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
 To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`,  and then run `bundle exec rake release`, which will create a git tag for the version, push git commits  and the created tag,  and push the `.gem` file to [rubygems.org](https://rubygems.org).
+
+## Tasks
+
+- [ ] Storage Adapters
+  - [ ] Flesh out the FromManifest adapter for remote files
+  - [ ] Add an AWS S3 Adapter; remembering that it could be used as either remote or local
+- [ ] Queue Adapters
+  - [ ] Add an AWS SQS Adapter (see https://github.com/scientist-softserv/space_stone)
+- [ ] Type work
+  - [ ] Does it make sense to include `fits`?  We’re gathering technical metadata for processing and eventual storage.
+  - [ ] Video
+  - [ ] Alto
+  - [ ] Audio
+  - [ ] Thumbnail
+  - [ ] Text Extraction (Hydra Derivatives leverages SOLR’s text extraction; there’s `pdftext` to consider)
+  - [ ] Tidy up the base derivative type; there are some more expressive methods I could adopt to reduce duplication (and introduction of errors).
+  - [ ] What else?
+- [ ] Manifest; I have refactored towards specific manifests and need to revisit existing manifests
+  - [ ] Create methods for the prerequisites
+  - [ ] Demand the prerequisites as part of the generate
+- [ ] Work on PDF Splitting
+  - [ ] In conversations with @orangewolf, we may want to OCR in batches instead of one file at a time
+- [ ] Integrate Derivative::Rodeo into [IIIF Print](https://github.com/scientist-softserv/iiif_print/).
+  - [ ] Assign “local” file to Fedora S3 location
+
+`Derivative::Rodeo` is positioned to be an alternate to [Hydra::Derivatives](https://github.com/samvera/hydra-derivatives).
+  
 
 ## Contributing
 
