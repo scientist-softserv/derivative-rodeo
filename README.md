@@ -128,9 +128,11 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
   - [ ] In conversations with @orangewolf, we may want to OCR in batches instead of one file at a time
 - [ ] Integrate Derivative::Rodeo into [IIIF Print](https://github.com/scientist-softserv/iiif_print/).
   - [ ] Assign “local” file to Fedora S3 location
+- [ ] Process: At present the pre-process does not do anything with the locally demanded derivative
+  - [ ] Ingest Process: Follows the same logic of [Derivative::Rodeo::Process](./lib/derivative/rodeo/process.rb), but moves derivative into FileSet.  Note because "original" is a derivative, we will need this processing at the [Derivative::Rodeo::Type](./lib/derivative/rodeo/type.rb) level
 
 `Derivative::Rodeo` is positioned to be an alternate to [Hydra::Derivatives](https://github.com/samvera/hydra-derivatives).
-  
+
 
 ## Contributing
 
