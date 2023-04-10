@@ -11,13 +11,17 @@ The conceptual logic of `Derivative::Rodeo` is:
 
 The above is encoded in [Derivative::Rodeo::Process](./lib/derivative/rodeo/process.rb).
 
-We start from a [Derivative::Rodeo::Manifest::Original](./lib/derivative/rodeo/manifest/original.rb), which is comprised of:
+We start from a [Derivative::Rodeo::Manifest::PreProcess](./lib/derivative/rodeo/manifest/pre_process.rb), which is comprised of:
 
 - a parent identifier
 - an original filename
 - a set of named derivatives; each named derivative might have path to a "known" already extisting file.
 
 We process the original manifest in an [Arena](./lib/derivative/rodeo/arena.rb).  During processing we might spawn multiple "child" processes from one derivative.  For example splitting a PDF into one image per page.  Each of those page images would then have their own [Derivative::Rodeo::Manifest::Derived](./lib/derivative/rodeo/manifest/derived.rb) for further processing.
+
+## Note on Development Status
+
+This is in active development and we're exploring the names and concepts as we build towards the technical requirements of several different projects.  What does that mean?  Look to the [Derivative::Rodeo](./lib/derivative/rodeo.rb) require section that has a large banner.  Those are the stable named concepts.  Below that level, things are somewhat in-flux; in particular regarding the [Derivative::Rodeo::Manifest](./lib/derivative/rodeo/manifest.rb) module. 
 
 ## Design Goals
 
