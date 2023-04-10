@@ -7,6 +7,17 @@ RSpec.describe Derivative::Rodeo::Type::HocrType do
     Derivative::Rodeo::Manifest::Original.new(parent_identifier: "123", original_filename: "abc.jpg", derivatives: [:hocr])
   end
 
+  describe 'class configuration' do
+    subject { described_class }
+
+    it { is_expected.to respond_to :command_environment_variables }
+    it { is_expected.to respond_to :command_environment_variables= }
+    it { is_expected.to respond_to :additional_tessearct_options }
+    it { is_expected.to respond_to :additional_tessearct_options= }
+    it { is_expected.to respond_to :output_suffix }
+    it { is_expected.to respond_to :output_suffix= }
+  end
+
   let(:instance) { described_class.new(arena: arena) }
 
   describe ".prerequisites" do
