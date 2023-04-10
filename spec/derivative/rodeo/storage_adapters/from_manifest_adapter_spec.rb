@@ -24,8 +24,15 @@ RSpec.describe Derivative::Rodeo::StorageAdapters::FromManifestAdapter do
   end
 
   describe '#read' do
-    it 'returns the content' do
-      expect(instance.read(derivative: :original)).to eq(File.read(__FILE__))
+    context 'when the derivative path is a local file' do
+      it 'returns the content' do
+        expect(instance.read(derivative: :original)).to eq(File.read(__FILE__))
+      end
+    end
+
+    context 'when the derivative path is a URL' do
+      xit 'returns the content'
+      xit 'pulls the content'
     end
   end
 

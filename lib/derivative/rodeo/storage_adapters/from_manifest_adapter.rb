@@ -6,7 +6,6 @@ require 'fileutils'
 module Derivative
   module Rodeo
     module StorageAdapters
-      #rubocop:disable Lint/UnusedMethodArgument
       class FromManifestAdapter
         # Included to provide the method interface and to answer "instance.is_a?(Base)"
         include Base
@@ -67,17 +66,18 @@ module Derivative
         end
 
         def read(derivative:)
-          path = demand!(derivative:)
+          path = demand!(derivative: derivative)
           return File.read(path) if File.exist?(path)
 
           raise "Make sure to handle the URL"
         end
 
+        # rubocop:disable Lint/UnusedMethodArgument
         def write(derivative:)
           raise Exceptions::InvalidFunctionForStorageAdapterError.new(adapter: self, method: :write)
         end
+        # rubocop:enable Lint/UnusedMethodArgument
       end
-      #rubocop:enable Lint/UnusedMethodArgument
     end
   end
 end
