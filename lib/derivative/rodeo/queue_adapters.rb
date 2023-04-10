@@ -8,6 +8,7 @@ module Derivative
     # {QueueAdapters::Base}.
     #
     # @see InlineAdapter
+    # @see AwsSqsAdapter
     module QueueAdapters
       ##
       # @param adapter [Symbol, Hash<Symbol, Object>]
@@ -46,3 +47,4 @@ module Derivative
 end
 
 require "derivative/rodeo/queue_adapters/inline_adapter"
+require "derivative/rodeo/queue_adapters/aws_sqs_adapter"

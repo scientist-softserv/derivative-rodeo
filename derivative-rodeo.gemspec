@@ -39,8 +39,11 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'hydra-file_characterization'
   spec.add_dependency 'marcel'
   spec.add_dependency 'mime-types'
+  # NOTE: aws-sdk-sqs could be a rodeo plugin, but for now, it's part of the main show
+  spec.add_dependency 'aws-sdk-sqs'
+
   spec.add_development_dependency 'bixby'
   spec.add_development_dependency 'rspec'
-  spec.add_development_dependency 'solargraph'
   spec.add_development_dependency 'shoulda-matchers'
+  spec.add_development_dependency 'solargraph'
 end
