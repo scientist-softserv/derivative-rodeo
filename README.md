@@ -74,6 +74,38 @@ ingest_local --> ingest_storage
 
 </details>
 
+![Process Diagram](./artifacts/derivative-rodeo-process-diagram.png)
+
+<details>
+<summary>The PlantUML Text for the Process Diagram</summary>
+
+```puml
+@startuml
+!theme amiga
+
+start
+
+if (derivative local?) then (yes)
+
+elseif (derivative remote?) then (yes)
+	:pull to local;
+else
+	:generate local;
+endif
+
+if (demand local exists?) then (yes)
+
+	
+else (no)
+	:raise exception;
+        stop	
+endif
+:enqueue next;
+@enduml
+```
+
+</details>
+
 ## Installation
 
 Install the gem  and add to the application's Gemfile by executing:
@@ -111,7 +143,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
   - [ ] Flesh out the FromManifest adapter for remote files
   - [ ] Add an AWS S3 Adapter; remembering that it could be used as either remote or local
 - [ ] Queue Adapters
-  - [ ] Add an AWS SQS Adapter (see https://github.com/scientist-softserv/space_stone)
+   - [ ] Add an AWS SQS Adapter (see https://github.com/scientist-softserv/space_stone)
 - [ ] Type work
   - [ ] Does it make sense to include `fits`?  We’re gathering technical metadata for processing and eventual storage.
   - [ ] Video

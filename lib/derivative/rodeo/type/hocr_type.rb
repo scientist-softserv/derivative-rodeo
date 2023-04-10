@@ -35,6 +35,7 @@ module Derivative
         class_attribute :output_suffix, default: :hocr
         # @!endgroup
 
+        ##
         # @raise [Exceptions::DerivativeNotFoundError] when we don't have a :monochrome {Types} or
         #        we failed to generate the :hocr file.
         def generate
