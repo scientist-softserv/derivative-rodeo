@@ -36,6 +36,7 @@ Last, the test suite covers a significant portion of the code; exercising both u
 - [Conceptual Diagram](#conceptual-diagram) :: The top-level concept of what the Derivative::Rodeo orchestrates.
 - [Process Diagram](#proces-diagram) :: The low-level diagram of how the [Derivative::Rodeo::Process](./lib/derivative/rodeo/process.rb) works.
 - [Interaction with Spacestone](#interaction-with-spacestone) :: How the `Derivative::Rodeo` interacts with [SpaceStone](https://github.com/scientist-softserv/space_stone).
+- [Interaction with Hyrax Ingest](#interaction-with-hyrax-ingest) :: TBD
 
 ### Conceptual Diagram
 
@@ -154,6 +155,25 @@ process --> sqs : put message
 @enduml
 
 ```
+</details>
+
+### Interaction with Hyrax Ingest
+
+[Hyrax](https://github.com/samvera/hyrax) exposes the concept of the [Hyrax::DerivativeService](https://github.com/samvera/hyrax/blob/426575a9065a5dd3b30f458f5589a0a705ad7be2/app/services/hyrax/derivative_service.rb); a configurable end-point.  Hyrax has a default service [Hyrax::FileSetDerivativesService](https://github.com/samvera/hyrax/blob/426575a9065a5dd3b30f458f5589a0a705ad7be2/app/services/hyrax/file_set_derivatives_service.rb) that assumes it will create all derivatives and then assign them to the FileSet.
+
+In the [NewspaperWorks](https://github.com/samvera-labs/newspaper_works/) gem and [IIIF Print](https://github.com/scientist-softserv/iiif_print/) gem, the Samvera community introduced different derivative services; in part to expand on the default functionality.
+
+One challenge of these implementations is that they assume that the ingest process simultaneously creates the derivative and assigns the derivative.
+
+The [Newman Numismatic Portal](https://github.com/scientist-softserv/nnp/) introduced the idea of pre-processing the derivatives and splicing into the processes to circumvent some of the derivative generation.
+
+With all of that here's the diagram for the Interaction with Hyrax Ingest.
+
+**TODO**
+
+<details>
+<summary>The PlantUML Text for the Interaction with Hyrax Ingest</summary>
+
 </details>
 
 ## Installation
