@@ -6,6 +6,13 @@ module Derivative
   module Rodeo
     ##
     # @api public
+    #
+    # This class is responsible for the consistent configuration of the "application" that leverages
+    # the {Derivative::Rodeo}.
+    #
+    # Whereas the {Environment} is the place where we process an original file, the {Configuration}
+    # sits above the {Environment} and provides the information for processing all things within the
+    # application.
     class Configuration
       class_attribute :dry_run, default: false
 
