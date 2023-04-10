@@ -7,12 +7,21 @@ require 'derivative/rodeo/queue_adapters'
 module Derivative
   module Rodeo
     ##
+    # The {Arena} is the "place" where the rodeo happens...for a single original file.
+    #
     # The {Arena} class is responsible for ensuring that for a given {Manifest} and its
     # many possible {Manifest::Derived} objects we process the original file and derivatives in the
     # same arena.
     #
     # @see .for_pre_processing
     # @see .for_mime_type
+    #
+    # @note This class was originally named Environment.  However that could be confusing when we
+    #       have a {Configuration} that will definitely use `ENV` for secrets.  Instead, this class
+    #       name leverages one of the terms from the American Rodeo, the arena, where the events
+    #       happen.  I had thought of naming it Context but that was less descriptive.  Besides,
+    #       wouldn't a little Hyrax in a cowboy hat holding a lasso riding a Bulkrax be a rather
+    #       cool hexagonal sticker?  I think so.
     #
     # rubocop:disable Metrics/ClassLength
     class Arena
