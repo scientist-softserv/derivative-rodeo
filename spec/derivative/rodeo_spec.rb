@@ -12,7 +12,7 @@ RSpec.describe Derivative::Rodeo do
     end
   end
 
-  describe '.start_pre_processing!' do
+  describe '.start_pre_processing' do
     let(:manifest) do
       Fixtures.pre_processing_manifest(
         parent_identifier: parent_identifier,
@@ -23,7 +23,7 @@ RSpec.describe Derivative::Rodeo do
       )
     end
     let(:config) { Fixtures.pre_processing_config }
-    subject(:arena) { described_class.start_pre_processing!(manifest: manifest, config: config) }
+    subject(:arena) { described_class.start_pre_processing(manifest: manifest, config: config) }
 
     context "with a 2 page color PDF" do
       let(:original_filename) { "sample-color-newsletter.pdf" }

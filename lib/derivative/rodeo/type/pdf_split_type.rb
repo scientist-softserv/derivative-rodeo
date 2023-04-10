@@ -17,7 +17,7 @@ module Derivative
         # When we split the PDFs what are the derivatives we want to run on the resulting individual
         # pages.
         class_attribute :derivative_types_for_split, default: [:ocr]
-        # @!endgroup Class Attributes
+        # @!endgroup
 
         def generate
           # generate do

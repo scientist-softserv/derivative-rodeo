@@ -19,8 +19,11 @@ module Derivative
         # @return  [Derivative::Rodeo::Process, #call]
         attr_reader :processor
 
+        ##
         # @param derivative [#to_sym]
         # @param arena [Derivative::Rodeo::Arena]
+        #
+        # @todo consider invocation via {Derivative::Rodeo.derive_from_message}
         def enqueue(derivative:, arena:)
           processor.call(derivative: derivative, arena: arena)
         end

@@ -21,6 +21,7 @@ require 'derivative/rodeo/dry_run'
 require 'derivative/rodeo/arena'
 require 'derivative/rodeo/exceptions'
 require 'derivative/rodeo/manifest'
+require 'derivative/rodeo/message'
 require 'derivative/rodeo/process'
 require 'derivative/rodeo/queue_adapters'
 require 'derivative/rodeo/storage_adapters'
@@ -64,9 +65,7 @@ module Derivative
     # @param config [Derivative::Rodeo::Configuration]
     #
     # @return [Derivative::Rodeo::Arena]
-    #
-    # @see Derivative::Rodeo::Arena
-    def self.start_pre_processing!(manifest:, config: Rodeo.config)
+    def self.start_pre_processing(manifest:, config: Rodeo.config)
       Arena.for_pre_processing(manifest: manifest, config: config, &:start_processing!)
     end
   end

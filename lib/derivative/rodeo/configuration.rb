@@ -64,14 +64,14 @@ module Derivative
 
       # @return [Array<Symbol>] the derivatives that are part of the initial pre-processing.
       #
-      # @see Derivative::Rodeo.start_pre_processing!
+      # @see Derivative::Rodeo.start_pre_processing
       def derivatives_for_pre_process
         @derivatives_for_pre_process || [:original, :mime]
       end
 
       # @param derivatives [Array<#to_sym>]
       #
-      # @see Derivative::Rodeo.start_pre_processing!
+      # @see Derivative::Rodeo.start_pre_processing
       def derivatives_for_pre_process=(derivatives)
         @derivatives_for_pre_process = Array(derivatives).map(&:to_sym)
       end
