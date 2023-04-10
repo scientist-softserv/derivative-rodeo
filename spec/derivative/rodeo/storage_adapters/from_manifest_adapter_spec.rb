@@ -4,9 +4,24 @@ require 'spec_helper'
 
 RSpec.describe Derivative::Rodeo::StorageAdapters::FromManifestAdapter do
   let(:manifest) { Fixtures.pre_processing_manifest(path_to_original: __FILE__) }
+  let(:derivative) { :hello }
   subject(:instance) { described_class.new(manifest: manifest) }
 
   it { is_expected.to delegate_method(:path_to).to(:manifest) }
+
+  describe "#assign!" do
+    subject { instance.assign!(derivative: derivative) }
+
+    it { within_block_is_expected.to raise_error(Derivative::Rodeo::Exceptions::InvalidFunctionForStorageAdapterError) }
+  end
+
+  describe '#demand!' do
+    subject { instance.demand!(derivative: derivative) }
+
+    context 'when the local does not exist' do
+      it { within_block_is_expected.to raise_error(Derivative::Rodeo::Exceptions::DerivativeNotFoundError) }
+    end
+  end
 
   describe '#read' do
     it 'returns the content' do
@@ -14,8 +29,8 @@ RSpec.describe Derivative::Rodeo::StorageAdapters::FromManifestAdapter do
     end
   end
 
-  describe '#assign!' do
-    subject { instance.assign! }
+  describe "#write" do
+    subject { instance.write(derivative: :nope) }
 
     it { within_block_is_expected.to raise_error(Derivative::Rodeo::Exceptions::InvalidFunctionForStorageAdapterError) }
   end
