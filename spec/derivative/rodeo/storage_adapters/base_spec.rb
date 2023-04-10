@@ -14,6 +14,7 @@ RSpec.describe Derivative::Rodeo::StorageAdapters::Base do
       it { is_expected.to respond_to :assign! }
       it { is_expected.to respond_to :pull }
       it { is_expected.to respond_to :pull! }
+      it { is_expected.to respond_to :to_sym }
     end
   end
 end
