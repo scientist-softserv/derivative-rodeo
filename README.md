@@ -29,7 +29,14 @@ Last, the test suite covers a significant portion of the code; exercising both u
 
 ## Diagrams
 
+- [Conceptual Diagram](#conceptual-diagram) :: The top-level concept of what the Derivative::Rodeo orchestrates.
+- [Process Diagram](#proces-diagram) :: The low-level diagram of how the [Derivative::Rodeo::Process](./lib/derivative/rodeo/process.rb) works.
+
+### Conceptual Diagram
+
 “This ain’t my first rodeo.” (an idiomatic American slang for “I’m prepared for what comes next.”)
+
+The `Derivative::Rodeo` orchestrates moving data from place to place; and ensuring that at each stage the requisite files exist.
 
 ![Conceptual Diagram](./artifacts/derivative-rodeo.png)
 
@@ -73,6 +80,11 @@ ingest_local --> ingest_storage
 ```
 
 </details>
+
+
+### Process Diagram
+
+This is the logical flow chart of the [Derivative::Rodeo::Process](./lib/derivative/rodeo/process.rb); it demonstrates the low-level processing task of a single derivative.
 
 ![Process Diagram](./artifacts/derivative-rodeo-process-diagram.png)
 
