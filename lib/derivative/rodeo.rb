@@ -41,7 +41,7 @@ module Derivative
   # "movement" of derivatives from one arena to another.
   #
   # @see .config
-  # @see .start_pre_processing!
+  # @see .start_pre_processing
   module Rodeo
     ##
     # The {Configuration} that the various processes in your implementation will use.

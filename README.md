@@ -35,6 +35,7 @@ Last, the test suite covers a significant portion of the code; exercising both u
 
 - [Conceptual Diagram](#conceptual-diagram) :: The top-level concept of what the Derivative::Rodeo orchestrates.
 - [Process Diagram](#proces-diagram) :: The low-level diagram of how the [Derivative::Rodeo::Process](./lib/derivative/rodeo/process.rb) works.
+- [Interaction with Spacestone](#interaction-with-spacestone) :: How the `Derivative::Rodeo` interacts with [SpaceStone](https://github.com/scientist-softserv/space_stone).
 
 ### Conceptual Diagram
 
@@ -120,6 +121,39 @@ endif
 @enduml
 ```
 
+</details>
+
+### Interaction with SpaceStone
+
+[SpaceStone](https://github.com/scientist-softserv/space_stone) is an AWS Lambda ecosystem that SoftServ has used in the preliminary work of pre-processing derivatives in a specific use-case.  The following diagram shows the conceptual interaction of the `Derivative::Rodeo` and `SpaceStone`.
+
+![Interaction with SpaceStone](./artifacts/interaction-with-space_stone.png)
+<details>
+<summary>The PlantUML Text for the Interaction with SpaceStone</summary>
+
+```plantuml
+@startuml
+!theme amiga
+
+actor Instigator as instigator
+
+queue "AWS::SQS" as sqs
+
+package SpaceStone {
+	control Invoker as invoker
+}
+
+package "Derivative::Rodeo" as dr {
+	control Process as process
+}
+
+instigator -right-> invoker : upload CSV\nof manifests
+sqs -right-> invoker : pull message
+invoker -right-> process : send message
+process --> sqs : put message
+@enduml
+
+```
 </details>
 
 ## Installation
