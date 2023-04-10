@@ -46,7 +46,7 @@ module Derivative
 
         # @api public
         def assign!(**)
-          raise InvalidFunctionForStorageAdapterError.new(adapter: self, method: :assign!)
+          raise Exceptions::InvalidFunctionForStorageAdapterError.new(adapter: self, method: :assign!)
         end
 
         def pull(derivative:, to:)

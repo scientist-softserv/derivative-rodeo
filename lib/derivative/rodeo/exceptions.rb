@@ -31,6 +31,12 @@ module Derivative
         end
       end
 
+      class InvalidFunctionForStorageAdapterError < Error
+        def initialize(adapter:, method:)
+          super("The #{adapter.class} received method #{method.inspect} and should not have.")
+        end
+      end
+
       class ManifestMissingMimeTypeError < Error
         def initialize(manifest:)
           super("Expected manifest #{manifest} to have a defined mime_type.")
