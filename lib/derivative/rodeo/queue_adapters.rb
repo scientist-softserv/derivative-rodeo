@@ -2,6 +2,12 @@
 
 module Derivative
   module Rodeo
+    ##
+    # The queue used for processing the derivatives; the queue is necessary because we need to run
+    # locally and in the cloud.  The adapter is here to define the interface in the
+    # {QueueAdapters::Base}.
+    #
+    # @see InlineAdapter
     module QueueAdapters
       ##
       # @param adapter [Symbol, Hash<Symbol, Object>]
@@ -21,6 +27,7 @@ module Derivative
         end
       end
 
+      # Helps define the public interface for other {QueueAdapters}.
       module Base
         def to_sym
           self.class.to_s.demodulize.underscore.sub(/_adapter$/, '').to_sym

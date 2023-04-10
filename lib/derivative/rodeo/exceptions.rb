@@ -2,9 +2,14 @@
 
 module Derivative
   module Rodeo
-    class Error < StandardError; end
-
+    # A container for the named exceptions that {Derivative::Rodeo} encounters in it's processing.
+    # This is not to say these are the only exceptions.
+    #
+    # @see Error
     module Exceptions
+      # The base error for other named exceptions throughout {Derivative::Rodeo}.
+      class Error < StandardError; end
+
       class ConflictingMethodArgumentsError < Error
         def initialize(receiver:, method:)
           super("Error with arguments for method #{method.inspect} with receiver #{receiver.inspect}.")

@@ -12,7 +12,7 @@ module Derivative
     #
     # @param symbol [#to_sym]
     #
-    # @return [Derivative::Rodeo::BaseType]
+    # @return [Derivative::Rodeo::Type::BaseType]
     # @raise [NameError] when given type is not registered.
     #
     # rubocop:disable Naming/MethodName
