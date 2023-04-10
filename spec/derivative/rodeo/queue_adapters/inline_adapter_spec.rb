@@ -9,10 +9,10 @@ RSpec.describe Derivative::Rodeo::QueueAdapters::InlineAdapter do
   it { is_expected.to be_a Derivative::Rodeo::QueueAdapters::Base }
 
   describe '#enqueue' do
-    let(:environment) { double(Derivative::Rodeo::Environment) }
-    it 'sends the processor a #call message with the given derivative and environment' do
-      instance.enqueue(derivative: :hocr, environment: environment)
-      expect(processor).to have_received(:call).with(derivative: :hocr, environment: environment)
+    let(:arena) { double(Derivative::Rodeo::Arena) }
+    it 'sends the processor a #call message with the given derivative and arena' do
+      instance.enqueue(derivative: :hocr, arena: arena)
+      expect(processor).to have_received(:call).with(derivative: :hocr, arena: arena)
     end
   end
 

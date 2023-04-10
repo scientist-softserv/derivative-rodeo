@@ -8,31 +8,31 @@ RSpec.describe Derivative::Rodeo::Type::MonochromeType do
     it { is_expected.to eq([:original]) }
   end
 
-  let(:environment) { Fixtures.pre_processing_environment(manifest: manifest) }
+  let(:arena) { Fixtures.pre_processing_arena(manifest: manifest) }
 
   let(:manifest) do
     Derivative::Rodeo::Manifest::Original.new(parent_identifier: "123", original_filename: "abc.jpg", derivatives: [:hocr])
   end
 
-  let(:instance) { described_class.new(environment: environment) }
+  let(:instance) { described_class.new(arena: arena) }
 
   describe "#generate_for" do
     subject { instance.generate }
     before do
-      allow(environment).to receive(:local_demand!).with(derivative: described_class.to_sym).and_call_original
+      allow(arena).to receive(:local_demand!).with(derivative: described_class.to_sym).and_call_original
     end
 
     context 'with existing :monochrome' do
       let(:image_path) { Fixtures.path_for("ocr_mono.tiff") }
 
       it "re-uses the file" do
-        expect(environment).to receive(:local_demand!)
+        expect(arena).to receive(:local_demand!)
           .with(derivative: :original)
           .and_return(image_path)
 
-        expect(environment).not_to receive(:local_path)
+        expect(arena).not_to receive(:local_path)
 
-        # The original monochrome image is in the monochrome slot in the environment.
+        # The original monochrome image is in the monochrome slot in the arena.
         expect(subject).not_to eq(image_path)
         # However, the content of each file is identical
         expect(File.read(subject)).to eq(File.read(image_path))
@@ -42,7 +42,7 @@ RSpec.describe Derivative::Rodeo::Type::MonochromeType do
     context 'without existing :monochrome' do
       let(:image_path) { Fixtures.path_for("ocr_color.tiff") }
       it "it converts the existing image" do
-        expect(environment).to receive(:local_demand!)
+        expect(arena).to receive(:local_demand!)
           .with(derivative: :original)
           .and_return(image_path)
 

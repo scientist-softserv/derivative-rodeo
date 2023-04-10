@@ -24,7 +24,7 @@ module Derivative
 
     ##
     # The module space for declaring named derivative type (e.g. `:image`, `:monochrome`, etc.).  A
-    # named derivative type should be able to generate itself based on the given {Environment}.
+    # named derivative type should be able to generate itself based on the given {Arena}.
     #
     # @see BaseType
     # @see BaseType.generate_for
@@ -40,11 +40,11 @@ module Derivative
         ##
         # @api public
         #
-        # @param environment [Derivative::Rodeo::Environment]
+        # @param arena [Derivative::Rodeo::Arena]
         #
         # @see #generate
-        def self.generate_for(environment:)
-          new(environment: environment).generate
+        def self.generate_for(arena:)
+          new(arena: arena).generate
         end
 
         ##
@@ -74,20 +74,20 @@ module Derivative
           self.class.to_sym
         end
 
-        def initialize(environment:)
-          @environment = environment
+        def initialize(arena:)
+          @arena = arena
 
           # rubocop:disable Style/GuardClause
-          if environment.dry_run?
+          if arena.dry_run?
             extend DryRun.for(method_names: [:local_run_command!, :generate],
-                              config: environment.config,
-                              contexts: { derivative: self }.merge(environment.dry_run_context))
+                              config: arena.config,
+                              contexts: { derivative: self }.merge(arena.dry_run_context))
           end
           # rubocop:enable Style/GuardClause
         end
-        attr_reader :environment
+        attr_reader :arena
 
-        delegate :local_run_command!, to: :environment
+        delegate :local_run_command!, to: :arena
 
         def generate
           raise NotImplementedError, "#{self.class}#generate not implemented"

@@ -4,8 +4,8 @@ require 'spec_helper'
 
 RSpec.describe Derivative::Rodeo::Type::FitsType do
   let(:manifest) { Fixtures.pre_processing_manifest(mime_type: nil) }
-  let(:environment) { Fixtures.pre_processing_environment(manifest: manifest) }
-  subject(:instance) { described_class.new(environment: environment) }
+  let(:arena) { Fixtures.pre_processing_arena(manifest: manifest) }
+  subject(:instance) { described_class.new(arena: arena) }
 
   describe '.prerequisites' do
     subject { described_class.prerequisites }
@@ -24,11 +24,11 @@ RSpec.describe Derivative::Rodeo::Type::FitsType do
           .and_return(fits_response)
       )
       # Need to ensure that this is here!
-      environment.remote_pull!(derivative: :original)
+      arena.remote_pull!(derivative: :original)
     end
 
     it "runs fits against the original file" do
-      expect { instance.generate }.to change { environment.local_exists?(derivative: :fits) }.from(false).to(true)
+      expect { instance.generate }.to change { arena.local_exists?(derivative: :fits) }.from(false).to(true)
     end
   end
 end

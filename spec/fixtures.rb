@@ -28,8 +28,8 @@ module Fixtures
     end
   end
 
-  def self.pre_processing_environment(manifest: Fixtures.pre_processing_manifest, config: pre_processing_config)
-    Derivative::Rodeo::Environment.for_pre_processing(manifest: manifest, config: config)
+  def self.pre_processing_arena(manifest: Fixtures.pre_processing_manifest, config: pre_processing_config)
+    Derivative::Rodeo::Arena.for_pre_processing(manifest: manifest, config: config)
   end
 
   def self.path_for(name)

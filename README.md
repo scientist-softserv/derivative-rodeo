@@ -17,7 +17,7 @@ We start from a [Derivative::Rodeo::Manifest::Original](./lib/derivative/rodeo/m
 - an original filename
 - a set of named derivatives; each named derivative might have path to a "known" already extisting file.
 
-We process the original manifest in an [Environment](./lib/derivative/rodeo/environment.rb).  During processing we might spawn multiple "child" processes from one derivative.  For example splitting a PDF into one image per page.  Each of those page images would then have their own [Derivative::Rodeo::Manifest::Derived](./lib/derivative/rodeo/manifest/derived.rb) for further processing.
+We process the original manifest in an [Arena](./lib/derivative/rodeo/arena.rb).  During processing we might spawn multiple "child" processes from one derivative.  For example splitting a PDF into one image per page.  Each of those page images would then have their own [Derivative::Rodeo::Manifest::Derived](./lib/derivative/rodeo/manifest/derived.rb) for further processing.
 
 ## Design Goals
 
@@ -40,7 +40,7 @@ Last, the test suite covers a significant portion of the code; exercising both u
 @startuml
 !theme amiga
 
-component "Pre-Process Environment" {
+component "Pre-Process Arena" {
 	() "Local" as pre_process_local
 	() "Remote" as pre_process_remote
 	control Processor as pre_processor
@@ -53,7 +53,7 @@ cloud "Original Storage" as original_storage
 cloud "Processing Storage" as processing_storage
 
 
-component "Ingest Environment" {
+component "Ingest Arena" {
 	() "Remote" as ingest_remote
 	() "Local" as ingest_local
 	control Processor as ingest_processor

@@ -3,8 +3,8 @@
 module Derivative
   module Rodeo
     ##
-    # This class is responsible for processing the given {#derivative} in the given {#environment}
-    # and then requesting that the {#environment} process the next chain link after the given
+    # This class is responsible for processing the given {#derivative} in the given {#arena}
+    # and then requesting that the {#arena} process the next chain link after the given
     # {#derivative}.
     #
     # @see .call
@@ -21,29 +21,29 @@ module Derivative
       # - and if no exception is raised, I proceed with processing the next derivative.
       #
       # @param derivative [Derivative::Rodeo::Type::BaseType]
-      # @param environment [Derivative::Rodeo::Environment]
+      # @param arena [Derivative::Rodeo::Arena]
       #
       # @raise [Derivative::Rodeo::Exceptions::FailureToLocateDerivativeError] when we are
-      #        unable to find (or generate) the derivative in the given environment.
-      def self.call(derivative:, environment:)
-        new(derivative: derivative, environment: environment).call
+      #        unable to find (or generate) the derivative in the given arena.
+      def self.call(derivative:, arena:)
+        new(derivative: derivative, arena: arena).call
       end
 
-      def initialize(derivative:, environment:)
+      def initialize(derivative:, arena:)
         @derivative = derivative
-        @environment = environment
+        @arena = arena
       end
 
-      attr_reader :derivative, :environment
+      attr_reader :derivative, :arena
 
-      delegate :process_next_chain_link_after!, :local_demand!, :local_exists?, :remote_pull, to: :environment
+      delegate :process_next_chain_link_after!, :local_demand!, :local_exists?, :remote_pull, to: :arena
       delegate :generate_for, to: :derivative
 
       # @api private
       def call
         local_exists?(derivative: derivative) ||
           remote_pull(derivative: derivative) ||
-          generate_for(environment: environment)
+          generate_for(arena: arena)
 
         # Will raise an exception if the above failed to put the derivative in the correct local
         # location.

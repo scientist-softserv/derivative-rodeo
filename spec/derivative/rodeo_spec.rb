@@ -23,7 +23,7 @@ RSpec.describe Derivative::Rodeo do
       )
     end
     let(:config) { Fixtures.pre_processing_config }
-    subject(:environment) { described_class.start_pre_processing!(manifest: manifest, config: config) }
+    subject(:arena) { described_class.start_pre_processing!(manifest: manifest, config: config) }
 
     context "with a 2 page color PDF" do
       let(:original_filename) { "sample-color-newsletter.pdf" }
@@ -46,10 +46,10 @@ RSpec.describe Derivative::Rodeo do
       let(:path_to_original) { Fixtures.path_for(original_filename) }
 
       it "runs the pre-processing and mime type processing" do
-        environment
-        expect(environment.local_exists?(derivative: :original)).to be_truthy
-        expect(environment.local_exists?(derivative: :monochrome)).to be_truthy
-        expect(environment.local_exists?(derivative: :hocr)).to be_truthy
+        arena
+        expect(arena.local_exists?(derivative: :original)).to be_truthy
+        expect(arena.local_exists?(derivative: :monochrome)).to be_truthy
+        expect(arena.local_exists?(derivative: :hocr)).to be_truthy
       end
     end
 

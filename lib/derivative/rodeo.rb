@@ -18,7 +18,7 @@ require 'active_support/core_ext'
 ####################################################################################################
 require 'derivative/rodeo/configuration'
 require 'derivative/rodeo/dry_run'
-require 'derivative/rodeo/environment'
+require 'derivative/rodeo/arena'
 require 'derivative/rodeo/exceptions'
 require 'derivative/rodeo/manifest'
 require 'derivative/rodeo/process'
@@ -37,7 +37,7 @@ require 'derivative/rodeo/utilities'
 module Derivative
   ##
   # Welcome to Derivative::Rodeo, a gem responsible for coordinating the generation and
-  # "movement" of derivatives from one environment to another.
+  # "movement" of derivatives from one arena to another.
   #
   # @see .config
   # @see .start_pre_processing!
@@ -63,11 +63,11 @@ module Derivative
     # @param manifest [Derivative::Rodeo::Manifest::PreProcess]
     # @param config [Derivative::Rodeo::Configuration]
     #
-    # @return [Derivative::Rodeo::Environment]
+    # @return [Derivative::Rodeo::Arena]
     #
-    # @see Derivative::Rodeo::Environment
+    # @see Derivative::Rodeo::Arena
     def self.start_pre_processing!(manifest:, config: Rodeo.config)
-      Environment.for_pre_processing(manifest: manifest, config: config, &:start_processing!)
+      Arena.for_pre_processing(manifest: manifest, config: config, &:start_processing!)
     end
   end
 end

@@ -27,11 +27,11 @@ RSpec.describe Derivative::Rodeo::Type do
       it { is_expected.to eq(:base) }
     end
 
-    let(:environment) { double(Derivative::Rodeo::Environment, dry_run?: false) }
-    let(:instance) { described_class::BaseType.new(environment: environment) }
+    let(:arena) { double(Derivative::Rodeo::Arena, dry_run?: false) }
+    let(:instance) { described_class::BaseType.new(arena: arena) }
     subject { instance }
 
-    it { is_expected.to delegate_method(:local_run_command!).to(:environment) }
+    it { is_expected.to delegate_method(:local_run_command!).to(:arena) }
 
     describe '#to_sym' do
       subject { instance.to_sym }

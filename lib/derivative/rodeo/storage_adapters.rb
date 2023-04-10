@@ -3,7 +3,7 @@
 module Derivative
   module Rodeo
     ##
-    # Given that Derivative::Rodeo is intended to run in different environments and move data
+    # Given that Derivative::Rodeo is intended to run in different arenas and move data
     # from one storage location to another, we introduce the {StorageAdapters} concept.
     #
     # One adapter is the {StorageAdapters::FileSystemAdapter}; useful for local testing and perhaps

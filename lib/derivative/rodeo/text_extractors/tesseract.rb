@@ -17,11 +17,11 @@ module Derivative
       class Tesseract
         # @!group Class Attributes
         # @!attribute [rw]
-        # Command environment variables to for tesseract command; default `nil`.
+        # Command arena variables to for tesseract command; default `nil`.
         #
         # @example
-        #   Derivative::Rodeo::TextExtractors::Tesseract.command_environment_variables = "OMP_THREAD_LIMIT=1"
-        class_attribute :command_environment_variables, default: nil
+        #   Derivative::Rodeo::TextExtractors::Tesseract.command_arena_variables = "OMP_THREAD_LIMIT=1"
+        class_attribute :command_arena_variables, default: nil
         # @!attribute [rw]
         # Additional options to send to tesseract command; default `nil`.
         class_attribute :additional_tessearct_options, default: nil
@@ -57,7 +57,7 @@ module Derivative
 
         def cli_command
           cmd = ""
-          cmd += command_environment_variables + " " if command_environment_variables.present?
+          cmd += command_arena_variables + " " if command_arena_variables.present?
           cmd += "tesseract #{path} #{output_prefix}"
           cmd += " #{additional_tessearct_options}" if additional_tessearct_options.present?
           cmd += " #{output_base}"

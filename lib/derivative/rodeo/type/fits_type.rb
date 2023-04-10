@@ -8,10 +8,10 @@ module Derivative
         self.prerequisites = [:original]
 
         def generate
-          content = environment.local_read(derivative: :original)
-          filename = File.basename(environment.original_filename)
+          content = arena.local_read(derivative: :original)
+          filename = File.basename(arena.original_filename)
 
-          environment.local_assign!(derivative: to_sym) do
+          arena.local_assign!(derivative: to_sym) do
             Hydra::FileCharacterization.characterize(content, filename, to_sym)
           end
         end

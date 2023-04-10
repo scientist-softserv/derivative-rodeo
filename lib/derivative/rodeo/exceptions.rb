@@ -21,8 +21,8 @@ module Derivative
       end
 
       class FailureToLocateDerivativeError < Error
-        def initialize(derivative:, environment:)
-          super("Could not locate #{derivative.inspect} for environment #{environment.inspect}.")
+        def initialize(derivative:, arena:)
+          super("Could not locate #{derivative.inspect} for arena #{arena.inspect}.")
         end
       end
 

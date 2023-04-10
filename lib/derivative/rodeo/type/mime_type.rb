@@ -17,12 +17,12 @@ module Derivative
         # rubocop:enable Lint/UnusedMethodArgument
 
         def generate
-          content = environment.local_read(derivative: :original)
-          environment.mime_type ||= ::Marcel::MimeType.for(content)
+          content = arena.local_read(derivative: :original)
+          arena.mime_type ||= ::Marcel::MimeType.for(content)
 
-          # QUESTION: Should this be a method on the environment?
-          Derivative::Rodeo::Environment
-            .for_mime_type_processing(environment: environment)
+          # QUESTION: Should this be a method on the arena?
+          Derivative::Rodeo::Arena
+            .for_mime_type_processing(arena: arena)
             .start_processing!
         end
       end

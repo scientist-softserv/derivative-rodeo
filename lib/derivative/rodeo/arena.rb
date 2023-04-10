@@ -7,15 +7,15 @@ require 'derivative/rodeo/queue_adapters'
 module Derivative
   module Rodeo
     ##
-    # The {Environment} class is responsible for ensuring that for a given {Manifest} and its
+    # The {Arena} class is responsible for ensuring that for a given {Manifest} and its
     # many possible {Manifest::Derived} objects we process the original file and derivatives in the
-    # same environment.
+    # same arena.
     #
     # @see .for_pre_processing
     # @see .for_mime_type
     #
     # rubocop:disable Metrics/ClassLength
-    class Environment
+    class Arena
       ##
       # @api public
       #
@@ -33,19 +33,19 @@ module Derivative
       end
 
       ##
-      # This function builds the environment that transitions from preliminary processing (via
+      # This function builds the arena that transitions from preliminary processing (via
       # {Type::OriginalType} and {Type::MimeType}) to the mime type specific processing.
       #
-      # @param environment [Derivative::Rodeo::Environment]
+      # @param arena [Derivative::Rodeo::Arena]
       # @param config [Derivative::Rodeo::Configuration]
       # @see .for_pre_processing
-      def self.for_mime_type_processing(environment:, config: Rodeo.config)
-        new(local_storage: environment.local_storage,
-            remote_storage: environment.remote_storage,
-            queue: environment.queue,
-            manifest: environment.manifest,
-            chain: Chain.from_mime_types_for(manifest: environment.manifest, config: config),
-            logger: environment.logger,
+      def self.for_mime_type_processing(arena:, config: Rodeo.config)
+        new(local_storage: arena.local_storage,
+            remote_storage: arena.remote_storage,
+            queue: arena.queue,
+            manifest: arena.manifest,
+            chain: Chain.from_mime_types_for(manifest: arena.manifest, config: config),
+            logger: arena.logger,
             config: config)
       end
 
@@ -122,7 +122,7 @@ module Derivative
       attr_reader :config
 
       ##
-      # A convenience method to pass along "primative" information regarding the environment.
+      # A convenience method to pass along "primative" information regarding the arena.
       #
       # @return [Hash<Symbol, Hash>]
       def to_hash
@@ -152,7 +152,7 @@ module Derivative
       #
       # @return [Symbol] :end_of_chain when we are done processing this chain.
       # @raise [Derivative::Rodeo::Exceptions::UnknownDerivativeRequestForChainError] when the
-      #        given :derivative is not part of the {Environment}'s {#chain}.
+      #        given :derivative is not part of the {Arena}'s {#chain}.
       def process_next_chain_link_after!(derivative:)
         index = chain.find_index(Derivative::Rodeo::Type(derivative))
         raise Exceptions::UnknownDerivativeRequestForChainError.new(chain: chain, derivative: derivative) unless index
@@ -164,7 +164,7 @@ module Derivative
       end
 
       def enqueue(derivative:)
-        queue.enqueue(derivative: derivative, environment: self)
+        queue.enqueue(derivative: derivative, arena: self)
       end
 
       private :enqueue

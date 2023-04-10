@@ -22,11 +22,11 @@ module Derivative
         def generate
           # generate do
           #   return unless mime_type(derivative: original).pdf?
-          #   pages = page_splitting_service.new(environment: environment)
+          #   pages = page_splitting_service.new(arena: arena)
           #   pages.each_with_index do |page, index|
-          #     derived = Spaces::Derivative::Manifest::Derived.new(original: environment.manifest, derived: :pdf_page, index: index)
-          #     derived_environment = Spaces::Rodeo::Environment.for_derived(manifest: derived, envrionment: environment)
-          #     derived_environment.local_assign!(derivative: :pdf_page, path: page)
+          #     derived = Spaces::Derivative::Manifest::Derived.new(original: arena.manifest, derived: :pdf_page, index: index)
+          #     derived_arena = Spaces::Rodeo::Arena.for_derived(manifest: derived, envrionment: arena)
+          #     derived_arena.local_assign!(derivative: :pdf_page, path: page)
           #     derivatives.start_processing!
           #   end
           # end

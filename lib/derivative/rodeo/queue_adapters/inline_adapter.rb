@@ -7,7 +7,7 @@ module Derivative
       ##
       # The InlineAdapter treats the conceptual "queue" as a pass through.  That is the moment you
       # invoke {#enqueue} the {#processor} will receive the :call message with the given :derivative
-      # and :environment.
+      # and :arena.
       class InlineAdapter
         include Base
 
@@ -20,9 +20,9 @@ module Derivative
         attr_reader :processor
 
         # @param derivative [#to_sym]
-        # @param environment [Derivative::Rodeo::Environment]
-        def enqueue(derivative:, environment:)
-          processor.call(derivative: derivative, environment: environment)
+        # @param arena [Derivative::Rodeo::Arena]
+        def enqueue(derivative:, arena:)
+          processor.call(derivative: derivative, arena: arena)
         end
       end
     end
