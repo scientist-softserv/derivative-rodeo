@@ -22,12 +22,7 @@ module Derivative
         attr_reader :manifest, :directory_name, :root
 
         def to_hash
-          {
-            directory_name: directory_name,
-            manifest: manifest.to_hash,
-            name: to_sym,
-            root: root
-          }
+          super.merge({ directory_name: directory_name, root: root })
         end
 
         # @api public

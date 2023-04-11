@@ -9,6 +9,10 @@ module Derivative
           self.class.to_s.demodulize.underscore.sub(/_adapter$/, '').to_sym
         end
 
+        def to_hash
+          { name: to_sym }
+        end
+
         # @api public
         def exists?(derivative:)
           raise NotImplementedError
