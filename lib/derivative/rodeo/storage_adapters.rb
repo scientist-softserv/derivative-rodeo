@@ -9,8 +9,9 @@ module Derivative
     # One adapter is the {StorageAdapters::FileSystemAdapter}; useful for local testing and perhaps
     # elsewhere.  Other adapters might interact with cloud file storage.
     #
-    # @note There is an assumption that all adapters will include the {StorageAdapters::Base} module
-    #       to indicate that they conform to the interface.
+    # @note
+    #   There is an assumption that all adapters will include the {StorageAdapters::Base} module to
+    #   indicate that they conform to the interface.
     #
     # @see StorageAdapters::Base
     # @see .for

@@ -24,8 +24,9 @@ module Derivative
       #   person = Person.new("No", "Man")
       #   person.extend(Derivative::Rodeo::DryRun.for(method_names: :first_name))
       #
-      # @note Given that we're returning a Module the receiver must either include or extend the
-      #       caller with the returned module.
+      # @note
+      #   Given that we're returning a Module the receiver must either include or extend the
+      #   caller with the returned module.
       def self.for(method_names:, contexts: [], config: Rodeo.config)
         context_message = ""
         items = contexts.map { |key, value| "#{key}: #{value.inspect}" }

@@ -31,10 +31,12 @@ module Derivative
         ##
         # @return [Aws::SQS::Client]
         #
-        # @note Normaly, I'd like to instantiate the client as part of the initialize method.
-        #       However for the environment in which this runs, we're likely to have the However, in
-        #       my local testing, using that approach added 3 seconds to a test.  Hence I'm using a
-        #       class method to repurpose the same client.
+        # @note
+        #
+        #   Normaly, I'd like to instantiate the client as part of the initialize method.  However
+        #   for the environment in which this runs, we're likely to have the However, in my local
+        #   testing, using that approach added 3 seconds to a test.  Hence I'm using a class method
+        #   to repurpose the same client.
         def self.client
           @client ||= ::Aws::SQS::Client.new(region: region)
         end
@@ -46,7 +48,7 @@ module Derivative
         end
 
         ##
-        # @param client [Aws::SQS::Client]
+        # @return [Aws::SQS::Client]
         attr_reader :client
 
         ##
@@ -61,8 +63,10 @@ module Derivative
         # @param derivative [Derivatives::Rodeo::Type]
         # @param arena [Derivatives::Rodeo::Arena]
         #
-        # @note Consider that we may have a different queue that we leverage.  In production we've
-        #       found that the OCR processing works more efficiently if we batch process them.
+        # @note
+        #
+        #   Consider that we may have a different queue that we leverage.  In production we've found
+        #   that the OCR processing works more efficiently if we batch process them.
         def enqueue(derivative:, arena:)
           message_body = Message.to_json(derivative: derivative, arena: arena, queue: self)
           client.send_message(queue_url: queue_url,

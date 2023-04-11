@@ -9,6 +9,21 @@ module Derivative
     #
     # @see Derivative::Rodeo::Manifest::PreProcess
     module Manifest
+      ##
+      # A module for establishing the expected interface
+      module Base
+        def to_sym
+          self.class.to_s.demodulize.underscore.to_sym
+        end
+
+        ##
+        # @return [Hash<Symbol,Object>]
+        def to_hash
+          {
+            name: to_sym
+          }
+        end
+      end
     end
   end
 end

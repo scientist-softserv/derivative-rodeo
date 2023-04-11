@@ -40,9 +40,11 @@ module Derivative
     # @param extractor [#call, Derivative::Rodeo::PdfPagesSummary::Extractor]
     # @return [Derivative::Rodeo::PdfPagesSummary]
     #
-    # @note This looks a bit funny because I want to allow for dependency injection of the given
-    #       extractor.  And to do that correctly, I need to first establish the Struct, then require
-    #       the extractor then add this singleton method.
+    # @note
+    #
+    #   This looks a bit funny because I want to allow for dependency injection of the given
+    #   extractor.  And to do that correctly, I need to first establish the Struct, then require the
+    #   extractor then add this singleton method.
     def PdfPagesSummary.extract(path:, extractor: PdfPagesSummary::Extractor)
       extractor.call(path)
     end

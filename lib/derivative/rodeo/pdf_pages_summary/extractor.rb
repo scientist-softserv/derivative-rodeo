@@ -10,9 +10,14 @@ module Derivative
       #
       # Responsible for determining the image properties of the PDF.
       #
-      # @note Uses poppler 0.19+ pdfimages command to extract image listing metadata from PDF files.
-      #       Though we are optimizing for 0.25 or later for poppler.
-      # @note For dpi extraction, falls back to calculating using MiniMagick, if neccessary.
+      # @note
+      #
+      #   Uses poppler 0.19+ pdfimages command to extract image listing metadata from PDF files.
+      #   Though we are optimizing for 0.25 or later for poppler.
+      #
+      # @note
+      #
+      #   For dpi extraction, falls back to calculating using MiniMagick, if neccessary.
       class Extractor
         ##
         # @param path [String]

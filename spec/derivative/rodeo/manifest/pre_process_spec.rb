@@ -25,7 +25,7 @@ RSpec.describe Derivative::Rodeo::Manifest::PreProcess do
 
   describe '#to_hash' do
     it "has the keys :parent_identifier, :original_filename, and :derivatives" do
-      expect(manifest.to_hash.keys).to eq([:derivatives, :mime_type, :original_filename, :parent_identifier, :path_to_original])
+      expect(manifest.to_hash.keys).to eq([:name, :derivatives, :mime_type, :original_filename, :parent_identifier, :path_to_original])
     end
   end
 

@@ -45,7 +45,8 @@ module Derivative
       ##
       # @api private
       #
-      # @note Provided to ease the testing of the {Sequencer}.
+      # @note
+      #   Provided to ease the testing of the {Sequencer}.
       def to_hash
         @to_hash ||= @chain.each_with_object({}) do |(key, derivative), hash|
           hash[key.to_sym] = derivative.prerequisites

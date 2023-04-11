@@ -1,9 +1,15 @@
 # frozen_string_literal: true
 
+require 'json'
+
 module Derivative
   module Rodeo
     ##
-    # The message sent for enqueuing.
+    # The {Message} sent for and received from enqueuing.
+    #
+    # It should be bi-directional:
+    #
+    # I can serialize a message via the {.to_json} method and unserialize via {.from_json}.
     #
     # Fundamentally this needs:
     #
@@ -22,7 +28,9 @@ module Derivative
     # @see #to_hash
     # @see https://github.com/scientist-softserv/derivative-rodeo/issues/1 Initial acceptance criteria
     #
-    # @note Other queues also likely have messages to send.  A consistent message helps with tight interfaces.
+    # @note
+    #   Other queues also likely have messages to send.  A consistent message helps with tight
+    #   interfaces.
     class Message
       ##
       # @api public
@@ -38,6 +46,12 @@ module Derivative
         new(arena: arena, derivative: derivative, queue: queue).to_hash.to_json
       end
 
+      # @todo Flesh out reification
+      # @param json [String]
+      def self.from_json(json)
+        JSON.parse(json)
+      end
+
       ##
       # @param derivative [Derivatives::Rodeo::Type]
       # @param arena [Derivatives::Rodeo::Arena]
@@ -49,21 +63,24 @@ module Derivative
       end
 
       ##
-      # @param arena [Derivatives::Rodeo::Arena]
+      # @return [Derivatives::Rodeo::Arena]
       attr_reader :arena
 
       ##
-      # @param derivative [Derivatives::Rodeo::Type]
+      # @return [Derivatives::Rodeo::Type]
       attr_reader :derivative
 
       ##
-      # @param queue [Derivatives::Rodeo::QueueAdapters::Base]
+      # @return [Derivatives::Rodeo::QueueAdapters::Base]
       attr_reader :queue
 
       ##
       # @return [Hash<Symbol,Object>]
       def to_hash
-        arena.to_hash.merge(queue: queue.to_hash, derivative: derivative.to_sym)
+        arena
+          .to_hash
+          .except(:chain)
+          .merge(queue: queue.to_hash, derivative: derivative.to_sym)
       end
     end
   end

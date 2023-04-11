@@ -23,14 +23,14 @@ module Derivative
           @mime_type = mime_type
         end
 
+        include Manifest::Base
+
         def to_hash
-          {
-            derivatives: derivatives,
-            mime_type: mime_type,
-            original_filename: original_filename,
-            parent_identifier: parent_identifier,
-            path_to_original: path_to_original
-          }
+          super.merge(derivatives: derivatives,
+                      mime_type: mime_type,
+                      original_filename: original_filename,
+                      parent_identifier: parent_identifier,
+                      path_to_original: path_to_original)
         end
 
         def path_to(derivative:)

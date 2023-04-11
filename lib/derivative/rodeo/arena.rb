@@ -16,12 +16,14 @@ module Derivative
     # @see .for_pre_processing
     # @see .for_mime_type
     #
-    # @note This class was originally named Environment.  However that could be confusing when we
-    #       have a {Configuration} that will definitely use `ENV` for secrets.  Instead, this class
-    #       name leverages one of the terms from the American Rodeo, the arena, where the events
-    #       happen.  I had thought of naming it Context but that was less descriptive.  Besides,
-    #       wouldn't a little Hyrax in a cowboy hat holding a lasso riding a Bulkrax be a rather
-    #       cool hexagonal sticker?  I think so.
+    # @note
+    #
+    #   This class was originally named Environment.  However that could be confusing when we have a
+    #   {Configuration} that will definitely use `ENV` for secrets.  Instead, this class name
+    #   leverages one of the terms from the American Rodeo, the arena, where the events happen.  I
+    #   had thought of naming it Context but that was less descriptive.  Besides, wouldn't a little
+    #   Hyrax in a cowboy hat holding a lasso riding a Bulkrax be a rather cool hexagonal sticker?
+    #   I think so.
     #
     # rubocop:disable Metrics/ClassLength
     class Arena
@@ -69,8 +71,10 @@ module Derivative
       # @param logger [Logger, Object<#debug, #info, #warn, #error, #fatal>]
       # @param config [Derivative::Rodeo::Configuration]
       #
-      # @note We have disabled the Metrics/ParameterLists and consider that acceptable because we
-      #       have privatized the .new method.
+      # @note
+      #
+      #   We have disabled the Metrics/ParameterLists and consider that acceptable because we have
+      #   privatized the .new method.
       #
       # @see .for_pre_processing
       # @see .for_mime_type_processing
@@ -181,8 +185,10 @@ module Derivative
       ##
       # @param derivative [#to_sym]
       #
-      # @note Instead of relying on the delegate method and prefix, I want to ensure that the
-      #       {#remote_storage}'s pull method receives the {#local_storage} as the to: keyword.
+      # @note
+      #
+      #   Instead of relying on the delegate method and prefix, I want to ensure that the
+      #   {#remote_storage}'s pull method receives the {#local_storage} as the to: keyword.
       def remote_pull(derivative:)
         remote_storage.pull(derivative: derivative, to: local_storage)
       end
@@ -190,8 +196,10 @@ module Derivative
       ##
       # @param derivative [#to_sym]
       #
-      # @note Instead of relying on the delegate method and prefix, I want to ensure that the
-      #       {#remote_storage}'s pull! method receives the {#local_storage} as the to: keyword.
+      # @note
+      #
+      #   Instead of relying on the delegate method and prefix, I want to ensure that the
+      #   {#remote_storage}'s pull! method receives the {#local_storage} as the to: keyword.
       def remote_pull!(derivative:)
         remote_storage.pull!(derivative: derivative, to: local_storage)
       end
@@ -210,8 +218,10 @@ module Derivative
       #
       # @param command [String]
       #
-      # @note The name of this function follows the idioms of delegator prefix.  It could be that
-      #       this function should be on the #local_storage object.
+      # @note
+      #
+      #   The name of this function follows the idioms of delegator prefix.  It could be that this
+      #   function should be on the #local_storage object.
       def local_run_command!(command)
         `#{command}`
       end

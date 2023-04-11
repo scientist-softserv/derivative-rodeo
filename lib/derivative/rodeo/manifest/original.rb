@@ -19,12 +19,16 @@ module Derivative
       #
       # In other words, throughout the processing of an {Identifier}.
       #
-      # @note In Hyrax the `original_filename` would be the name of the original file for a FileSet
-      #       associated with the Work identified by the `parent_identifier`.
+      # @note
+      #
+      #   In Hyrax the `original_filename` would be the name of the original file for a FileSet
+      #   associated with the Work identified by the `parent_identifier`.
       class Original
         # The Identifier is a combination of the `parent_identifier` and the `original_filename`.
         #
-        # @note In leveraging a Struct we get easy comparision for uniquness.
+        # @note
+        #
+        #   In leveraging a Struct we get easy comparision for uniquness.
         Identifier = Struct.new(:parent_identifier, :original_filename, keyword_init: true) do
           def id
             "#{parent_identifier}/#{original_filename}"
