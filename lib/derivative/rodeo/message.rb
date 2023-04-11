@@ -42,9 +42,9 @@ module Derivative
       # @param queue [Derivative::Rodeo::QueueAdapters::Base]
       # @param config [Derivative::Rodeo::Configuration]
       # @param kwargs [Hash]
-      # @option local_storage
-      # @option remote_storage
-      # @option manifest
+      # @option kwargs [Object] local_storage
+      # @option kwargs [Object] remote_storage
+      # @option kwargs [Object] manifest
       #
       # @return [String] A JSON encoded document
       #
