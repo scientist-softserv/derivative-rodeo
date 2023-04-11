@@ -68,5 +68,16 @@ module Derivative
     def self.start_pre_processing(manifest:, config: Rodeo.config)
       Arena.for_pre_processing(manifest: manifest, config: config, &:start_processing!)
     end
+
+    ##
+    # Derive from the given :message.
+    #
+    # @param message [Derivative::Rodeo::Message, String]
+    # @param config [Derivative::Rodeo::Configuration]
+    #
+    # @return [Derivative::Rodeo::Arena]
+    def self.invoke_with(message:, config: Rodeo.config)
+      Arena.invoke_from(message: message, config: config, &:process_message!)
+    end
   end
 end

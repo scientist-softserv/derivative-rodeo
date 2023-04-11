@@ -44,6 +44,27 @@ module Derivative
       end
 
       ##
+      # @api public
+      #
+      # @param message [Derivative::Rodeo::Message, String]
+      # @param config [Derivative::Rodeo::Configuration]
+      #
+      # @yield for method to call
+      def self.invoke_from(message:, config: Rodeo.config, &block)
+        message = Message.from_json(message, config: config)
+        new(local_storage: message.local_storage,
+            remote_storage: message.remote_storage,
+            queue: message.queue,
+            manifest: message.manifest,
+            # I'm still thinking on this one; namely if it's adequate?
+            chain: Chain.new(derivatives: message.chain),
+            logger: config.logger,
+            message: message,
+            config: config,
+            &block)
+      end
+
+      ##
       # This function builds the arena that transitions from preliminary processing (via
       # {Type::OriginalType} and {Type::MimeType}) to the mime type specific processing.
       #
@@ -81,12 +102,13 @@ module Derivative
       #
       # rubocop:disable Metrics/ParameterLists
       # rubocop:disable Metrics/MethodLength
-      def initialize(manifest:, local_storage:, remote_storage:, queue:, chain:, logger:, config:)
+      def initialize(manifest:, local_storage:, remote_storage:, queue:, chain:, logger:, config:, message: nil)
         @manifest = manifest
         @local_storage = StorageAdapters.for(manifest: manifest, adapter: local_storage)
         @remote_storage = StorageAdapters.for(manifest: manifest, adapter: remote_storage)
         @queue = QueueAdapters.for(adapter: queue)
         @chain = chain
+        @message = message
         @logger = logger
         @config = config
 
@@ -134,6 +156,9 @@ module Derivative
       # @return [Derivative::Rodeo::Configuration]
       attr_reader :config
 
+      # @return [Derivative::Rodeo::Message]
+      attr_reader :message
+
       ##
       # A convenience method to pass along "primative" information regarding the arena.
       #
@@ -152,6 +177,10 @@ module Derivative
       delegate :exists?, to: :remote_storage, prefix: "remote"
       delegate :original_filename, :mime_type, :mime_type=, to: :manifest
       delegate :dry_run, :dry_run?, to: :config
+
+      def process_message!
+        Process.call(derivative: message.derivative, arena: self)
+      end
 
       ##
       # Begin the derivating!

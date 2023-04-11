@@ -30,7 +30,7 @@ module Derivative
       end
 
       def initialize(derivative:, arena:)
-        @derivative = derivative
+        @derivative = Rodeo.Type(derivative)
         @arena = arena
       end
 

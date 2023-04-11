@@ -3,16 +3,15 @@
 require 'spec_helper'
 
 RSpec.describe Derivative::Rodeo::QueueAdapters::InlineAdapter do
-  let(:processor) { double(Derivative::Rodeo::Process, call: true) }
-  subject(:instance) { described_class.new(processor: processor) }
+  subject(:instance) { described_class.new }
 
   it { is_expected.to be_a Derivative::Rodeo::QueueAdapters::Base }
 
   describe '#enqueue' do
-    let(:arena) { double(Derivative::Rodeo::Arena) }
-    it 'sends the processor a #call message with the given derivative and arena' do
+    let(:arena) { Fixtures.pre_processing_arena }
+    it 'sends the rodeo an .invoke_with message with a contextual message' do
+      expect(Derivative::Rodeo).to receive(:invoke_with).with(message: kind_of(String), config: arena.config)
       instance.enqueue(derivative: :hocr, arena: arena)
-      expect(processor).to have_received(:call).with(derivative: :hocr, arena: arena)
     end
   end
 

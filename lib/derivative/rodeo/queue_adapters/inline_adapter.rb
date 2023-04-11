@@ -6,26 +6,16 @@ module Derivative
     module QueueAdapters
       ##
       # The InlineAdapter treats the conceptual "queue" as a pass through.  That is the moment you
-      # invoke {#enqueue} the {#processor} will receive the :call message with the given :derivative
-      # and :arena.
+      # invoke {#enqueue} we immediate send {Rodeo.invoke_with} a {Message}.
       class InlineAdapter
         include Base
-
-        # @param processor [Derivative::Rodeo::Process, #call]
-        def initialize(processor: Process)
-          @processor = processor
-        end
-
-        # @return  [Derivative::Rodeo::Process, #call]
-        attr_reader :processor
 
         ##
         # @param derivative [#to_sym]
         # @param arena [Derivative::Rodeo::Arena]
-        #
-        # @todo consider invocation via {Derivative::Rodeo.derive_from_message}
         def enqueue(derivative:, arena:)
-          processor.call(derivative: derivative, arena: arena)
+          message = Message.to_json(queue: self, derivative: derivative, arena: arena, config: arena.config)
+          Rodeo.invoke_with(message: message, config: arena.config)
         end
       end
     end

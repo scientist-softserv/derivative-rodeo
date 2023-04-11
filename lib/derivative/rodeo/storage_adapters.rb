@@ -33,6 +33,7 @@ module Derivative
           # Ensure we coerce the given adapter to a new one.
           self.for(manifest: manifest, adapter: adapter.to_hash)
         when Hash
+          adapter = adapter.symbolize_keys
           name = "#{adapter.fetch(:name).to_s.underscore}_adapter".classify
           kwargs = adapter.except(:name, :manifest, :directory_name)
           klass = "Derivative::Rodeo::StorageAdapters::#{name}".constantize

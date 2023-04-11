@@ -16,10 +16,11 @@ module Derivative
       # @return [Derivative::Rodeo::QueueAdapters::Base]
       def self.for(adapter:)
         case adapter
-        when Symbol
+        when Symbol, String
           klass = "Derivative::Rodeo::QueueAdapters::#{adapter.to_s.classify}Adapter".constantize
           klass.new
         when Hash
+          adapter = adapter.symbolize_keys
           self.for(adapter: adapter.fetch(:name))
         when Derivative::Rodeo::QueueAdapters::Base
           adapter
