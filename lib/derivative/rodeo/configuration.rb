@@ -56,8 +56,10 @@ module Derivative
         # Yes a bit of antics to ensure string or symbol keys; maybe not worth it.
         derivatives_by_media_type.fetch(mime_type.media_type, []) +
           derivatives_by_media_type.fetch(mime_type.media_type.to_sym, []) +
+
           derivatives_by_mime_type.fetch(mime_type.to_s, []) +
           derivatives_by_mime_type.fetch(mime_type.to_s.to_sym, []) +
+
           derivatives_by_sub_type.fetch(mime_type.sub_type, []) +
           derivatives_by_sub_type.fetch(mime_type.sub_type.to_sym, [])
       end

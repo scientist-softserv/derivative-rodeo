@@ -4,7 +4,7 @@ require 'spec_helper'
 
 RSpec.describe Derivative::Rodeo::Configuration do
   let(:config) { described_class.new }
-  describe "#derivatives_by" do
+  describe "#derivatives_for" do
     before do
       config.derivatives_by_media_type = { image: [:a], application: [:d] }
       config.derivatives_by_sub_type = { "png" => [:b] }

@@ -14,6 +14,13 @@ RSpec.describe Derivative::Rodeo::QueueAdapters::AwsSqsAdapter do
   it { is_expected.to respond_to :queue_name }
   it { is_expected.to respond_to :queue_name= }
 
+  describe '.client' do
+    subject { described_class.client }
+
+    # This test takes 3 seconds on an M1 Apple Silicon chip; is that worth running?
+    xit { is_expected.to be_a(::Aws::SQS::Client) }
+  end
+
   describe '#enqueue' do
     subject { instance.enqueue(arena: arena, derivative: derivative) }
     let(:message_body) { %({hello:"world"}) }
@@ -22,13 +29,27 @@ RSpec.describe Derivative::Rodeo::QueueAdapters::AwsSqsAdapter do
     # do.
     it 'sends a message to the client with queue_url and message body' do
       allow(Derivative::Rodeo::Message).to(
-        receive(:to_json).with(arena: arena, derivative: derivative, queue: instance).and_return(message_body)
+        receive(:to_json)
+          .with(arena: arena, derivative: derivative, queue: instance)
+          .and_return(message_body)
       )
 
       subject
-      expect(client).to have_received(:send_message).with(queue_url: s3_queue.queue_url, message_body: message_body)
+
+      expect(client).to(
+        have_received(:send_message)
+          .with(queue_url: s3_queue.queue_url, message_body: message_body)
+      )
     end
   end
 
-  describe '#enqueue'
+  describe '#to_hash' do
+    subject { instance.to_hash }
+
+    it {
+      is_expected.to(eq({ name: :aws_sqs,
+                          region: described_class.region,
+                          queue_name: described_class.queue_name }))
+    }
+  end
 end
