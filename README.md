@@ -1,3 +1,24 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Derivative::Rodeo](#derivativerodeo)
+  - [Note on Development Status](#note-on-development-status)
+  - [Design Goals](#design-goals)
+  - [Diagrams](#diagrams)
+    - [Conceptual Diagram](#conceptual-diagram)
+    - [Process Diagram](#process-diagram)
+    - [Interaction with SpaceStone](#interaction-with-spacestone)
+    - [Interaction with Hyrax Ingest](#interaction-with-hyrax-ingest)
+  - [Installation](#installation)
+    - [Dependencies](#dependencies)
+  - [Usage](#usage)
+  - [Development](#development)
+  - [Tasks](#tasks)
+  - [Contributing](#contributing)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Derivative::Rodeo
 
 Welcome to the rodeo!  The goal of `Derivative::Rodeo` is to provide interfaces and processing for files.

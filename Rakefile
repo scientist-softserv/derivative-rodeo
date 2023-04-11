@@ -11,6 +11,16 @@ end
 
 RSpec::Core::RakeTask.new(:spec)
 
-task ci: %i[rubocop spec]
+desc "Generate table of contents for README.md"
+task :doctoc do
+  if `which doctoc`.strip.length.zero?
+    $stdout.puts 'Skipping doctoc generation; install via "npm install -g doctoc"'
+  else
+    $stdout.puts 'Generating table of contents for README.md'
+    `doctoc README.md`
+  end
+end
+
+task ci: %i[rubocop spec doctoc]
 
 task default: %i[ci]
