@@ -18,6 +18,7 @@ module Derivative
     #   name that we want to use; likely we're using the same adapter as what we have here but
     #   perhaps a different queue name (determined by the {Type})
     #
+    # @see .to_json
     # @see #to_hash
     # @see https://github.com/scientist-softserv/derivative-rodeo/issues/1 Initial acceptance criteria
     #
@@ -46,8 +47,20 @@ module Derivative
         @derivative = derivative
         @queue = queue
       end
-      attr_reader :arena, :derivative, :queue
 
+      ##
+      # @param arena [Derivatives::Rodeo::Arena]
+      attr_reader :arena
+
+      ##
+      # @param derivative [Derivatives::Rodeo::Type]
+      attr_reader :derivative
+
+      ##
+      # @param queue [Derivatives::Rodeo::QueueAdapters::Base]
+      attr_reader :queue
+
+      ##
       # @return [Hash<Symbol,Object>]
       def to_hash
         arena.to_hash.merge(queue: queue.to_hash, derivative: derivative.to_sym)
