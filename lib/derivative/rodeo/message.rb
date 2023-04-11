@@ -70,13 +70,13 @@ module Derivative
       def self.from_json(json, config: Rodeo.config)
         json = JSON.parse(json)
         manifest = Manifest.from(json.fetch('manifest'))
-        local_storage = StorageAdapters.for(manifest: manifest, adapter: json.fetch('local_storage', config.local_storage))
-        remote_storage = StorageAdapters.for(manifest: manifest, adapter: json.fetch('remote_storage', config.remote_storage))
-        queue = QueueAdapters.for(adapter: json.fetch('queue', config.queue))
+        local_storage = json.fetch('local_storage', config.local_storage)
+        remote_storage = json.fetch('remote_storage', config.remote_storage)
+        queue = json.fetch('queue', config.queue)
         derivative = json.fetch('derivative').to_sym # TODO: Insert a default
 
         # Ensure that the given derivative is part of the chain.
-        chain = Chain.new(derivatives: json.fetch('chain', []) + [derivative])
+        chain = json.fetch('chain', []) + [derivative]
         new(local_storage: local_storage,
             remote_storage: remote_storage,
             queue: queue,
@@ -94,12 +94,12 @@ module Derivative
       # @param chain [Derivative::Rodeo::Chain]
       # rubocop:disable Metrics/ParameterLists
       def initialize(local_storage:, remote_storage:, manifest:, derivative:, queue:, chain:)
-        @local_storage = local_storage
-        @remote_storage = remote_storage
         @manifest = manifest
+        @local_storage =  StorageAdapters.for(manifest: manifest, adapter: local_storage)
+        @remote_storage = StorageAdapters.for(manifest: manifest, adapter: remote_storage)
         @derivative = derivative
-        @queue = queue
-        @chain = chain
+        @queue = QueueAdapters.for(adapter: queue)
+        @chain = Chain.new(derivatives: chain)
       end
       # rubocop:enable Metrics/ParameterLists
 

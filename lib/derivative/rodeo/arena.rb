@@ -46,12 +46,12 @@ module Derivative
       ##
       # @api public
       #
-      # @param message [Derivative::Rodeo::Message, String]
+      # @param message [String]
       # @param config [Derivative::Rodeo::Configuration]
       #
       # @yield for method to call
-      def self.invoke_from(message:, config: Rodeo.config, &block)
-        message = Message.from_json(message, config: config)
+      def self.invoke_from(json:, config: Rodeo.config, &block)
+        message = Message.from_json(json, config: config)
         new(local_storage: message.local_storage,
             remote_storage: message.remote_storage,
             queue: message.queue,
@@ -185,7 +185,8 @@ module Derivative
       ##
       # Begin the derivating!
       def start_processing!
-        # Ensure we have the original file stored locally.
+        # message = Derivative::Rodeo::Message.to_json(arena: arena, derivative: chain.first, queue: queue)
+        # Rodeo.invoke_with(json: message)
         enqueue(derivative: chain.first)
       end
 
@@ -201,7 +202,6 @@ module Derivative
 
         next_link = chain.to_a[index + 1]
         return :end_of_chain unless next_link
-
         enqueue(derivative: next_link)
       end
 

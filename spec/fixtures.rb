@@ -1,5 +1,19 @@
 # frozen_string_literal: true
 module Fixtures
+  # rubocop:disable Metrics/ParameterLists
+  def self.message(chain: [], derivative: :original, manifest: pre_processing_manifest, local_storage: :file_system, remote_storage: :from_manifest, queue: :inline, config: pre_processing_config)
+    chain = Derivative::Rodeo::Chain.for_pre_processing(config: config)
+    Derivative::Rodeo::Message.new(
+      manifest: manifest,
+      derivative: derivative,
+      local_storage: local_storage,
+      remote_storage: remote_storage,
+      queue: queue,
+      chain: chain
+    )
+  end
+  # rubocop:enable Metrics/ParameterLists
+
   def self.pre_processing_manifest(
     parent_identifier: 'parent-identifier',
     original_filename: 'ocr_color.tiff',

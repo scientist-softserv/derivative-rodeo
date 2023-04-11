@@ -14,8 +14,8 @@ module Derivative
         # @param derivative [#to_sym]
         # @param arena [Derivative::Rodeo::Arena]
         def enqueue(derivative:, arena:)
-          message = Message.to_json(queue: self, derivative: derivative, arena: arena, config: arena.config)
-          Rodeo.invoke_with(message: message, config: arena.config)
+          json = Message.to_json(queue: self, derivative: derivative, arena: arena, config: arena.config)
+          Rodeo.invoke_with(json: json, config: arena.config)
         end
       end
     end

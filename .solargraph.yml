@@ -1,9 +1,10 @@
 ---
 include:
 - "**/*.rb"
-- "spec/support/**/*"
+- "spec/fixtures.rb"
 exclude:
-- spec/**/*
+- spec/derivative/rodeo/**/*
+- spec/spec_helper.rb
 - test/**/*
 - vendor/**/*
 - ".bundle/**/*"

@@ -72,12 +72,12 @@ module Derivative
     ##
     # Derive from the given :message.
     #
-    # @param message [Derivative::Rodeo::Message, String]
+    # @param json [String] a JSON string that will be coerced into a {Message}
     # @param config [Derivative::Rodeo::Configuration]
     #
     # @return [Derivative::Rodeo::Arena]
-    def self.invoke_with(message:, config: Rodeo.config)
-      Arena.invoke_from(message: message, config: config, &:process_message!)
+    def self.invoke_with(json:, config: Rodeo.config)
+      Arena.invoke_from(json: json, config: config, &:process_message!)
     end
   end
 end
