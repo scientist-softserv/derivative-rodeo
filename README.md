@@ -36,7 +36,7 @@ Last, the test suite covers a significant portion of the code; exercising both u
 - [Conceptual Diagram](#conceptual-diagram) :: The top-level concept of what the Derivative::Rodeo orchestrates.
 - [Process Diagram](#proces-diagram) :: The low-level diagram of how the [Derivative::Rodeo::Process](./lib/derivative/rodeo/process.rb) works.
 - [Interaction with Spacestone](#interaction-with-spacestone) :: How the `Derivative::Rodeo` interacts with [SpaceStone](https://github.com/scientist-softserv/space_stone).
-- [Interaction with Hyrax Ingest](#interaction-with-hyrax-ingest) :: TBD
+- [Interaction with Hyrax Ingest](#interaction-with-hyrax-ingest) :: Leverage the Hyrax::DerivativeService plugins to override the default behavior.
 
 ### Conceptual Diagram
 
@@ -169,10 +169,30 @@ The [Newman Numismatic Portal](https://github.com/scientist-softserv/nnp/) intro
 
 With all of that here's the diagram for the Interaction with Hyrax Ingest.
 
-**TODO**
+![Interaction with Hyrax Ingest](./artifacts/interaction-with-hyrax.png)
 
 <details>
 <summary>The PlantUML Text for the Interaction with Hyrax Ingest</summary>
+
+```plantuml
+  @startuml
+  !theme amiga
+  !pragma useVerticalIf on
+  start
+  :Hyrax::DerivativeService;
+  if (Derivative::Rodeo::DerivativeService.valid?) then (yes)
+	  :read_from_rodeo;
+	  :write_to_fedora;
+	  stop
+  elseif (Hyrax::FileSetDerivativeService.valid?) then (yes)
+	  :generate_derivative;
+	  :write_to_fedora;
+	  stop
+  else (no)
+	  stop
+  endif
+  @enduml
+```
 
 </details>
 
