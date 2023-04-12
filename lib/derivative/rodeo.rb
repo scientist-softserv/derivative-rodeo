@@ -41,7 +41,8 @@ module Derivative
   # "movement" of derivatives from one arena to another.
   #
   # @see .config
-  # @see .start_pre_processing
+  # @see .process_derivative
+  # @see .process_file_sets_from_csv
   module Rodeo
     ##
     # The {Configuration} that the various processes in your implementation will use.
