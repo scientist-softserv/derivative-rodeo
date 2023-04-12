@@ -42,12 +42,18 @@ module Derivative
 
         ##
         # Parse the {#body} (using the {.csv_parse_options})
+        #
+        # @return [TrueClass] on completion.
+        #
+        # @todo Consider how we might handle each row.  Should we validate and capture exceptions
+        # along the way?
         def call
           CSV.parse(body, **csv_parse_options) do |row|
             manifest = self.class.convert_to_manifest(row: row)
             arena = arena_for(manifest: manifest)
             enqueue(arena: arena)
           end
+          true
         end
 
         # These are the columns that we might see in our CSV.  The required might be a bit of a
