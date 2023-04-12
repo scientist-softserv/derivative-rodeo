@@ -76,9 +76,11 @@ module Derivative
       def self.from_json(json, config: Rodeo.config, &block)
         json = JSON.parse(json)
         manifest = Manifest.from(json.fetch('manifest'))
-        derivative_to_process = json.fetch('derivative_to_process') { :original }.to_sym
-        # TODO: Refactor this unholy line!
-        chain = Chain.new(derivatives: (json.fetch('chain', Chain.from_mime_types_for(manifest: manifest, config: config)).to_a + [derivative_to_process]))
+        derivative_to_process = json.fetch('derivative_to_process', :original).to_sym
+
+        derivatives = json.fetch('chain') { Chain.for_pre_processing(config: config) }.map(&:to_sym)
+        chain = Chain.new(derivatives: derivatives + [derivative_to_process])
+
         new(
           manifest: manifest,
           local_storage: json.fetch('local_storage', config.local_storage),
@@ -199,7 +201,7 @@ module Derivative
       delegate :original_filename, :mime_type, :mime_type=, to: :manifest
       delegate :dry_run, :dry_run?, to: :config
 
-      def process_message!
+      def process_derivative!
         Process.call(derivative: derivative_to_process, arena: self)
       end
 
@@ -207,7 +209,7 @@ module Derivative
       # Begin the derivating!
       def start_processing!
         # message = Derivative::Rodeo::Message.to_json(arena: arena, derivative: chain.first, queue: queue)
-        # Rodeo.invoke_with(json: message)
+        # Rodeo.process_derivative(json: message)
         enqueue(derivative_to_process: chain.first)
       end
 

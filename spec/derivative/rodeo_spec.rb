@@ -12,7 +12,9 @@ RSpec.describe Derivative::Rodeo do
     end
   end
 
-  describe '.invoke_with' do
+  let(:config) { Fixtures.config }
+
+  describe '.process_derivative' do
     let(:arena) { Fixtures.arena(manifest: manifest) }
 
     let(:manifest) do
@@ -25,7 +27,7 @@ RSpec.describe Derivative::Rodeo do
       )
     end
 
-    subject { described_class.invoke_with(json: arena.to_json) }
+    subject { described_class.process_derivative(json: arena.to_json, config: config) }
 
     context "with a 2 page color PDF" do
       let(:original_filename) { "sample-color-newsletter.pdf" }
@@ -60,5 +62,18 @@ RSpec.describe Derivative::Rodeo do
     context 'with a PNG'
     context 'with a MOV'
     context 'with a WAV'
+  end
+
+  describe '.process_file_sets_from_csv' do
+    let(:csv) do
+      CSV.generate do |csv|
+        csv << ["parent_identifier", "original_filename", "path_to_original", "monochrome", "mime_type"]
+        csv << ["123", "ocr_color.tiff", Fixtures.path_for("ocr_color.tiff"), Fixtures.path_for("ocr_mono.tiff"), nil]
+      end
+    end
+
+    it "calls and enqueue the entire derivative chain for each provided manifest" do
+      described_class.process_file_sets_from_csv(csv, config: config)
+    end
   end
 end

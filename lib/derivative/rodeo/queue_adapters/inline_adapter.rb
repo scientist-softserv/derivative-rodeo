@@ -6,7 +6,7 @@ module Derivative
     module QueueAdapters
       ##
       # The InlineAdapter treats the conceptual "queue" as a pass through.  That is the moment you
-      # invoke {#enqueue} we immediate send {Rodeo.invoke_with} a JSON document.
+      # invoke {#enqueue} we immediate send {Rodeo.process_derivative} a JSON document.
       class InlineAdapter
         include Base
 
@@ -14,7 +14,7 @@ module Derivative
         # @param derivative_to_process [#to_sym]
         # @param arena [Derivative::Rodeo::Arena]
         def enqueue(derivative_to_process:, arena:)
-          Rodeo.invoke_with(json: arena.to_json(derivative_to_process: derivative_to_process), config: arena.config)
+          Rodeo.process_derivative(json: arena.to_json(derivative_to_process: derivative_to_process), config: arena.config)
         end
       end
     end

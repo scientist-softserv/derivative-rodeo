@@ -3,6 +3,7 @@
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [Derivative::Rodeo](#derivativerodeo)
+  - [Concepts](#concepts)
   - [Note on Development Status](#note-on-development-status)
   - [Design Goals](#design-goals)
   - [Diagrams](#diagrams)
@@ -12,6 +13,7 @@
     - [Interaction with Hyrax Ingest](#interaction-with-hyrax-ingest)
   - [Installation](#installation)
     - [Dependencies](#dependencies)
+  - [Inflection Points](#inflection-points)
   - [Usage](#usage)
   - [Development](#development)
   - [Tasks](#tasks)
@@ -22,6 +24,10 @@
 # Derivative::Rodeo
 
 Welcome to the rodeo!  The goal of `Derivative::Rodeo` is to provide interfaces and processing for files.
+
+The fully public facing methods of `Derivative::Rodeo` are module methods on the [Derivative::Rodeo module](./lib/derivative/rodeo.rb).  There is an associated [Derivative::Rodeo spec file](./spec/derivative/rodeo_spec.rb) for those methods which is intended to be a place for "feature specs."
+
+## Concepts
 
 The conceptual logic of `Derivative::Rodeo` is:
 
@@ -237,6 +243,17 @@ If bundler is not being used to manage dependencies, install the gem by executin
     - _ImageMagick policy XML may need to be more permissive in both resources  and source media types allowed._
   * [libcurl3](https://packages.ubuntu.com/search?keywords=libcurl3)
   * [libgbm1](https://packages.debian.org/sid/libgbm1)
+
+## Inflection Points
+
+There are inflection points that the `Derivative::Rodeo` considers:
+
+1. Spawning processes based on the [MimeType](./lib/derivative/rodeo/type/mime_type.rb)
+2. Spawning processes to [split a PDF](./lib/derivative/rodeo/type/pdf_split_type.rb)
+
+These inflection points conceptually start a new [Chain](./lib/derivative/rodeo/chain.rb) of processing.
+
+*Musing: I write this here, wondering if those inflection points should call out to the public API of Derivative::Rodeo; that way providing a clearer separation of boundary and exposing the inflection as a valid invocation.*
 
 ## Usage
 

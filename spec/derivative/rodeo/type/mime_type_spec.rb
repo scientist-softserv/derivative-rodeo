@@ -14,7 +14,7 @@ RSpec.describe Derivative::Rodeo::Type::MimeType do
 
   describe "#generate" do
     before do
-      allow(Derivative::Rodeo).to receive(:invoke_with)
+      allow(Derivative::Rodeo).to receive(:process_derivative)
       # Need to ensure that this is here!
       arena.remote_pull!(derivative: :original)
     end
@@ -24,7 +24,7 @@ RSpec.describe Derivative::Rodeo::Type::MimeType do
     end
 
     it "starts processing for the given mime type" do
-      expect(Derivative::Rodeo).to receive(:invoke_with).with(json: kind_of(String))
+      expect(Derivative::Rodeo).to receive(:process_derivative).with(json: kind_of(String))
       instance.generate
     end
   end

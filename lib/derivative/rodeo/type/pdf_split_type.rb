@@ -3,15 +3,19 @@
 module Derivative
   module Rodeo
     module Type
+      ##
       # The :pdf_split derivative processes one file and creates additional files which have some
       # behavior similar to originals in that they have their own processing chain.
       class PdfSplitType < BaseType
         self.prerequisites = []
         self.spawns = [:ocr]
 
+        ##
         # @!group Class Attributes
         # @!attribute [rw]
         class_attribute :page_splitting_service, default: nil
+
+        ##
         # @!attribute [rw]
         #
         # When we split the PDFs what are the derivatives we want to run on the resulting individual

@@ -19,6 +19,8 @@ module Derivative
       # @param config [Derivative::Rodeo::Configuration]
       #
       # @return [Chain]
+      #
+      # @todo Is this the right place for this?  It's encapsulated so can remain.
       def self.from_mime_types_for(manifest:, config: Rodeo.config)
         derivatives = Types.for(manifest: manifest, config: config)
         new(derivatives: derivatives)
@@ -28,6 +30,8 @@ module Derivative
       # @param config [Derivative::Rodeo::Configuration]
       #
       # @return [Chain]
+      #
+      # @todo Is this the right place for this?  It's encapsulated so can remain.
       def self.for_pre_processing(config: Rodeo.config)
         new(derivatives: config.derivatives_for_pre_process)
       end

@@ -20,6 +20,7 @@ require 'derivative/rodeo/configuration'
 require 'derivative/rodeo/dry_run'
 require 'derivative/rodeo/arena'
 require 'derivative/rodeo/exceptions'
+require 'derivative/rodeo/invocation'
 require 'derivative/rodeo/manifest'
 require 'derivative/rodeo/process'
 require 'derivative/rodeo/queue_adapters'
@@ -56,14 +57,32 @@ module Derivative
     end
 
     ##
-    # Process the given json.
+    # Process the derivative for the given json message.
     #
-    # @param json [String] a JSON string that will be coerced into a {Message}
+    # @param json [String] a JSON string that provides an {Arena} the context to process the encoded
+    #        deriative.
     # @param config [Derivative::Rodeo::Configuration]
     #
     # @return [Derivative::Rodeo::Arena]
-    def self.invoke_with(json:, config: Rodeo.config)
-      Arena.from_json(json, config: config, &:process_message!)
+    # @see Arena#process_derivatives!
+    # @see Arena.from_json
+    def self.process_derivative(json:, config: Rodeo.config)
+      # TODO: Consider reworking to:
+      # Invocation.invoke(:process_derivative, body: json, config: config)
+      Arena.from_json(json, config: config, &:process_derivative!)
+    end
+
+    ##
+    # Process a CSV with one row representing one {Manifest::PreProcess}
+    #
+    # @param body [String] the CSV
+    # @param config [Derivative::Rodeo::Configuration]
+    #
+    # @see Invocation
+    #
+    # @see https://github.com/scientist-softserv/adventist-dl/issues/369 Acceptance criteria
+    def self.process_file_sets_from_csv(body, config: Rodeo.config)
+      Invocation.invoke(:process_file_sets_from_csv, body: body, config: config)
     end
   end
 end
