@@ -44,24 +44,25 @@ module Derivative
       end
 
       ##
-      # @api public
-      #
-      # @param message [String]
+      # @param json [String]
       # @param config [Derivative::Rodeo::Configuration]
-      #
-      # @yield for method to call
-      def self.invoke_from(json:, config: Rodeo.config, &block)
-        message = Message.from_json(json, config: config)
-        new(local_storage: message.local_storage,
-            remote_storage: message.remote_storage,
-            queue: message.queue,
-            manifest: message.manifest,
-            # I'm still thinking on this one; namely if it's adequate?
-            chain: Chain.new(derivatives: message.chain),
-            logger: config.logger,
-            message: message,
-            config: config,
-            &block)
+      def self.from_json(json, config: Rodeo.config, &block)
+        json = JSON.parse(json)
+        manifest = Manifest.from(json.fetch('manifest'))
+        current_derivative =  json.fetch('derivative').to_sym
+        # TODO: Refactor this unholy method!
+        chain = Chain.new(derivatives: (json.fetch('chain', Chain.from_mime_types_for(manifest: manifest, config: config)).to_a + [current_derivative]))
+        new(
+          manifest: manifest,
+          local_storage: json.fetch('local_storage', config.local_storage),
+          remote_storage: json.fetch('remote_storage', config.remote_storage),
+          queue: json.fetch('queue', config.queue),
+          current_derivative:  current_derivative,
+          chain: chain,
+          logger: config.logger,
+          config: config,
+          &block
+        )
       end
 
       ##
@@ -102,13 +103,13 @@ module Derivative
       #
       # rubocop:disable Metrics/ParameterLists
       # rubocop:disable Metrics/MethodLength
-      def initialize(manifest:, local_storage:, remote_storage:, queue:, chain:, logger:, config:, message: nil)
+      def initialize(manifest:, local_storage:, remote_storage:, queue:, chain:, logger:, config:, current_derivative: nil)
         @manifest = manifest
+        @chain = chain
+        @current_derivative = current_derivative || chain.first
         @local_storage = StorageAdapters.for(manifest: manifest, adapter: local_storage)
         @remote_storage = StorageAdapters.for(manifest: manifest, adapter: remote_storage)
         @queue = QueueAdapters.for(adapter: queue)
-        @chain = chain
-        @message = message
         @logger = logger
         @config = config
 
@@ -147,6 +148,8 @@ module Derivative
       # @return [Derivative::Rodeo::QueueAdapters::Base]
       attr_reader :queue
 
+      attr_reader :current_derivative
+
       # @return [Derivative::Rodeo::Chain]
       attr_reader :chain
 
@@ -155,9 +158,6 @@ module Derivative
 
       # @return [Derivative::Rodeo::Configuration]
       attr_reader :config
-
-      # @return [Derivative::Rodeo::Message]
-      attr_reader :message
 
       ##
       # A convenience method to pass along "primative" information regarding the arena.
@@ -179,7 +179,7 @@ module Derivative
       delegate :dry_run, :dry_run?, to: :config
 
       def process_message!
-        Process.call(derivative: message.derivative, arena: self)
+        Process.call(derivative: current_derivative, arena: self)
       end
 
       ##

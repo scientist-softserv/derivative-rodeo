@@ -77,7 +77,7 @@ module Derivative
     #
     # @return [Derivative::Rodeo::Arena]
     def self.invoke_with(json:, config: Rodeo.config)
-      Arena.invoke_from(json: json, config: config, &:process_message!)
+      Arena.from_json(json, config: config, &:process_message!)
     end
   end
 end

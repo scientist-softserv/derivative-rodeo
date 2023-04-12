@@ -68,7 +68,6 @@ module Derivative
       #
       # @see .to_json
       def self.from_json(json, config: Rodeo.config)
-        json = JSON.parse(json)
         manifest = Manifest.from(json.fetch('manifest'))
         local_storage = json.fetch('local_storage', config.local_storage)
         remote_storage = json.fetch('remote_storage', config.remote_storage)

@@ -36,7 +36,7 @@ module Derivative
       # @param derivatives [Array<#to_sym>]
       def initialize(derivatives:)
         # Don't mind us, these preliminary_chain_links are going to push to the front of the line.
-        @chain = Array(derivatives).each_with_object({}) do |(key, _), hash|
+        @chain = Array(derivatives).map(&:to_sym).uniq.each_with_object({}) do |(key, _), hash|
           hash[key.to_sym] = Derivative::Rodeo::Type(key.to_sym)
         end
         add_dependencies_to_chain!
