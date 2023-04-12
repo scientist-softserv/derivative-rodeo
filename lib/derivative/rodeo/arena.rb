@@ -76,15 +76,15 @@ module Derivative
       def self.from_json(json, config: Rodeo.config, &block)
         json = JSON.parse(json)
         manifest = Manifest.from(json.fetch('manifest'))
-        current_derivative = json.fetch('derivative') { :original }.to_sym
+        derivative_to_process = json.fetch('derivative_to_process') { :original }.to_sym
         # TODO: Refactor this unholy line!
-        chain = Chain.new(derivatives: (json.fetch('chain', Chain.from_mime_types_for(manifest: manifest, config: config)).to_a + [current_derivative]))
+        chain = Chain.new(derivatives: (json.fetch('chain', Chain.from_mime_types_for(manifest: manifest, config: config)).to_a + [derivative_to_process]))
         new(
           manifest: manifest,
           local_storage: json.fetch('local_storage', config.local_storage),
           remote_storage: json.fetch('remote_storage', config.remote_storage),
           queue: json.fetch('queue', config.queue),
-          current_derivative: current_derivative,
+          derivative_to_process: derivative_to_process,
           chain: chain,
           logger: config.logger,
           config: config,
@@ -131,10 +131,10 @@ module Derivative
       #
       # rubocop:disable Metrics/ParameterLists
       # rubocop:disable Metrics/MethodLength
-      def initialize(manifest:, local_storage:, remote_storage:, queue:, chain:, logger:, config:, current_derivative: nil)
+      def initialize(manifest:, local_storage:, remote_storage:, queue:, chain:, logger:, config:, derivative_to_process: nil)
         @manifest = manifest
         @chain = chain
-        @current_derivative = current_derivative || chain.first.to_sym
+        @derivative_to_process = derivative_to_process || chain.first.to_sym
         @local_storage = StorageAdapters.for(manifest: manifest, adapter: local_storage)
         @remote_storage = StorageAdapters.for(manifest: manifest, adapter: remote_storage)
         @queue = QueueAdapters.for(adapter: queue)
@@ -176,7 +176,7 @@ module Derivative
       # @return [Derivative::Rodeo::QueueAdapters::Base]
       attr_reader :queue
 
-      attr_reader :current_derivative
+      attr_reader :derivative_to_process
 
       # @return [Derivative::Rodeo::Chain]
       attr_reader :chain
@@ -203,8 +203,9 @@ module Derivative
 
       ##
       # @see .from_json
-      def to_json(**kwargs)
-        kwargs.merge(to_hash).to_json
+      # @todo The :original is hard-coded; need to figure out that.
+      def to_json(derivative_to_process: :original)
+        to_hash.merge(derivative_to_process: derivative_to_process.to_sym).to_json
       end
 
       delegate :exists?, :assign!, :path, :read, to: :local_storage, prefix: "local"
@@ -213,7 +214,7 @@ module Derivative
       delegate :dry_run, :dry_run?, to: :config
 
       def process_message!
-        Process.call(derivative: current_derivative, arena: self)
+        Process.call(derivative: derivative_to_process, arena: self)
       end
 
       ##
@@ -221,7 +222,7 @@ module Derivative
       def start_processing!
         # message = Derivative::Rodeo::Message.to_json(arena: arena, derivative: chain.first, queue: queue)
         # Rodeo.invoke_with(json: message)
-        enqueue(derivative: chain.first)
+        enqueue(derivative_to_process: chain.first)
       end
 
       ##
@@ -236,11 +237,11 @@ module Derivative
 
         next_link = chain.to_a[index + 1]
         return :end_of_chain unless next_link
-        enqueue(derivative: next_link)
+        enqueue(derivative_to_process: next_link)
       end
 
-      def enqueue(derivative:)
-        queue.enqueue(derivative: derivative, arena: self)
+      def enqueue(derivative_to_process:)
+        queue.enqueue(derivative_to_process: derivative_to_process, arena: self)
       end
 
       private :enqueue

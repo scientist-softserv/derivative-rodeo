@@ -60,16 +60,16 @@ module Derivative
         ##
         # @api public
         #
-        # @param derivative [Derivatives::Rodeo::Type]
+        # @param derivative_to_process [Derivatives::Rodeo::Type]
         # @param arena [Derivatives::Rodeo::Arena]
         #
         # @note
         #
         #   Consider that we may have a different queue that we leverage.  In production we've found
         #   that the OCR processing works more efficiently if we batch process them.
-        def enqueue(derivative:, arena:)
+        def enqueue(derivative_to_process:, arena:)
           client.send_message(queue_url: queue_url,
-                              message_body: arena.to_json(derivative: derivative.to_sym))
+                              message_body: arena.to_json(derivative_to_process: derivative_to_process))
         end
 
         private

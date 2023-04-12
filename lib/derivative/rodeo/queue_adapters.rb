@@ -39,7 +39,7 @@ module Derivative
           { name: to_sym }
         end
 
-        def enqueue(derivative:, arena:)
+        def enqueue(derivative_to_process:, arena:)
           raise NotImplementedError
         end
       end

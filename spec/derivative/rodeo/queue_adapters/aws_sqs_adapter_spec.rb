@@ -22,7 +22,7 @@ RSpec.describe Derivative::Rodeo::QueueAdapters::AwsSqsAdapter do
   end
 
   describe '#enqueue' do
-    subject { instance.enqueue(arena: arena, derivative: derivative) }
+    subject { instance.enqueue(arena: arena, derivative_to_process: derivative) }
 
     # Yes this is testing the integration of a bunch of mocked things; but sometimes that's what you
     # do.

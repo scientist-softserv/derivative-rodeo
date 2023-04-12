@@ -62,7 +62,7 @@ RSpec.describe Derivative::Rodeo::Arena do
     let(:derivative) { arena.chain.first }
 
     it 'enqueues the first link in the chain' do
-      expect(arena.queue).to receive(:enqueue).with(derivative: derivative, arena: arena)
+      expect(arena.queue).to receive(:enqueue).with(derivative_to_process: derivative, arena: arena)
       arena.start_processing!
     end
   end
@@ -77,7 +77,7 @@ RSpec.describe Derivative::Rodeo::Arena do
       let(:next_link) { chain[-1] }
 
       it 'enqueues the next chain link' do
-        expect(arena.queue).to receive(:enqueue).with(derivative: next_link, arena: arena)
+        expect(arena.queue).to receive(:enqueue).with(derivative_to_process: next_link, arena: arena)
         subject
       end
 

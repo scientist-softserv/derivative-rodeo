@@ -11,12 +11,12 @@ module Derivative
         include Base
 
         ##
-        # @param derivative [#to_sym]
+        # @param derivative_to_process [#to_sym]
         # @param arena [Derivative::Rodeo::Arena]
-        def enqueue(derivative:, arena:)
-          # json = Message.to_json(queue: self, derivative: derivative, arena: arena, config: arena.config)
+        def enqueue(derivative_to_process:, arena:)
+          # json = Message.to_json(queue: self, derivative_to_process: derivative_to_process, arena: arena, config: arena.config)
           # arena.to_json
-          Rodeo.invoke_with(json: arena.to_json(derivative: derivative.to_sym), config: arena.config)
+          Rodeo.invoke_with(json: arena.to_json(derivative_to_process: derivative_to_process), config: arena.config)
         end
       end
     end
