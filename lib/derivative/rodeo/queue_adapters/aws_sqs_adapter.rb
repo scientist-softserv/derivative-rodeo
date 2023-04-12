@@ -68,9 +68,8 @@ module Derivative
         #   Consider that we may have a different queue that we leverage.  In production we've found
         #   that the OCR processing works more efficiently if we batch process them.
         def enqueue(derivative:, arena:)
-          message_body = Message.to_json(derivative: derivative, arena: arena, queue: self)
           client.send_message(queue_url: queue_url,
-                              message_body: message_body)
+                              message_body: arena.to_json(derivative: derivative.to_sym))
         end
 
         private

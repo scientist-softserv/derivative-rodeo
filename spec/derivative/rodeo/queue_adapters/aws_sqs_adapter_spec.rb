@@ -23,22 +23,15 @@ RSpec.describe Derivative::Rodeo::QueueAdapters::AwsSqsAdapter do
 
   describe '#enqueue' do
     subject { instance.enqueue(arena: arena, derivative: derivative) }
-    let(:message_body) { %({hello:"world"}) }
 
     # Yes this is testing the integration of a bunch of mocked things; but sometimes that's what you
     # do.
     it 'sends a message to the client with queue_url and message body' do
-      allow(Derivative::Rodeo::Message).to(
-        receive(:to_json)
-          .with(arena: arena, derivative: derivative, queue: instance)
-          .and_return(message_body)
-      )
-
       subject
 
       expect(client).to(
         have_received(:send_message)
-          .with(queue_url: s3_queue.queue_url, message_body: message_body)
+          .with(queue_url: s3_queue.queue_url, message_body: kind_of(String))
       )
     end
   end

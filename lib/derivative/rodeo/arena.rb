@@ -44,26 +44,54 @@ module Derivative
       end
 
       ##
+      # It should be bi-directional:
+      #
+      # I can serialize a message via the {.to_json} method and unserialize via {.from_json}.
+      #
+      # Fundamentally this needs:
+      #
+      # - a manifest: The thing from which we can generate a derivative
+      # - a derivative: The name of the derivative we want to make
+      # - the local storage information: Where are we storing things locally, with some idea of
+      #   the specific folder location; which could be handled at the {Configuration} level plus
+      #   the {Manifest}'s identifying information.
+      # - the remote storage information: A bit more of a black box than the local, as it's a
+      #   read-only system.
+      # - the queue adapter: what is the adapter we're using; this also might include the queue
+      #   name that we want to use; likely we're using the same adapter as what we have here but
+      #   perhaps a different queue name (determined by the {Type})
+      # - the chain: because we need to know what comes next after the current message.
+      #
+      # @see #to_json
+      # @see https://github.com/scientist-softserv/derivative-rodeo/issues/1 Initial acceptance criteria
+      #
+      # @note
+      #
+      #   Other queues also likely have messages to send.  A consistent message helps with tight
+      #   interfaces.
+      #
       # @param json [String]
       # @param config [Derivative::Rodeo::Configuration]
+      # rubocop:disable Metrics/MethodLength
       def self.from_json(json, config: Rodeo.config, &block)
         json = JSON.parse(json)
         manifest = Manifest.from(json.fetch('manifest'))
-        current_derivative =  json.fetch('derivative').to_sym
-        # TODO: Refactor this unholy method!
+        current_derivative = json.fetch('derivative') { :original }.to_sym
+        # TODO: Refactor this unholy line!
         chain = Chain.new(derivatives: (json.fetch('chain', Chain.from_mime_types_for(manifest: manifest, config: config)).to_a + [current_derivative]))
         new(
           manifest: manifest,
           local_storage: json.fetch('local_storage', config.local_storage),
           remote_storage: json.fetch('remote_storage', config.remote_storage),
           queue: json.fetch('queue', config.queue),
-          current_derivative:  current_derivative,
+          current_derivative: current_derivative,
           chain: chain,
           logger: config.logger,
           config: config,
           &block
         )
       end
+      # rubocop:enable Metrics/MethodLength
 
       ##
       # This function builds the arena that transitions from preliminary processing (via
@@ -106,7 +134,7 @@ module Derivative
       def initialize(manifest:, local_storage:, remote_storage:, queue:, chain:, logger:, config:, current_derivative: nil)
         @manifest = manifest
         @chain = chain
-        @current_derivative = current_derivative || chain.first
+        @current_derivative = current_derivative || chain.first.to_sym
         @local_storage = StorageAdapters.for(manifest: manifest, adapter: local_storage)
         @remote_storage = StorageAdapters.for(manifest: manifest, adapter: remote_storage)
         @queue = QueueAdapters.for(adapter: queue)
@@ -165,12 +193,18 @@ module Derivative
       # @return [Hash<Symbol, Hash>]
       def to_hash
         {
-          chain: chain.to_hash,
+          chain: chain.map(&:to_sym),
           local_storage: local_storage.to_hash,
           manifest: manifest.to_hash,
           queue: queue.to_hash,
           remote_storage: remote_storage.to_hash
         }
+      end
+
+      ##
+      # @see .from_json
+      def to_json(**kwargs)
+        kwargs.merge(to_hash).to_json
       end
 
       delegate :exists?, :assign!, :path, :read, to: :local_storage, prefix: "local"

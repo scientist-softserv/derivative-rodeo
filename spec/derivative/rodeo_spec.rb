@@ -13,7 +13,8 @@ RSpec.describe Derivative::Rodeo do
   end
 
   describe '.invoke_with' do
-    let(:message) { Fixtures.message(manifest: manifest) }
+    let(:arena) { Fixtures.pre_processing_arena(manifest: manifest) }
+
     let(:manifest) do
       Fixtures.pre_processing_manifest(
         parent_identifier: parent_identifier,
@@ -24,7 +25,7 @@ RSpec.describe Derivative::Rodeo do
       )
     end
 
-    subject { described_class.invoke_with(json: message.to_json) }
+    subject { described_class.invoke_with(json: arena.to_json) }
 
     context "with a 2 page color PDF" do
       let(:original_filename) { "sample-color-newsletter.pdf" }
@@ -49,9 +50,9 @@ RSpec.describe Derivative::Rodeo do
       it "runs the pre-processing and mime type processing" do
         subject
 
-        expect(message.local_storage.exists?(derivative: :original)).to be_truthy
-        expect(message.local_storage.exists?(derivative: :monochrome)).to be_truthy
-        expect(message.local_storage.exists?(derivative: :hocr)).to be_truthy
+        expect(arena.local_storage.exists?(derivative: :original)).to be_truthy
+        expect(arena.local_storage.exists?(derivative: :monochrome)).to be_truthy
+        expect(arena.local_storage.exists?(derivative: :hocr)).to be_truthy
       end
     end
 
