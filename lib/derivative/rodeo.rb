@@ -56,20 +56,7 @@ module Derivative
     end
 
     ##
-    # @api public
-    #
-    # For the given :manifest, run the pre-process tasks.
-    #
-    # @param manifest [Derivative::Rodeo::Manifest::PreProcess]
-    # @param config [Derivative::Rodeo::Configuration]
-    #
-    # @return [Derivative::Rodeo::Arena]
-    def self.start_pre_processing(manifest:, config: Rodeo.config)
-      Arena.for_pre_processing(manifest: manifest, config: config, &:start_processing!)
-    end
-
-    ##
-    # Derive from the given :message.
+    # Process the given json.
     #
     # @param json [String] a JSON string that will be coerced into a {Message}
     # @param config [Derivative::Rodeo::Configuration]

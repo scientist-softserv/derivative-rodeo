@@ -71,8 +71,6 @@ module Derivative
 
       ##
       # @return [Array<Symbol>] the derivatives that are part of the initial pre-processing.
-      #
-      # @see Derivative::Rodeo.start_pre_processing
       def derivatives_for_pre_process
         @derivatives_for_pre_process || [:original, :mime]
       end
