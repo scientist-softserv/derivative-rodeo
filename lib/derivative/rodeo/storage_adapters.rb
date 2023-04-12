@@ -14,6 +14,7 @@ module Derivative
     #   indicate that they conform to the interface.
     #
     # @see StorageAdapters::Base
+    # @see StorageAdapters::FileSystem
     # @see .for
     module StorageAdapters
       ##

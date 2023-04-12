@@ -64,6 +64,7 @@ RSpec.describe Derivative::Rodeo do
     context 'with a WAV'
   end
 
+  # ADL: They have Reader PDF, TXT, Thumbnail, Archival PDF
   describe '.process_file_sets_from_csv' do
     let(:csv) do
       CSV.generate do |csv|

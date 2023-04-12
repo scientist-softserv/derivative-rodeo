@@ -18,6 +18,7 @@ module Derivative
       class HocrType < BaseType
         self.prerequisites = [:monochrome]
 
+        ##
         # @!group Class Attributes
         # @!attribute [rw]
         # Command arena variables to for tesseract command; default `nil`.
@@ -26,10 +27,12 @@ module Derivative
         #   Derivative::Rodeo::Type::HocrType.command_environment_variables = "OMP_THREAD_LIMIT=1"
         class_attribute :command_environment_variables, default: nil
 
+        ##
         # @!attribute [rw]
         # Additional options to send to tesseract command; default `nil`.
         class_attribute :additional_tessearct_options, default: nil
 
+        ##
         # @!attribute [rw]
         # The tesseract command's output base; default `:hocr`.
         class_attribute :output_suffix, default: :hocr

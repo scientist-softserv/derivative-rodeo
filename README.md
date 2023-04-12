@@ -42,7 +42,7 @@ We start from a [Derivative::Rodeo::Manifest::PreProcess](./lib/derivative/rodeo
 
 - a parent identifier
 - an original filename
-- a set of named derivatives; each named derivative might have path to a "known" already extisting file.
+- a set of named derivatives; each named derivative might have path to a "known" already existing file.
 
 We process the original manifest in an [Arena](./lib/derivative/rodeo/arena.rb).  During processing we might spawn multiple "child" processes from one derivative.  For example splitting a PDF into one image per page.  Each of those page images would then have their own [Derivative::Rodeo::Manifest::Derived](./lib/derivative/rodeo/manifest/derived.rb) for further processing.
 
@@ -54,14 +54,14 @@ This is in active development and we're exploring the names and concepts as we b
 
 `Derivative::Rodeo` is designed in such a way that it can run within an application or as part of a distributed architecture (e.g. AWS Lambdas).  Further, it is designed for extension and configuration; through well-documented interfaces and modular boundaries.
 
-It is also designed to provide insight into configuration and failures through custom exceptions and logging.  It has a fail early mindset; first verifying that the desired derivatives don't creat circular dependencies; flattening those dependencies into a chain which we process one link at a time, via [Derivative::Rodeo::Process](./lib/derivative/rodeo/process.rb).
+It is also designed to provide insight into configuration and failures through custom exceptions and logging.  It has a fail early mind set; first verifying that the desired derivatives don't create circular dependencies; flattening those dependencies into a chain which we process one link at a time, via [Derivative::Rodeo::Process](./lib/derivative/rodeo/process.rb).
 
 Last, the test suite covers a significant portion of the code; exercising both unit tests and functional tests that can run on a developers machine to help ensure the desired behavior.
 
 ## Diagrams
 
 - [Conceptual Diagram](#conceptual-diagram) :: The top-level concept of what the Derivative::Rodeo orchestrates.
-- [Process Diagram](#proces-diagram) :: The low-level diagram of how the [Derivative::Rodeo::Process](./lib/derivative/rodeo/process.rb) works.
+- [Process Diagram](#process-diagram) :: The low-level diagram of how the [Derivative::Rodeo::Process](./lib/derivative/rodeo/process.rb) works.
 - [Interaction with Spacestone](#interaction-with-spacestone) :: How the `Derivative::Rodeo` interacts with [SpaceStone](https://github.com/scientist-softserv/space_stone).
 - [Interaction with Hyrax Ingest](#interaction-with-hyrax-ingest) :: Leverage the Hyrax::DerivativeService plugins to override the default behavior.
 
@@ -261,7 +261,7 @@ TODO: Write usage instructions here
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+After checking out the repository, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
 To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`,  and then run `bundle exec rake release`, which will create a git tag for the version, push git commits  and the created tag,  and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
@@ -270,8 +270,8 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 - [ ] Storage Adapters
   - [ ] Flesh out the FromManifest adapter for remote files
   - [ ] Add an AWS S3 Adapter; remembering that it could be used as either remote or local
-- [ ] Queue Adapters
-   - [ ] Add an AWS SQS Adapter (see https://github.com/scientist-softserv/space_stone)
+- [x] Queue Adapters
+   - [x] Add an AWS SQS Adapter (see https://github.com/scientist-softserv/space_stone)
 - [ ] Type work
   - [ ] Does it make sense to include `fits`?  We’re gathering technical metadata for processing and eventual storage.
   - [ ] Video
