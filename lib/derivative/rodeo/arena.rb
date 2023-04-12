@@ -93,23 +93,6 @@ module Derivative
       end
       # rubocop:enable Metrics/MethodLength
 
-      ##
-      # This function builds the arena that transitions from preliminary processing (via
-      # {Type::OriginalType} and {Type::MimeType}) to the mime type specific processing.
-      #
-      # @param arena [Derivative::Rodeo::Arena]
-      # @param config [Derivative::Rodeo::Configuration]
-      # @see .for_pre_processing
-      def self.for_mime_type_processing(arena:, config: Rodeo.config)
-        new(local_storage: arena.local_storage,
-            remote_storage: arena.remote_storage,
-            queue: arena.queue,
-            manifest: arena.manifest,
-            chain: Chain.from_mime_types_for(manifest: arena.manifest, config: config),
-            logger: arena.logger,
-            config: config)
-      end
-
       private_class_method :new
 
       ##
@@ -204,8 +187,11 @@ module Derivative
       ##
       # @see .from_json
       # @todo The :original is hard-coded; need to figure out that.
-      def to_json(derivative_to_process: :original)
-        to_hash.merge(derivative_to_process: derivative_to_process.to_sym).to_json
+      def to_json(derivative_to_process: :original, chain: self.chain)
+        to_hash.merge(
+          derivative_to_process: derivative_to_process.to_sym,
+          chain: chain.map(&:to_sym)
+        ).to_json
       end
 
       delegate :exists?, :assign!, :path, :read, to: :local_storage, prefix: "local"

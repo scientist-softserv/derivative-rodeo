@@ -20,10 +20,10 @@ module Derivative
           content = arena.local_read(derivative: :original)
           arena.mime_type ||= ::Marcel::MimeType.for(content)
 
-          # QUESTION: Should this be a method on the arena?
-          Derivative::Rodeo::Arena
-            .for_mime_type_processing(arena: arena)
-            .start_processing!
+          # TODO: Revisit this setup; also consider how to enqueue this; Because, as written this
+          # will call things inline.
+          chain = Chain.from_mime_types_for(manifest: arena.manifest, config: arena.config)
+          Rodeo.invoke_with(json: arena.to_json(chain: chain, derivative_to_process: chain.first))
         end
       end
     end

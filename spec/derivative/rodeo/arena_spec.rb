@@ -29,21 +29,6 @@ RSpec.describe Derivative::Rodeo::Arena do
     it { is_expected.to be_a described_class }
   end
 
-  describe '.for_mime_type_processing' do
-    let(:arena) { Fixtures.pre_processing_arena }
-    subject { described_class.for_mime_type_processing(arena: arena) }
-
-    it "builds a chain for the given mime_type" do
-      expect(Derivative::Rodeo::Chain).to(
-        receive(:from_mime_types_for)
-          .with(manifest: arena.manifest, config: kind_of(Derivative::Rodeo::Configuration))
-          .and_call_original
-      )
-      subject
-    end
-    it { is_expected.to be_a described_class }
-  end
-
   describe '.new' do
     it "is a private method (don't call it directly)" do
       expect(described_class.private_methods).to include(:new)
