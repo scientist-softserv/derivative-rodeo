@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 module Fixtures
-  def self.pre_processing_manifest(
+  def self.manifest(
     parent_identifier: 'parent-identifier',
     original_filename: 'ocr_color.tiff',
     derivatives: {
@@ -19,7 +19,7 @@ module Fixtures
     )
   end
 
-  def self.pre_processing_config
+  def self.config
     Derivative::Rodeo::Configuration.new do |cfg|
       cfg.local_storage = :file_system
       cfg.remote_storage = :from_manifest
@@ -28,7 +28,7 @@ module Fixtures
     end
   end
 
-  def self.pre_processing_arena(manifest: Fixtures.pre_processing_manifest, config: pre_processing_config)
+  def self.arena(manifest: Fixtures.manifest, config: Fixtures.config)
     Derivative::Rodeo::Arena.for_pre_processing(manifest: manifest, config: config)
   end
 

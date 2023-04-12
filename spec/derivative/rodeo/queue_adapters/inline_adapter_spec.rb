@@ -8,7 +8,7 @@ RSpec.describe Derivative::Rodeo::QueueAdapters::InlineAdapter do
   it { is_expected.to be_a Derivative::Rodeo::QueueAdapters::Base }
 
   describe '#enqueue' do
-    let(:arena) { Fixtures.pre_processing_arena }
+    let(:arena) { Fixtures.arena }
     it 'sends the rodeo an .invoke_with message with a contextual message' do
       expect(Derivative::Rodeo).to receive(:invoke_with).with(json: kind_of(String), config: arena.config)
       instance.enqueue(derivative_to_process: :hocr, arena: arena)

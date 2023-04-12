@@ -3,12 +3,12 @@
 require 'spec_helper'
 
 RSpec.describe Derivative::Rodeo::Arena do
-  let(:config) { Fixtures.pre_processing_config }
-  subject(:arena) { Fixtures.pre_processing_arena(config: config) }
+  let(:config) { Fixtures.config }
+  subject(:arena) { Fixtures.arena(config: config) }
 
   describe 'when dry run is configured' do
     let(:config) do
-      Fixtures.pre_processing_config do |cfg|
+      Fixtures.config do |cfg|
         cfg.dry_run_reporter = dry_run_reporter
         cfg.dry_run = true
       end
@@ -24,7 +24,7 @@ RSpec.describe Derivative::Rodeo::Arena do
   end
 
   describe '.for_pre_processing' do
-    subject(:arena) { Fixtures.pre_processing_arena }
+    subject(:arena) { Fixtures.arena }
 
     it { is_expected.to be_a described_class }
   end

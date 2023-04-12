@@ -4,7 +4,7 @@ require 'spec_helper'
 
 RSpec.describe Derivative::Rodeo::Chain do
   describe '.from_mime_types_for' do
-    let(:manifest) { Fixtures.pre_processing_manifest(mime_type: 'application/pdf') }
+    let(:manifest) { Fixtures.manifest(mime_type: 'application/pdf') }
     subject { described_class.from_mime_types_for(manifest: manifest) }
 
     it { is_expected.to respond_to(:to_hash) }

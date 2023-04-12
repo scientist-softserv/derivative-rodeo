@@ -13,10 +13,10 @@ RSpec.describe Derivative::Rodeo do
   end
 
   describe '.invoke_with' do
-    let(:arena) { Fixtures.pre_processing_arena(manifest: manifest) }
+    let(:arena) { Fixtures.arena(manifest: manifest) }
 
     let(:manifest) do
-      Fixtures.pre_processing_manifest(
+      Fixtures.manifest(
         parent_identifier: parent_identifier,
         original_filename: original_filename,
         derivatives: derivatives,

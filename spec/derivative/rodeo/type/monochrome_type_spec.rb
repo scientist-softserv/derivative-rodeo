@@ -8,7 +8,7 @@ RSpec.describe Derivative::Rodeo::Type::MonochromeType do
     it { is_expected.to eq([:original]) }
   end
 
-  let(:arena) { Fixtures.pre_processing_arena(manifest: manifest) }
+  let(:arena) { Fixtures.arena(manifest: manifest) }
 
   let(:manifest) do
     Derivative::Rodeo::Manifest::Original.new(parent_identifier: "123", original_filename: "abc.jpg", derivatives: [:hocr])

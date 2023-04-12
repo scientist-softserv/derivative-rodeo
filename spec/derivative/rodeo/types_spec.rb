@@ -4,7 +4,7 @@ require 'spec_helper'
 
 RSpec.describe Derivative::Rodeo::Types do
   describe '.for' do
-    let(:manifest) { Fixtures.pre_processing_manifest(mime_type: mime_type) }
+    let(:manifest) { Fixtures.manifest(mime_type: mime_type) }
     subject { described_class.for(manifest: manifest) }
 
     context 'with a bad mime type' do

@@ -3,8 +3,8 @@
 require 'spec_helper'
 
 RSpec.describe Derivative::Rodeo::Type::MimeType do
-  let(:manifest) { Fixtures.pre_processing_manifest(mime_type: nil) }
-  let(:arena) { Fixtures.pre_processing_arena(manifest: manifest) }
+  let(:manifest) { Fixtures.manifest(mime_type: nil) }
+  let(:arena) { Fixtures.arena(manifest: manifest) }
   subject(:instance) { described_class.new(arena: arena) }
 
   describe '.prerequisites' do

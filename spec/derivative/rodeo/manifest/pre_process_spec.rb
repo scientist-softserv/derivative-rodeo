@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe Derivative::Rodeo::Manifest::PreProcess do
-  subject(:manifest) { Fixtures.pre_processing_manifest }
+  subject(:manifest) { Fixtures.manifest }
 
   it { is_expected.to respond_to :to_hash }
   it { is_expected.to delegate_method(:parent_identifier).to(:identifier) }

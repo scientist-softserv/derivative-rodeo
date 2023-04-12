@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe Derivative::Rodeo::StorageAdapters::FromManifestAdapter do
-  let(:manifest) { Fixtures.pre_processing_manifest(path_to_original: __FILE__) }
+  let(:manifest) { Fixtures.manifest(path_to_original: __FILE__) }
   let(:derivative) { :hello }
   subject(:instance) { described_class.new(manifest: manifest) }
 
