@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Derivative::Rodeo::Type::HocrType do
+RSpec.describe Derivative::Rodeo::Step::HocrStep do
   let(:arena) { Fixtures.arena(manifest: manifest) }
 
   let(:manifest) do

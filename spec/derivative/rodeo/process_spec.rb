@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe Derivative::Rodeo::Process do
-  let(:derivative) { Derivative::Rodeo::Type::BaseType }
+  let(:derivative) { Derivative::Rodeo::Step::BaseStep }
   let(:arena) { double(Derivative::Rodeo::Arena, local_demand!: true, remote_pull: false, process_next_chain_link_after!: false, local_exists?: false) }
   subject(:instance) { described_class.new(derivative: derivative, arena: arena) }
   let(:handle) { :handle }

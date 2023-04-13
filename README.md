@@ -51,8 +51,8 @@ We process the original manifest in an [Arena](./lib/derivative/rodeo/arena.rb).
 
 There are inflection points that the `Derivative::Rodeo` considers:
 
-1. Spawning processes based on the [MimeType](./lib/derivative/rodeo/type/mime_type.rb)
-2. Spawning processes to [split a PDF](./lib/derivative/rodeo/type/pdf_split_type.rb)
+1. Spawning processes based on the [MimeType step](./lib/derivative/rodeo/step/mime_type_step.rb)
+2. Spawning processes to [split a PDF](./lib/derivative/rodeo/step/pdf_split_stepm.rb)
 
 These inflection points conceptually start a new [Chain](./lib/derivative/rodeo/chain.rb) of processing.
 
@@ -82,7 +82,7 @@ In other words, there are some assumptive configurations about a given rodeo:
 
 And there’s other assumptions based on those decisions.  For an [AWS SQS Queue Adapter](./lib/derivative/rodeo/queue_adapters/aws_sqs_adapter.rb) we will likely need region information and even some low level credentials that might go in `ENV`.  For another cloud adapter those rules could be different.
 
-Perhaps we know we’re always working with monochrome images, it’s unlikely we’d want to use the existing [Hocr step](./lib/derivative/rodeo/type/hocr_type.rb) as written.  We can assume that we have monochrome.
+Perhaps we know we’re always working with monochrome images, it’s unlikely we’d want to use the existing [Hocr step](./lib/derivative/rodeo/step/hocr_step.rb) as written.  We can assume that we have monochrome.
 
 As I hope is evident, the `Derivative::Rodeo` is intended to provide a consistent interface for moving files and ensuring that the requried and desired derivatives are part of that move.  And for the `Derivative::Rodeo` to be something that we can incorporate into many projects and do minimum customization of those projects; instead relying on configuration and building towards interfaces.
 
@@ -305,7 +305,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
   - [ ] Add an AWS S3 Adapter; remembering that it could be used as either remote or local
 - [x] Queue Adapters
    - [x] Add an AWS SQS Adapter (see https://github.com/scientist-softserv/space_stone)
-- [ ] Type work
+- [ ] Step work
   - [ ] Does it make sense to include `fits`?  We’re gathering technical metadata for processing and eventual storage.
   - [ ] Video
   - [ ] Alto
@@ -322,7 +322,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 - [ ] Integrate Derivative::Rodeo into [IIIF Print](https://github.com/scientist-softserv/iiif_print/).
   - [ ] Assign “local” file to Fedora S3 location
 - [ ] Process: At present the pre-process does not do anything with the locally demanded derivative
-  - [ ] Ingest Process: Follows the same logic of [Derivative::Rodeo::Process](./lib/derivative/rodeo/process.rb), but moves derivative into FileSet.  Note because "original" is a derivative, we will need this processing at the [Derivative::Rodeo::Type](./lib/derivative/rodeo/type.rb) level
+  - [ ] Ingest Process: Follows the same logic of [Derivative::Rodeo::Process](./lib/derivative/rodeo/process.rb), but moves derivative into FileSet.  Note because "original" is a derivative, we will need this processing at the [Derivative::Rodeo::Step](./lib/derivative/rodeo/step.rb) level
 
 `Derivative::Rodeo` is positioned to be an alternate to [Hydra::Derivatives](https://github.com/samvera/hydra-derivatives).
 

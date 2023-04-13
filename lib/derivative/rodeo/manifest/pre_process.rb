@@ -14,7 +14,7 @@ module Derivative
         #        it into the processing.
         # @param derivatives [Hash<#to_sym, #to_s>] the named existing derivatives and their
         #        locations
-        # @param mime_type [String] provided when we already know the object's mime-type; saves a
+        # @param mime_type [String] provided when we already know the object's mime-step; saves a
         #        bit on processing.
         def initialize(parent_identifier:, original_filename:, path_to_original:, derivatives: {}, mime_type: nil)
           @identifier = Original::Identifier.new(parent_identifier: parent_identifier, original_filename: original_filename)

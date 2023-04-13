@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe Derivative::Rodeo::Type::MimeType do
+RSpec.describe Derivative::Rodeo::Step::MimeTypeStep do
   let(:manifest) { Fixtures.manifest(mime_type: nil) }
   let(:arena) { Fixtures.arena(manifest: manifest) }
   subject(:instance) { described_class.new(arena: arena) }
@@ -23,7 +23,7 @@ RSpec.describe Derivative::Rodeo::Type::MimeType do
       expect { instance.generate }.to change(arena, :mime_type).from(nil).to("image/tiff")
     end
 
-    it "starts processing for the given mime type" do
+    it "starts processing for the given mime step" do
       expect(Derivative::Rodeo).to receive(:process_derivative).with(json: kind_of(String))
       instance.generate
     end

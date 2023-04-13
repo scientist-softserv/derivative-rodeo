@@ -60,7 +60,7 @@ module Derivative
         ##
         # @api public
         #
-        # @param derivative_to_process [Derivatives::Rodeo::Type]
+        # @param derivative_to_process [Derivatives::Rodeo::Step]
         # @param arena [Derivatives::Rodeo::Arena]
         #
         # @note

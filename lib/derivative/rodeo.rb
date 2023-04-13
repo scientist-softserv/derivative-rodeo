@@ -25,7 +25,7 @@ require 'derivative/rodeo/manifest'
 require 'derivative/rodeo/process'
 require 'derivative/rodeo/queue_adapters'
 require 'derivative/rodeo/storage_adapters'
-require 'derivative/rodeo/type'
+require 'derivative/rodeo/step'
 
 # These are the files conceptually lifted from the IIIF Print gem; they are of secondary concern.
 # And will slowly be moved elsewhere.

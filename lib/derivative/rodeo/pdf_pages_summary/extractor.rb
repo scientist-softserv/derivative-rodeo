@@ -52,7 +52,7 @@ module Derivative
         # @example Output from PDF Images
         #
         #   bash-5.1$ pdfimages -list fmc_color.pdf  | head -5
-        #   page   num  type   width height color comp bpc  enc interp  object ID x-ppi y-ppi size ratio
+        #   page   num  step   width height color comp bpc  enc interp  object ID x-ppi y-ppi size ratio
         #   --------------------------------------------------------------------------------------------
         #   1     0 image    2475   413  rgb     3   8  jpeg   no        10  0   300   300 21.8K 0.7%
         def call

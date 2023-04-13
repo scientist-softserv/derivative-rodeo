@@ -20,7 +20,7 @@ module Derivative
       # - failing that I raise [#Exceptions::FailureToLocateDerivativeError]
       # - and if no exception is raised, I proceed with processing the next derivative.
       #
-      # @param derivative [Derivative::Rodeo::Type::BaseType]
+      # @param derivative [Derivative::Rodeo::Step::BaseStep]
       # @param arena [Derivative::Rodeo::Arena]
       #
       # @raise [Derivative::Rodeo::Exceptions::FailureToLocateDerivativeError] when we are
@@ -30,7 +30,7 @@ module Derivative
       end
 
       def initialize(derivative:, arena:)
-        @derivative = Rodeo.Type(derivative)
+        @derivative = Rodeo.Step(derivative)
         @arena = arena
       end
 

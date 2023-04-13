@@ -72,7 +72,7 @@ module Derivative
       ##
       # @return [Array<Symbol>] the derivatives that are part of the initial pre-processing.
       def derivatives_for_pre_process
-        @derivatives_for_pre_process || [:original, :mime]
+        @derivatives_for_pre_process || [:original, :mime_type]
       end
 
       ##

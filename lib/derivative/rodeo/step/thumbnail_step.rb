@@ -2,8 +2,8 @@
 
 module Derivative
   module Rodeo
-    module Type
-      class ThumbnailType < BaseType
+    module Step
+      class ThumbnailStep < BaseStep
         def generate; end
       end
     end

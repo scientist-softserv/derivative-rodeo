@@ -49,7 +49,7 @@ RSpec.describe Derivative::Rodeo do
       let(:mime_type) { "image/tiff" }
       let(:path_to_original) { Fixtures.path_for(original_filename) }
 
-      it "runs the pre-processing and mime type processing" do
+      it "runs the pre-processing and mime step processing" do
         subject
 
         expect(arena.local_storage.exists?(derivative: :original)).to be_truthy

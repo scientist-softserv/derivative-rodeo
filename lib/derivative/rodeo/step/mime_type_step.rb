@@ -3,11 +3,11 @@ require 'marcel'
 
 module Derivative
   module Rodeo
-    module Type
+    module Step
       ##
       #  This derivative is an inflection point.  We take the original file, determine it's mime
-      #  type and from that launch into a new {Chain} of derivatives based on the {Configuration}.
-      class MimeType < BaseType
+      #  step and from that launch into a new {Chain} of derivatives based on the {Configuration}.
+      class MimeTypeStep < BaseStep
         self.prerequisites = [:original]
 
         ##

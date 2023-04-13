@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe Derivative::Rodeo::Type::PdfSplitType do
+RSpec.describe Derivative::Rodeo::Step::PdfSplitStep do
   describe 'defaults for' do
     describe '.prerequisites' do
       subject { described_class.prerequisites }
@@ -10,8 +10,8 @@ RSpec.describe Derivative::Rodeo::Type::PdfSplitType do
       xit { is_expected.to eq([:original]) }
     end
 
-    describe '.derivative_types_for_split' do
-      subject { described_class.derivative_types_for_split }
+    describe '.derivative_steps_for_split' do
+      subject { described_class.derivative_steps_for_split }
 
       it { is_expected.to eq([:ocr]) }
     end

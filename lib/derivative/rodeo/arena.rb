@@ -59,7 +59,7 @@ module Derivative
       #   read-only system.
       # - the queue adapter: what is the adapter we're using; this also might include the queue
       #   name that we want to use; likely we're using the same adapter as what we have here but
-      #   perhaps a different queue name (determined by the {Type})
+      #   perhaps a different queue name (determined by the {Step})
       # - the chain: because we need to know what comes next after the current message.
       #
       # @see #to_json
@@ -220,7 +220,7 @@ module Derivative
       # @raise [Derivative::Rodeo::Exceptions::UnknownDerivativeRequestForChainError] when the
       #        given :derivative is not part of the {Arena}'s {#chain}.
       def process_next_chain_link_after!(derivative:)
-        index = chain.find_index(Derivative::Rodeo::Type(derivative))
+        index = chain.find_index(Derivative::Rodeo::Step(derivative))
         raise Exceptions::UnknownDerivativeRequestForChainError.new(chain: chain, derivative: derivative) unless index
 
         next_link = chain.to_a[index + 1]
@@ -261,7 +261,7 @@ module Derivative
       #
       # @param derivative [#to_sym]
       def local_demand!(derivative:)
-        Rodeo.Type(derivative).demand!(manifest: manifest, storage: local_storage)
+        Rodeo.Step(derivative).demand!(manifest: manifest, storage: local_storage)
       end
 
       ##

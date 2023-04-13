@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # This require is technically not needed here, but it helps narrow the concepts elsewhere.
-require 'derivative/rodeo/types'
+require 'derivative/rodeo/steps'
 
 module Derivative
   module Rodeo
@@ -12,28 +12,28 @@ module Derivative
     #
     # @param symbol [#to_sym]
     #
-    # @return [Derivative::Rodeo::Type::BaseType]
-    # @raise [NameError] when given type is not registered.
+    # @return [Derivative::Rodeo::Step::BaseStep]
+    # @raise [NameError] when given step is not registered.
     #
     # rubocop:disable Naming/MethodName
-    def self.Type(symbol)
-      demodulized_klass = "#{symbol.to_sym}_type".classify
-      "Derivative::Rodeo::Type::#{demodulized_klass}".constantize
+    def self.Step(symbol)
+      demodulized_klass = "#{symbol.to_sym}_step".classify
+      "Derivative::Rodeo::Step::#{demodulized_klass}".constantize
     end
     # rubocop:enable Naming/MethodName
 
     ##
-    # The module space for declaring named derivative type (e.g. `:image`, `:monochrome`, etc.).  A
-    # named derivative type should be able to generate itself based on the given {Arena}.
+    # The module space for declaring named derivative step (e.g. `:image`, `:monochrome`, etc.).  A
+    # named derivative step should be able to generate itself based on the given {Arena}.
     #
-    # @see BaseType
-    # @see BaseType.generate_for
-    module Type
+    # @see BaseStep
+    # @see BaseStep.generate_for
+    module Step
       ##
       # @abstract
-      # @see Type
-      # @see Types
-      class BaseType
+      # @see Step
+      # @see Steps
+      class BaseStep
         class_attribute :prerequisites, default: []
         class_attribute :spawns, default: []
 
@@ -64,7 +64,7 @@ module Derivative
         #
         # @return [Symbol]
         def self.to_sym
-          to_s.demodulize.underscore.sub("_type", "").to_sym
+          to_s.demodulize.underscore.sub("_step", "").to_sym
         end
 
         ##
@@ -97,11 +97,11 @@ module Derivative
   end
 end
 
-require 'derivative/rodeo/type/fits_type'
-require 'derivative/rodeo/type/hocr_type'
-require 'derivative/rodeo/type/image_type'
-require 'derivative/rodeo/type/mime_type'
-require 'derivative/rodeo/type/monochrome_type'
-require 'derivative/rodeo/type/original_type'
-require 'derivative/rodeo/type/pdf_split_type'
-require 'derivative/rodeo/type/thumbnail_type'
+require 'derivative/rodeo/step/fits_step'
+require 'derivative/rodeo/step/hocr_step'
+require 'derivative/rodeo/step/image_step'
+require 'derivative/rodeo/step/mime_type_step'
+require 'derivative/rodeo/step/monochrome_step'
+require 'derivative/rodeo/step/original_step'
+require 'derivative/rodeo/step/pdf_split_step'
+require 'derivative/rodeo/step/thumbnail_step'

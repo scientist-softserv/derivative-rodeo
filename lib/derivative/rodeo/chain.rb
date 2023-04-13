@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'set'
-require 'derivative/rodeo/types'
+require 'derivative/rodeo/steps'
 
 module Derivative
   module Rodeo
@@ -22,7 +22,7 @@ module Derivative
       #
       # @todo Is this the right place for this?  It's encapsulated so can remain.
       def self.from_mime_types_for(manifest:, config: Rodeo.config)
-        derivatives = Types.for(manifest: manifest, config: config)
+        derivatives = Steps.for(manifest: manifest, config: config)
         new(derivatives: derivatives)
       end
 
@@ -41,7 +41,7 @@ module Derivative
       def initialize(derivatives:)
         # Don't mind us, these preliminary_chain_links are going to push to the front of the line.
         @chain = Array(derivatives).map(&:to_sym).uniq.each_with_object({}) do |(key, _), hash|
-          hash[key.to_sym] = Derivative::Rodeo::Type(key.to_sym)
+          hash[key.to_sym] = Derivative::Rodeo::Step(key.to_sym)
         end
         add_dependencies_to_chain!
       end
@@ -64,7 +64,7 @@ module Derivative
       # Yield the derivatives for processing in the correct sequence, accounting for the
       # prerequisites of the derivatives.
       #
-      # @yieldparam [Derivative::Rodeo::Type::BaseType]
+      # @yieldparam [Derivative::Rodeo::Step::BaseStep]
       # @see Sequencer
       def each
         sequence.each do |key|
@@ -78,10 +78,10 @@ module Derivative
       # fact added to the chain.
       def add_dependencies_to_chain!
         additional_values = {}
-        @chain.values.each_with_object(additional_values) do |type, hash|
-          Array(type.prerequisites).each do |prereq|
+        @chain.values.each_with_object(additional_values) do |step, hash|
+          Array(step.prerequisites).each do |prereq|
             next if @chain.key?(prereq)
-            hash[prereq] = Derivative::Rodeo::Type(prereq)
+            hash[prereq] = Derivative::Rodeo::Step(prereq)
           end
         end
         return if additional_values.empty?

@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe Derivative::Rodeo::Type::MonochromeType do
+RSpec.describe Derivative::Rodeo::Step::MonochromeStep do
   describe ".prerequisites" do
     subject { described_class.prerequisites }
     it { is_expected.to eq([:original]) }

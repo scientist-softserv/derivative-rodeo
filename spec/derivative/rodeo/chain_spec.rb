@@ -26,13 +26,13 @@ RSpec.describe Derivative::Rodeo::Chain do
   end
 
   describe '#each' do
-    it 'will yield instances of Derivative::Rodeo::Type::BaseType' do
+    it 'will yield instances of Derivative::Rodeo::Step::BaseStep' do
       # NOTE: image yields first, then monochrome which depends on image, then hocr which depends on
       # image
       expect { |b| subject.each(&b) }.to yield_successive_args(
-                                           Derivative::Rodeo::Type::OriginalType,
-                                           Derivative::Rodeo::Type::MonochromeType,
-                                           Derivative::Rodeo::Type::HocrType
+                                           Derivative::Rodeo::Step::OriginalStep,
+                                           Derivative::Rodeo::Step::MonochromeStep,
+                                           Derivative::Rodeo::Step::HocrStep
                                          )
     end
   end
@@ -41,12 +41,12 @@ RSpec.describe Derivative::Rodeo::Chain do
     subject { described_class.new(derivatives: derivatives).find_index(derivative) }
 
     context 'when the derivative exists' do
-      let(:derivative) { Derivative::Rodeo::Type::MonochromeType }
+      let(:derivative) { Derivative::Rodeo::Step::MonochromeStep }
       it { is_expected.to be_a(Integer) }
     end
 
     context 'when the derivative does not exist' do
-      let(:derivative) { Derivative::Rodeo::Types }
+      let(:derivative) { Derivative::Rodeo::Steps }
       it { is_expected.to be_nil }
     end
   end
