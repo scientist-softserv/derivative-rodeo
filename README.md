@@ -63,7 +63,7 @@ These inflection points conceptually start a new [Chain](./lib/derivative/rodeo/
 There are two conceptual configuration points:
 
 - [Derivative::Rodeo::Configuration](./lib/derivative/rodeo/configuration.rb) via the [Derivative::Rodeo.config](./lib/derivative/rodeo.rb) method.
-- The individual classes in the Derivative::Rodeo namespace via [ActiveSupport's class_attribute](https://api.rubyonrails.org/classes/Class.html#method-i-class_attribute)).
+- The individual classes in the Derivative::Rodeo namespace via [ActiveSupport's class_attribute](https://api.rubyonrails.org/classes/Class.html#method-i-class_attribute).
 
 Let’s consider the following.
 
