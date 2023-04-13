@@ -71,7 +71,7 @@ For one project I need to have two rodeos.  The first rodeo is for pre-processin
 
 For another project, I will again need two rodeos.  But I want different processing steps; for example I want to add steps to process a 3D model.  I might configure the mime type step to sniff out the files that go into a 3D model and then spawn a new step.
 
-For a third project, I again need two rodeos, but the I want to use a different process to determine the file’s mime type; perhaps instead of leveraging the [Marcel gem](http://rubygems.org/gems/marcel), I leverage [Fits](http://fitstool.org) and some XML parsing.
+For a third project, I again need two rodeos, but then I want to use a different process to determine the file’s mime type; perhaps instead of leveraging the [Marcel gem](http://rubygems.org/gems/marcel), I leverage [Fits](http://fitstool.org) and some XML parsing.
 
 In other words, there are some assumptive configurations about a given rodeo:
 
