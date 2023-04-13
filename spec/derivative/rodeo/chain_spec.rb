@@ -3,14 +3,6 @@
 require 'spec_helper'
 
 RSpec.describe Derivative::Rodeo::Chain do
-  describe '.from_mime_types_for' do
-    let(:manifest) { Fixtures.manifest(mime_type: 'application/pdf') }
-    subject { described_class.from_mime_types_for(manifest: manifest) }
-
-    it { is_expected.to respond_to(:to_hash) }
-    it { is_expected.to be_a(Enumerable) }
-  end
-
   # These two derivatives are a known "good derivative" chain.
   let(:derivatives) { [:hocr, :monochrome] }
   subject { described_class.new(derivatives: derivatives) }
@@ -46,7 +38,7 @@ RSpec.describe Derivative::Rodeo::Chain do
     end
 
     context 'when the derivative does not exist' do
-      let(:derivative) { Derivative::Rodeo::Steps }
+      let(:derivative) { :nope }
       it { is_expected.to be_nil }
     end
   end

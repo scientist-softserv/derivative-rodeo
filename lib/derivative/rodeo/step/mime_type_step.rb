@@ -11,22 +11,70 @@ module Derivative
         self.prerequisites = [:original]
 
         ##
+        # @!group Configurations
+        # @!attribute [rw]
+        class_attribute :steps_by_media_type, default: { "image" => [:hocr] }
+
+        ##
+        # @!attribute [rw]
+        class_attribute :steps_by_mime_type, default: { "application/pdf" => [:pdf_split] }
+
+        ##
+        # @!attribute [rw]
+        class_attribute(:steps_by_sub_type, default: {})
+        # @!endgroup Derivative Configurations
+
+        ##
         # Given that we don't have a conventional derivative file, we need to see that it's
         # assigned.
         #
         # rubocop:disable Lint/UnusedMethodArgument
         def self.demand!(manifest:, storage:)
-          manifest.mime_type
+          raise Exceptions::ManifestMissingMimeTypeError.new(manifest: manifest.mime_type) if manifest.mime_type.blank?
+          coerce_to_mime_type(manifest.mime_type, manifest: manifest)
         end
         # rubocop:enable Lint/UnusedMethodArgument
+
+        ##
+        # @param mime_type [Symbol, String, MIME::Type]
+        # @return [Array<Symbol>]
+        # @see .coerce_to_mime_type
+        def self.next_steps_for(mime_type:)
+          mime_type = coerce_to_mime_type(mime_type)
+
+          # Yes a bit of antics to ensure string or symbol keys; maybe not worth it.
+          steps_by_media_type.fetch(mime_type.media_type, []) +
+            steps_by_media_type.fetch(mime_type.media_type.to_sym, []) +
+
+            steps_by_mime_type.fetch(mime_type.to_s, []) +
+            steps_by_mime_type.fetch(mime_type.to_s.to_sym, []) +
+
+            steps_by_sub_type.fetch(mime_type.sub_type, []) +
+            steps_by_sub_type.fetch(mime_type.sub_type.to_sym, [])
+        end
+
+        ##
+        # @param value [String, Symbol, MIME::Type]
+        # @param manifest [NilClass, Derivative::Rodeo::Manifest] an optional parameter; if we have
+        #        it, the error messaging will be more useful
+        # @return [MIME::Type]
+        def self.coerce_to_mime_type(value, manifest: nil)
+          mime_type = case value
+                      when String, Symbol
+                        MIME::Types[value].first
+                      when MIME::Type
+                        value
+                      end
+          raise Exceptions::UnknownMimeTypeError.new(mime_type: value, manifest: manifest) if mime_type.blank?
+          mime_type
+        end
 
         def generate
           content = arena.local_read(derivative: :original)
           arena.mime_type ||= ::Marcel::MimeType.for(content)
-
-          # TODO: Revisit this setup; also consider how to enqueue this; Because, as written this
-          # will call things inline.  The :arena knows it's queue.
-          chain = Chain.from_mime_types_for(manifest: arena.manifest, config: arena.config)
+          mime_type = arena.local_demand!(derivative: to_sym)
+          steps = self.class.next_steps_for(mime_type: mime_type)
+          chain = Chain.new(derivatives: steps)
           Rodeo.process_derivative(json: arena.to_json(chain: chain, derivative_to_process: chain.first))
         end
       end

@@ -39,11 +39,7 @@ module Derivative
         # @!endgroup
 
         ##
-<<<<<<< HEAD
         # @raise [Exceptions::DerivativeNotFoundError] when we don't have a :monochrome {Step} or
-=======
-        # @raise [Exceptions::DerivativeNotFoundError] when we don't have a :monochrome {Steps} or
->>>>>>> 990c224 (Renaming Type to Step)
         #        we failed to generate the :hocr file.
         def generate
           monochrome_path = arena.local_demand!(derivative: :monochrome)

@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 require 'set'
-require 'derivative/rodeo/steps'
-
 module Derivative
   module Rodeo
     ##
@@ -14,18 +12,6 @@ module Derivative
     # @see #each
     # @see #to_hash
     class Chain
-      ##
-      # @param manifest [Derivative::Rodeo::Manifest]
-      # @param config [Derivative::Rodeo::Configuration]
-      #
-      # @return [Chain]
-      #
-      # @todo Is this the right place for this?  It's encapsulated so can remain.
-      def self.from_mime_types_for(manifest:, config: Rodeo.config)
-        derivatives = Steps.for(manifest: manifest, config: config)
-        new(derivatives: derivatives)
-      end
-
       ##
       # @param config [Derivative::Rodeo::Configuration]
       #
