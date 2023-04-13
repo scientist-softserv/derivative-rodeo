@@ -2,10 +2,10 @@
 
 module Derivative
   module Rodeo
-    module Type
+    module Step
       ##
       #
-      class OriginalType < BaseType
+      class OriginalStep < BaseStep
         self.prerequisites = []
 
         def generate

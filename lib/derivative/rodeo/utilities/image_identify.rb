@@ -8,7 +8,7 @@ module Derivative
       #
       # @see .technical_metadata_for
       class ImageIdentify
-        class_attribute :identify_format_option, default: %(Geometry: %G\nDepth: %[bit-depth]\nColorspace: %[colorspace]\nAlpha: %A\nMIME Type: %m\n)
+        class_attribute :identify_format_option, default: %(Geometry: %G\nDepth: %[bit-depth]\nColorspace: %[colorspace]\nAlpha: %A\nMIME Step: %m\n)
 
         ##
         # @api public
@@ -58,7 +58,7 @@ module Derivative
 
         def im_mime(lines)
           return 'application/pdf' if pdf? # workaround older imagemagick bug
-          im_line_select(lines, 'mime type')
+          im_line_select(lines, 'mime step')
         end
 
         def pdf?

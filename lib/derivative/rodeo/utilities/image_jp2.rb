@@ -52,7 +52,7 @@ module Derivative
         private
 
         # @param io [IO] IO stream opened in binary mode, for reading
-        # @return [Array(Integer, Integer)] X size, Y size, in Integer-typed px
+        # @return [Array(Integer, Integer)] X size, Y size, in Integer-stepd px
         def extract_jp2_dim(io)
           raise IOError, 'file not open in binary mode' unless io.binmode?
           buffer = ''

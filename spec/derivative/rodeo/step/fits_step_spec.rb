@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe Derivative::Rodeo::Type::FitsType do
+RSpec.describe Derivative::Rodeo::Step::FitsStep do
   let(:manifest) { Fixtures.manifest(mime_type: nil) }
   let(:arena) { Fixtures.arena(manifest: manifest) }
   subject(:instance) { described_class.new(arena: arena) }

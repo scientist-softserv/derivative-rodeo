@@ -3,8 +3,8 @@ require 'hydra/file_characterization'
 
 module Derivative
   module Rodeo
-    module Type
-      class FitsType < BaseType
+    module Step
+      class FitsStep < BaseStep
         self.prerequisites = [:original]
 
         def generate

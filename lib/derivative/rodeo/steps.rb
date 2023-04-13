@@ -2,7 +2,7 @@
 
 module Derivative
   module Rodeo
-    module Types
+    module Steps
       ##
       # @api public
       #

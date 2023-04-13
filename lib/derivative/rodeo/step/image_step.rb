@@ -2,8 +2,8 @@
 
 module Derivative
   module Rodeo
-    module Type
-      class ImageType < BaseType
+    module Step
+      class ImageStep < BaseStep
         self.prerequisites = []
         ##
         # @raise [Exceptions::DerivativeNotFoundError] when we failed to generate the :image file.

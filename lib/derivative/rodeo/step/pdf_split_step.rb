@@ -2,11 +2,11 @@
 
 module Derivative
   module Rodeo
-    module Type
+    module Step
       ##
       # The :pdf_split derivative processes one file and creates additional files which have some
       # behavior similar to originals in that they have their own processing chain.
-      class PdfSplitType < BaseType
+      class PdfSplitStep < BaseStep
         self.prerequisites = []
         self.spawns = [:ocr]
 
@@ -20,7 +20,7 @@ module Derivative
         #
         # When we split the PDFs what are the derivatives we want to run on the resulting individual
         # pages.
-        class_attribute :derivative_types_for_split, default: [:ocr]
+        class_attribute :derivative_steps_for_split, default: [:ocr]
         # @!endgroup
 
         def generate

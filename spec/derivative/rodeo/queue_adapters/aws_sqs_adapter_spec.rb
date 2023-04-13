@@ -4,7 +4,7 @@ require 'spec_helper'
 
 RSpec.describe Derivative::Rodeo::QueueAdapters::AwsSqsAdapter do
   let(:arena) { Fixtures.arena }
-  let(:derivative) { Derivative::Rodeo::Type::HocrType.new(arena: arena) }
+  let(:derivative) { Derivative::Rodeo::Step::HocrStep.new(arena: arena) }
   let(:s3_queue) { double(queue_url: "somewhere-over-the-rainbow") }
   let(:client) { double(Aws::SQS::Client, send_message: true, get_queue_url: s3_queue) }
   subject(:instance) { described_class.new(client: client) }

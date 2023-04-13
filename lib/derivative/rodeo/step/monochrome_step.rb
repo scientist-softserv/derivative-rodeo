@@ -2,8 +2,8 @@
 
 module Derivative
   module Rodeo
-    module Type
-      class MonochromeType < BaseType
+    module Step
+      class MonochromeStep < BaseStep
         self.prerequisites = [:original]
 
         def generate

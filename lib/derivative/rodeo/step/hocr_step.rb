@@ -2,7 +2,7 @@
 
 module Derivative
   module Rodeo
-    module Type
+    module Step
       ##
       # Responsible for finding or creating a hocr file (or configured :output_suffix) using
       # tesseract.
@@ -15,7 +15,7 @@ module Derivative
       #     tesseract --help | --help-extra | --version
       #     tesseract --list-langs
       #     tesseract imagename outputbase [options...] [configfile...]
-      class HocrType < BaseType
+      class HocrStep < BaseStep
         self.prerequisites = [:monochrome]
 
         ##
@@ -24,7 +24,7 @@ module Derivative
         # Command arena variables to for tesseract command; default `nil`.
         #
         # @example
-        #   Derivative::Rodeo::Type::HocrType.command_environment_variables = "OMP_THREAD_LIMIT=1"
+        #   Derivative::Rodeo::Step::HocrStep.command_environment_variables = "OMP_THREAD_LIMIT=1"
         class_attribute :command_environment_variables, default: nil
 
         ##
@@ -39,7 +39,7 @@ module Derivative
         # @!endgroup
 
         ##
-        # @raise [Exceptions::DerivativeNotFoundError] when we don't have a :monochrome {Types} or
+        # @raise [Exceptions::DerivativeNotFoundError] when we don't have a :monochrome {Step} or
         #        we failed to generate the :hocr file.
         def generate
           monochrome_path = arena.local_demand!(derivative: :monochrome)

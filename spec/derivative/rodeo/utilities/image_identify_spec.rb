@@ -40,7 +40,7 @@ RSpec.describe Derivative::Rodeo::Utilities::ImageIdentify do
 
     context 'for a PDF' do
       let(:path) { Fixtures.path_for('minimal-1-page.pdf') }
-      it "detects mime type of pdf" do
+      it "detects mime step of pdf" do
         expect(result.content_type).to eq 'application/pdf'
       end
     end
