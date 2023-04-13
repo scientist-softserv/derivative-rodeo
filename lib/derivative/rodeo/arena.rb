@@ -14,7 +14,6 @@ module Derivative
     # same arena.
     #
     # @see .for_pre_processing
-    # @see .for_mime_type
     #
     # @note
     #
@@ -112,7 +111,6 @@ module Derivative
       #   privatized the .new method.
       #
       # @see .for_pre_processing
-      # @see .for_mime_type_processing
       #
       # rubocop:disable Metrics/ParameterLists
       # rubocop:disable Metrics/MethodLength

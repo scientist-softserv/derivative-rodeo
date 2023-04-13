@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 # This require is technically not needed here, but it helps narrow the concepts elsewhere.
-require 'derivative/rodeo/steps'
-
 module Derivative
   module Rodeo
     ##
