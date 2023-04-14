@@ -23,6 +23,26 @@ RSpec.describe Derivative::Rodeo::StorageAdapters::FromManifestAdapter do
     end
   end
 
+  describe '#exists?' do
+    let(:manifest) { Fixtures.manifest(derivatives: { derivative => path }) }
+    let(:path) { __FILE__ }
+
+    subject { instance.exists?(derivative: derivative) }
+
+    context 'when the derivative exists as a file' do
+      it { is_expected.to be_truthy }
+    end
+
+    context 'when the derivative is a remote URL' do
+      context 'and the URL returns a 200 status' do
+        xit { is_expected.to be_truthy }
+      end
+      context 'and the URL is non-200 status' do
+        xit { is_expected.to be_falsey }
+      end
+    end
+  end
+
   describe '#read' do
     context 'when the derivative path is a local file' do
       it 'returns the content' do
@@ -31,8 +51,7 @@ RSpec.describe Derivative::Rodeo::StorageAdapters::FromManifestAdapter do
     end
 
     context 'when the derivative path is a URL' do
-      xit 'returns the content'
-      xit 'pulls the content'
+      xit "will return the file's content"
     end
   end
 

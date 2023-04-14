@@ -67,11 +67,17 @@ module Derivative
         #
         # @return [Derivative::Rodeo::Manifest::PreProcess]
         #
+        # @todo What if we don't have the KNOWN_COLUMN_NAMES?
+        #
         # @note
+        #
         # This is a class method to provide an easier means of testing and sharing the expected
         # behavior.
         #
-        # @todo What if we don't have the KNOWN_COLUMN_NAMES?
+        # @note
+        #
+        # This may not be something we can run by posting to a Lambda; however we will need a "split
+        # a CSV" into individual queueing.
         def self.convert_to_manifest(row:, known_column_names: KNOWN_COLUMN_NAMES, manifest_builder: Manifest::PreProcess)
           hash = row.to_hash.symbolize_keys
           kwargs = hash.slice(*known_column_names)

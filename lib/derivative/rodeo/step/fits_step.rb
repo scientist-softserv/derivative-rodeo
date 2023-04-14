@@ -7,6 +7,7 @@ module Derivative
       class FitsStep < BaseStep
         self.prerequisites = [:original]
 
+        # @see https://github.com/samvera/hyrax/blob/426575a9065a5dd3b30f458f5589a0a705ad7be2/app/models/concerns/hyrax/file_set/characterization.rb#L20-L24
         def generate
           content = arena.local_read(derivative: :original)
           filename = File.basename(arena.original_filename)

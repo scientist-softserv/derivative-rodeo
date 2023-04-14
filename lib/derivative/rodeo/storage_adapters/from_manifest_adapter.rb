@@ -48,15 +48,30 @@ module Derivative
           raise Exceptions::InvalidFunctionForStorageAdapterError.new(adapter: self, method: :assign!)
         end
 
+        ##
+        # @todo
+        #
+        # What we want to do is write this remote to this location.
+        # We want to path the destination and then let the download library write to that destination.
+        #
+        # This method pull from the remote :to the local
         def pull(derivative:, to:)
           return false unless exists?(derivative: derivative)
 
+          # This pattern operates
           to.assign!(derivative: derivative) do
             read(derivative: derivative)
           end
         end
 
+        ##
         # @api public
+        #
+        # For the given :derivative, {#read} it from this storage adapter and then {#assign!} it to the
+        # given :to adapter.
+        #
+        # @param derivative [Symbol]
+        # @param to [#assign!, StorageAdapters::Base]
         def pull!(derivative:, to:)
           demand!(derivative: derivative)
 
@@ -69,6 +84,7 @@ module Derivative
           path = demand!(derivative: derivative)
           return File.read(path) if File.exist?(path)
 
+          # Will we stream these as we write?
           raise "Make sure to handle the URL"
         end
 
