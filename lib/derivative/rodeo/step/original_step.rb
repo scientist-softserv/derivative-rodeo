@@ -4,7 +4,8 @@ module Derivative
   module Rodeo
     module Step
       ##
-      #
+      # This step is responsible for ensuring that the original file, as identified in the
+      # {Manifest} is available for the rodeo.
       class OriginalStep < BaseStep
         self.prerequisites = []
 
