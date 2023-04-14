@@ -18,7 +18,7 @@ module Derivative
       # All other columns will treated as the keys for the derivatives array on a manifest.
       #
       #
-      # @see REQUIRED_COLUMN_NAMES
+      # @see KNOWN_COLUMN_NAMES
       # @see #call
       class ProcessFileSetsFromCsvInvocation
         include Invocation::Base
@@ -58,23 +58,26 @@ module Derivative
 
         # These are the columns that we might see in our CSV.  The required might be a bit of a
         # misnomer as the system does not require a mime_type.
-        REQUIRED_COLUMN_NAMES = [:parent_identifier, :original_filename, :path_to_original, :mime_type].freeze
+        KNOWN_COLUMN_NAMES = [:parent_identifier, :original_filename, :path_to_original, :mime_type].freeze
 
         ##
         # @param row [#to_hash]
+        # @param known_column_names [Array<Symbol>]
+        # @param manifest_builder [Class<Derivative::Rodeo::Manifest>]
         #
         # @return [Derivative::Rodeo::Manifest::PreProcess]
         #
-        # @note This is a class method to provide an easier means of testing and sharing the
-        # expected behavior.
+        # @note
+        # This is a class method to provide an easier means of testing and sharing the expected
+        # behavior.
         #
-        # @todo What if we don't have the REQUIRED_COLUMN_NAMES?
-        def self.convert_to_manifest(row:)
+        # @todo What if we don't have the KNOWN_COLUMN_NAMES?
+        def self.convert_to_manifest(row:, known_column_names: KNOWN_COLUMN_NAMES, manifest_builder: Manifest::PreProcess)
           hash = row.to_hash.symbolize_keys
-          kwargs = hash.slice(*REQUIRED_COLUMN_NAMES)
-          derivatives = hash.except(*REQUIRED_COLUMN_NAMES)
+          kwargs = hash.slice(*known_column_names)
+          derivatives = hash.except(*known_column_names)
           kwargs[:derivatives] = derivatives
-          Rodeo::Manifest::PreProcess.new(**kwargs)
+          manifest_builder.new(**kwargs)
         end
 
         private
