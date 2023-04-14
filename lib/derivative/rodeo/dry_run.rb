@@ -15,7 +15,7 @@ module Derivative
       ##
       # @param method_names [Array<Symbols>]
       # @param contexts [Hash] for rendering additional context on the command line.
-      # @param config [Derivative::Rodeo::Config]
+      # @param config [Derivative::Rodeo::Configuration]
       #
       # @return [Module]
       #
