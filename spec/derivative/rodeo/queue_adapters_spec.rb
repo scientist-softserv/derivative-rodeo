@@ -34,4 +34,17 @@ RSpec.describe Derivative::Rodeo::QueueAdapters do
       it { within_block_is_expected.to raise_exception(Derivative::Rodeo::Exceptions::UnexpectedQueueAdapterError) }
     end
   end
+
+  describe 'Base' do
+    let(:base) { Class.new { include Derivative::Rodeo::QueueAdapters::Base } }
+    subject(:instance) { base.new }
+
+    context '#enqueue' do
+      subject { instance.enqueue(derivative_to_process: nil, arena: nil) }
+      it { within_block_is_expected.to raise_error(NotImplementedError) }
+    end
+
+    it { is_expected.to respond_to :to_sym }
+    it { is_expected.to respond_to :to_hash }
+  end
 end
