@@ -19,14 +19,14 @@ RSpec.describe Derivative::Rodeo::Step::MonochromeStep do
   describe "#generate_for" do
     subject { instance.generate }
     before do
-      allow(arena).to receive(:local_demand!).with(derivative: described_class.to_sym).and_call_original
+      allow(arena).to receive(:local_demand_path_for!).with(derivative: described_class.to_sym).and_call_original
     end
 
     context 'with existing :monochrome' do
       let(:image_path) { Fixtures.path_for("ocr_mono.tiff") }
 
       it "re-uses the file" do
-        expect(arena).to receive(:local_demand!)
+        expect(arena).to receive(:local_demand_path_for!)
           .with(derivative: :original)
           .and_return(image_path)
 
@@ -42,7 +42,7 @@ RSpec.describe Derivative::Rodeo::Step::MonochromeStep do
     context 'without existing :monochrome' do
       let(:image_path) { Fixtures.path_for("ocr_color.tiff") }
       it "it converts the existing image" do
-        expect(arena).to receive(:local_demand!)
+        expect(arena).to receive(:local_demand_path_for!)
           .with(derivative: :original)
           .and_return(image_path)
 

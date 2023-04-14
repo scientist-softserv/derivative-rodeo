@@ -130,7 +130,7 @@ module Derivative
         if dry_run?
           extend Rodeo::DryRun.for(method_names: [
                                      :local_assign!,
-                                     :local_demand!,
+                                     :local_demand_path_for!,
                                      :local_exists?,
                                      :local_path,
                                      :local_read,
@@ -258,8 +258,8 @@ module Derivative
       # Delegate the local demand to the given :derivative.  The :derivative knows best.
       #
       # @param derivative [#to_sym]
-      def local_demand!(derivative:)
-        Rodeo.Step(derivative).demand!(manifest: manifest, storage: local_storage)
+      def local_demand_path_for!(derivative:)
+        Rodeo.Step(derivative).demand_path_for!(manifest: manifest, storage: local_storage)
       end
 
       ##

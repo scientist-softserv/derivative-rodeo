@@ -36,7 +36,7 @@ module Derivative
 
       attr_reader :derivative, :arena
 
-      delegate :process_next_chain_link_after!, :local_demand!, :local_exists?, :remote_pull, to: :arena
+      delegate :process_next_chain_link_after!, :local_demand_path_for!, :local_exists?, :remote_pull, to: :arena
       delegate :generate_for, to: :derivative
 
       # @api private
@@ -47,7 +47,7 @@ module Derivative
 
         # Will raise an exception if the above failed to put the derivative in the correct local
         # location.
-        local_demand!(derivative: derivative)
+        local_demand_path_for!(derivative: derivative)
 
         process_next_chain_link_after!(derivative: derivative)
       end

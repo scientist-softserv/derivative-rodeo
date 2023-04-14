@@ -37,7 +37,7 @@ module Derivative
         alias path path_to
 
         # @api public
-        def demand!(derivative:)
+        def demand_path_for!(derivative:)
           return path(derivative: derivative) if exists?(derivative: derivative)
 
           raise Exceptions::DerivativeNotFoundError.new(derivative: derivative, storage: self)
@@ -73,7 +73,7 @@ module Derivative
         # @param derivative [Symbol]
         # @param to [#assign!, StorageAdapters::Base]
         def pull!(derivative:, to:)
-          demand!(derivative: derivative)
+          demand_path_for!(derivative: derivative)
 
           to.assign!(derivative: derivative) do
             read(derivative: derivative)
@@ -81,8 +81,8 @@ module Derivative
         end
 
         def read(derivative:)
-          path = demand!(derivative: derivative)
-          return File.read(path) if File.exist?(path)
+          path = demand_path_for!(derivative: derivative)
+          return File.read(path) if File.file?(path)
 
           # Will we stream these as we write?
           raise "Make sure to handle the URL"

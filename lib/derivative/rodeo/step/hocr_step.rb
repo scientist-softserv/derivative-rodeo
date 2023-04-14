@@ -42,7 +42,7 @@ module Derivative
         # @raise [Exceptions::DerivativeNotFoundError] when we don't have a :monochrome {Step} or
         #        we failed to generate the :hocr file.
         def generate
-          monochrome_path = arena.local_demand!(derivative: :monochrome)
+          monochrome_path = arena.local_demand_path_for!(derivative: :monochrome)
 
           # I'm assuming that if the arena returns a local path for a filename, then the
           # process can write a file to the same directory as the returned filename.  Because

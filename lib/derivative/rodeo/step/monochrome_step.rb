@@ -7,7 +7,7 @@ module Derivative
         self.prerequisites = [:original]
 
         def generate
-          original_path = arena.local_demand!(derivative: :original)
+          original_path = arena.local_demand_path_for!(derivative: :original)
 
           image = Derivative::Rodeo::Utilities::Image.new(original_path)
 

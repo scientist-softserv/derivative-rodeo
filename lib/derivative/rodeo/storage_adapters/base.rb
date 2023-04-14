@@ -24,7 +24,7 @@ module Derivative
         end
 
         # @api public
-        def demand!(derivative:)
+        def demand_path_for!(derivative:)
           raise NotImplementedError
         end
 

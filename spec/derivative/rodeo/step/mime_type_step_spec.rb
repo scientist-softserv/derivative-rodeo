@@ -44,7 +44,7 @@ RSpec.describe Derivative::Rodeo::Step::MimeTypeStep do
   end
 
   describe ".demand" do
-    subject { described_class.demand!(manifest: manifest, storage: nil) }
+    subject { described_class.demand_path_for!(manifest: manifest, storage: nil) }
     let(:manifest) { double(Derivative::Rodeo::Manifest, mime_type: mime_type) }
 
     context 'when the manifest has no mime_type' do
