@@ -29,7 +29,7 @@ module Derivative
         # assigned.
         #
         # rubocop:disable Lint/UnusedMethodArgument
-        def self.demand!(manifest:, storage:)
+        def self.demand_path_for!(manifest:, storage:)
           raise Exceptions::ManifestMissingMimeTypeError.new(manifest: manifest.mime_type) if manifest.mime_type.blank?
           coerce_to_mime_type(manifest.mime_type, manifest: manifest)
         end
@@ -72,7 +72,7 @@ module Derivative
         def generate
           content = arena.local_read(derivative: :original)
           arena.mime_type ||= ::Marcel::MimeType.for(content)
-          mime_type = arena.local_demand!(derivative: to_sym)
+          mime_type = arena.local_demand_path_for!(derivative: to_sym)
           steps = self.class.next_steps_for(mime_type: mime_type)
           chain = Chain.new(derivatives: steps)
           Rodeo.process_derivative(json: arena.to_json(chain: chain, derivative_to_process: chain.first))

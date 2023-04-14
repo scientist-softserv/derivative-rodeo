@@ -4,11 +4,11 @@ require 'spec_helper'
 
 RSpec.describe Derivative::Rodeo::Process do
   let(:derivative) { Derivative::Rodeo::Step::BaseStep }
-  let(:arena) { double(Derivative::Rodeo::Arena, local_demand!: true, remote_pull: false, process_next_chain_link_after!: false, local_exists?: false) }
+  let(:arena) { double(Derivative::Rodeo::Arena, local_demand_path_for!: true, remote_pull: false, process_next_chain_link_after!: false, local_exists?: false) }
   subject(:instance) { described_class.new(derivative: derivative, arena: arena) }
   let(:handle) { :handle }
 
-  it { is_expected.to delegate_method(:local_demand!).to(:arena) }
+  it { is_expected.to delegate_method(:local_demand_path_for!).to(:arena) }
   it { is_expected.to delegate_method(:local_exists?).to(:arena) }
   it { is_expected.to delegate_method(:remote_pull).to(:arena) }
   it { is_expected.to delegate_method(:process_next_chain_link_after!).to(:arena) }
@@ -22,7 +22,7 @@ RSpec.describe Derivative::Rodeo::Process do
         expect(arena).to receive(:local_exists?).with(derivative: derivative).and_return(true)
         expect(derivative).not_to receive(:generate_for)
         subject
-        expect(arena).to have_received(:local_demand!).with(derivative: derivative)
+        expect(arena).to have_received(:local_demand_path_for!).with(derivative: derivative)
         expect(arena).not_to have_received(:remote_pull)
         expect(arena).to have_received(:process_next_chain_link_after!).with(derivative: derivative)
       end
@@ -51,7 +51,7 @@ RSpec.describe Derivative::Rodeo::Process do
       context 'when nothing returns a handle' do
         let(:exception) { Derivative::Rodeo::Exceptions::FailureToLocateDerivativeError.new(derivative: derivative, arena: arena) }
         it "raises a Exceptions::FailureToLocateDerivativeError" do
-          expect(arena).to receive(:local_demand!).with(derivative: derivative).and_raise(exception)
+          expect(arena).to receive(:local_demand_path_for!).with(derivative: derivative).and_raise(exception)
           expect(derivative).to receive(:generate_for).and_return(nil)
 
           expect { subject }.to raise_exception(exception.class)

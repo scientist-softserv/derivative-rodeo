@@ -36,7 +36,7 @@ module Derivative
         end
 
         # @api public
-        def demand!(derivative:)
+        def demand_path_for!(derivative:)
           return path(derivative: derivative) if exists?(derivative: derivative)
 
           raise Exceptions::DerivativeNotFoundError.new(derivative: derivative, storage: self)
@@ -52,7 +52,7 @@ module Derivative
         # @raise [Derivative::Rodeo::Exceptions::ConflictingMethodArgumentsError]
         # @raise [Exceptions::DerivativeNotFoundError]
         #
-        # @see #demand!
+        # @see #demand_path_for!
         def assign!(derivative:, path: nil)
           raise Exceptions::ConflictingMethodArgumentsError.new(receiver: self, method: :assign!) if path && block_given?
 
@@ -61,7 +61,7 @@ module Derivative
           else
             write(derivative: derivative) { yield }
           end
-          demand!(derivative: derivative)
+          demand_path_for!(derivative: derivative)
         end
 
         # @api public
@@ -75,7 +75,7 @@ module Derivative
 
         # @api public
         def pull!(derivative:, to:)
-          demand!(derivative: derivative)
+          demand_path_for!(derivative: derivative)
 
           to.assign!(derivative: derivative) do
             read(derivative: derivative)

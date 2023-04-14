@@ -30,12 +30,12 @@ RSpec.describe Derivative::Rodeo::Step::HocrStep do
     subject { instance.generate }
 
     before do
-      allow(arena).to receive(:local_demand!).with(derivative: :hocr).and_call_original
+      allow(arena).to receive(:local_demand_path_for!).with(derivative: :hocr).and_call_original
     end
 
     context "without an existing monochrome derivative" do
       it "will raise an Exceptions::DerivativeNotFoundError exception" do
-        expect(arena).to receive(:local_demand!)
+        expect(arena).to receive(:local_demand_path_for!)
           .with(derivative: :monochrome)
           .and_raise(exception)
         expect { subject }.to raise_exception(exception.class)
@@ -44,7 +44,7 @@ RSpec.describe Derivative::Rodeo::Step::HocrStep do
 
     context 'with an existing monochrome derivative' do
       it 'assign the tesseract derived file to the :hocr derivative for the arena' do
-        expect(arena).to receive(:local_demand!)
+        expect(arena).to receive(:local_demand_path_for!)
           .with(derivative: :monochrome)
           .and_return(Fixtures.path_for("ocr_mono.tiff"))
 

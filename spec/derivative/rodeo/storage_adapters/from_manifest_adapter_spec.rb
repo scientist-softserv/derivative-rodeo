@@ -15,8 +15,8 @@ RSpec.describe Derivative::Rodeo::StorageAdapters::FromManifestAdapter do
     it { within_block_is_expected.to raise_error(Derivative::Rodeo::Exceptions::InvalidFunctionForStorageAdapterError) }
   end
 
-  describe '#demand!' do
-    subject { instance.demand!(derivative: derivative) }
+  describe '#demand_path_for!' do
+    subject { instance.demand_path_for!(derivative: derivative) }
 
     context 'when the local does not exist' do
       it { within_block_is_expected.to raise_error(Derivative::Rodeo::Exceptions::DerivativeNotFoundError) }
