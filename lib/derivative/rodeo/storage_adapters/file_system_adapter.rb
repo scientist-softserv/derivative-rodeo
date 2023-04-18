@@ -35,13 +35,6 @@ module Derivative
           path_to(derivative: derivative)
         end
 
-        # @api public
-        def demand_path_for!(derivative:)
-          return path(derivative: derivative) if exists?(derivative: derivative)
-
-          raise Exceptions::DerivativeNotFoundError.new(derivative: derivative, storage: self)
-        end
-
         ##
         # @api public
         #

@@ -37,13 +37,6 @@ module Derivative
         alias path path_to
 
         # @api public
-        def demand_path_for!(derivative:)
-          return path(derivative: derivative) if exists?(derivative: derivative)
-
-          raise Exceptions::DerivativeNotFoundError.new(derivative: derivative, storage: self)
-        end
-
-        # @api public
         def assign!(**)
           raise Exceptions::InvalidFunctionForStorageAdapterError.new(adapter: self, method: :assign!)
         end
@@ -68,13 +61,14 @@ module Derivative
         # given :to adapter.
         #
         # @param derivative [Symbol]
-        # @param to [#assign!, StorageAdapters::Base]
+        # @param to [#fet!, StorageAdapters::Base]
         def pull!(derivative:, to:)
           demand_path_for!(derivative: derivative)
 
           to.fetch!(derivative: derivative, from: self)
         end
 
+        ##
         # This method implements a bit of a double dispatch.
         #
         # First we check if we have it in our storage.  If we do, return the path.  If we don't,
@@ -82,7 +76,9 @@ module Derivative
         # the best way to get it from it's storage to the target storage.  Last we {#demand!} that we
         # have this file locally.
         #
-        #
+        # @param derivative [Symbol]
+        # @param from [Object]
+        # @param to [#fet!, StorageAdapters::Base]
         def fetch!(derivative:, from:)
           return path_to(derivative: derivative) if exists?(derivative: derivative)
 
