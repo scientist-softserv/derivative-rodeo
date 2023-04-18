@@ -86,8 +86,6 @@ module Derivative
           File.read(path_to(derivative: derivative))
         end
 
-        private
-
         def write(derivative:)
           File.open(path_to(derivative: derivative), "wb") do |file|
             file.puts yield

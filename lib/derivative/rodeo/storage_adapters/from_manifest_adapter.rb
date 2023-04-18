@@ -58,10 +58,7 @@ module Derivative
         def pull(derivative:, to:)
           return false unless exists?(derivative: derivative)
 
-          # This pattern operates
-          to.assign!(derivative: derivative) do
-            read(derivative: derivative)
-          end
+          to.fetch!(derivative: derivative, from: self)
         end
 
         ##
@@ -75,8 +72,31 @@ module Derivative
         def pull!(derivative:, to:)
           demand_path_for!(derivative: derivative)
 
-          to.assign!(derivative: derivative) do
-            read(derivative: derivative)
+          to.fetch!(derivative: derivative, from: self)
+        end
+
+        # This method implements a bit of a double dispatch.
+        #
+        # First we check if we have it in our storage.  If we do, return the path.  If we don't,
+        # have the :from {#push} the :derivative.  The :from knows how it's setup and understands
+        # the best way to get it from it's storage to the target storage.  Last we {#demand!} that we
+        # have this file locally.
+        #
+        #
+        def fetch!(derivative:, from:)
+          return path_to(derivative: derivative) if exists?(derivative: derivative)
+
+          from.push(derivative: derivative, to: self)
+
+          demand_path_for!(derivative: derivative)
+        end
+
+        def push(derivative:, to:)
+          path = path_to(derivative: derivative)
+          if File.exist?(path) # We have a local file, and likely can't leverage downloading logic.
+            to.write(derivative: derivative) { read(derivative: derivative) }
+          else # We have a remote file, let's rely on downloading
+            download(derivative: derivative, path: to.path(derivative: derivative))
           end
         end
 

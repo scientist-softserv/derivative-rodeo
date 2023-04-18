@@ -46,6 +46,14 @@ module Derivative
         def pull!(derivative:, to:)
           raise NotImplementedError
         end
+
+        def fetch!(derivative:, from:)
+          return path_to(derivative: derivative) if exists?(derivative: derivative)
+
+          from.push(derivative: derivative, to: self)
+
+          demand_path_for!(derivative: derivative)
+        end
       end
     end
   end
