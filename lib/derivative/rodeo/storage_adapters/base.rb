@@ -23,9 +23,13 @@ module Derivative
           raise NotImplementedError
         end
 
+        ##
         # @api public
+        # @param derivative [Symbol]
         def demand_path_for!(derivative:)
-          raise NotImplementedError
+          return path(derivative: derivative) if exists?(derivative: derivative)
+
+          raise Exceptions::DerivativeNotFoundError.new(derivative: derivative, storage: self)
         end
 
         # @api public
@@ -48,7 +52,7 @@ module Derivative
         end
 
         def fetch!(derivative:, from:)
-          return path_to(derivative: derivative) if exists?(derivative: derivative)
+          return path(derivative: derivative) if exists?(derivative: derivative)
 
           from.push(derivative: derivative, to: self)
 
