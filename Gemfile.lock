@@ -4,7 +4,6 @@ PATH
     derivative-rodeo (0.1.0)
       activesupport (>= 5)
       aws-sdk-sqs
-      hydra-file_characterization
       marcel
       mime-types
       mini_magick
@@ -144,6 +143,7 @@ PLATFORMS
 DEPENDENCIES
   bixby
   derivative-rodeo!
+  hydra-file_characterization
   rake (~> 13.0)
   rspec
   shoulda-matchers
@@ -152,4 +152,4 @@ DEPENDENCIES
   yard-activerecord
 
 BUNDLED WITH
-   2.3.21
+   2.4.12

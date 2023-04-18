@@ -34,16 +34,16 @@ Gem::Specification.new do |spec|
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html
 
-  spec.add_dependency 'mini_magick'
   spec.add_dependency 'activesupport', ">= 5"
-  spec.add_dependency 'nokogiri'
-  spec.add_dependency 'hydra-file_characterization'
-  spec.add_dependency 'marcel'
-  spec.add_dependency 'mime-types'
   # NOTE: aws-sdk-sqs could be a rodeo plugin, but for now, it's part of the main show
   spec.add_dependency 'aws-sdk-sqs'
+  spec.add_dependency 'marcel'
+  spec.add_dependency 'mime-types'
+  spec.add_dependency 'mini_magick'
+  spec.add_dependency 'nokogiri'
 
   spec.add_development_dependency 'bixby'
+  spec.add_development_dependency 'hydra-file_characterization'
   spec.add_development_dependency 'rspec'
   spec.add_development_dependency 'shoulda-matchers'
   spec.add_development_dependency 'solargraph'
