@@ -34,9 +34,11 @@ Gem::Specification.new do |spec|
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html
 
-  spec.add_dependency 'activesupport', ">= 5"
+  # NOTE: aws-sdk-s3 could be a rodeo plugin, but for now, it's part of the main show
+  spec.add_dependency 'aws-sdk-s3'
   # NOTE: aws-sdk-sqs could be a rodeo plugin, but for now, it's part of the main show
   spec.add_dependency 'aws-sdk-sqs'
+  spec.add_dependency 'activesupport', ">= 5"
   spec.add_dependency 'marcel'
   spec.add_dependency 'mime-types'
   spec.add_dependency 'mini_magick'
