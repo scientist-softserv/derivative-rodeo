@@ -13,7 +13,7 @@ RSpec::Core::RakeTask.new(:spec)
 
 desc "Generate table of contents for README.md"
 task :doctoc do
-  if `which doctoc`.strip.length.zero?
+  if `which doctoc`.strip.empty?
     $stdout.puts 'Skipping doctoc generation; install via "npm install -g doctoc"'
   else
     $stdout.puts 'Generating table of contents for README.md'
