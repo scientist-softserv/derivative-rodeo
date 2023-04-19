@@ -47,5 +47,6 @@ module Derivative
   end
 end
 
-require "derivative/rodeo/queue_adapters/inline_adapter"
 require "derivative/rodeo/queue_adapters/aws_sqs_adapter"
+require "derivative/rodeo/queue_adapters/inline_adapter"
+require "derivative/rodeo/queue_adapters/null_adapter"
