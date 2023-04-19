@@ -26,7 +26,7 @@ RSpec.describe Derivative::Rodeo::StorageAdapters::FileSystemAdapter do
 
   describe '#to_hash' do
     it "has the :directory_name, :manifest, :name, and :root keys" do
-      expect(instance.to_hash.keys).to eq([:name, :directory_name, :root])
+      expect(instance.to_hash.keys).to eq([:manifest, :name, :directory_name, :root])
     end
   end
 

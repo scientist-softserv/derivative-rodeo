@@ -20,7 +20,7 @@ module Derivative
         # @return [String]
         # @see .client
         # @see Derivative::Rodeo::StorageAdapters::AwsS3Adapter.region
-        class_attribute :region, default: ENV.fetch('AWS_REGION', 'us-east-2'), instance_writer: false
+        class_attribute :region, default: ENV.fetch('AWS_REGION_NAME', 'us-east-2'), instance_writer: false
 
         # @!attribute [rw]
         # The name of the queue we're enqueing into.

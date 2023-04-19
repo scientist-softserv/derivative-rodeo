@@ -53,5 +53,6 @@ module Derivative
 end
 
 require 'derivative/rodeo/storage_adapters/base'
+require 'derivative/rodeo/storage_adapters/aws_s3_adapter'
 require 'derivative/rodeo/storage_adapters/file_system_adapter'
 require 'derivative/rodeo/storage_adapters/from_manifest_adapter'

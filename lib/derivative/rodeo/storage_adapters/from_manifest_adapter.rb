@@ -11,17 +11,6 @@ module Derivative
         include Base
 
         ##
-        # @param manifest [Derivative::Rodeo::Manifest::Original]
-        def initialize(manifest:, **)
-          @manifest = manifest
-        end
-        attr_reader :manifest
-
-        def to_hash
-          super.merge(manifest: manifest.to_hash)
-        end
-
-        ##
         # @api public
         def exists?(derivative:)
           path = path_to_storage(derivative: derivative)

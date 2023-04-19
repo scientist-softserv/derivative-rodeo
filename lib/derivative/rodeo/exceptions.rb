@@ -31,6 +31,12 @@ module Derivative
         end
       end
 
+      class FileNotFoundForShellProcessing < Error
+        def initialize(path:, adapter:)
+          super("Could not find a local file at path #{path.inspect} for adapter #{adapter.inspect}")
+        end
+      end
+
       class InvalidFunctionForStorageAdapterError < Error
         def initialize(adapter:, method:)
           super("The #{adapter.class} received method #{method.inspect} and should not have.")

@@ -6,6 +6,15 @@ module Derivative
       # A module to help document and describe the expected interface for a storage adapter.
       module Base
         ##
+        # @param manifest [Derivative::Rodeo::Manifest]
+        def initialize(manifest:)
+          @manifest = manifest
+        end
+
+        # @return [Derivative::Rodeo::Manifest]
+        attr_reader :manifest
+
+        ##
         # @api private
         #
         # Assign the file at the given :path to the given :derivative.  That might mean copying the
@@ -16,7 +25,7 @@ module Derivative
         #
         # @see assign!
         def assign(derivative:, path:)
-          raise NotImplementedError
+          raise NotImplementedError, "#{self.class}#assign"
         end
 
         ##
@@ -62,7 +71,7 @@ module Derivative
         # @return [TrueClass] when the given derivative exists in this storage.
         # @return [FalseClass] when the given derivative does not exist in this storage.
         def exists?(derivative:)
-          raise NotImplementedError
+          raise NotImplementedError, "#{self.class}#exists?"
         end
 
         ##
@@ -76,7 +85,7 @@ module Derivative
         #        and write the local file.
         # @see #fetch
         def fetch!(derivative:, from:)
-          raise NotImplementedError
+          raise NotImplementedError, "#{self.class}#fetch!"
         end
 
         ##
@@ -104,7 +113,7 @@ module Derivative
         #
         # @return [String] The path to the storage of the given :derivative
         def path_to_storage(derivative:, **)
-          raise NotImplementedError
+          raise NotImplementedError, "#{self.class}#path_to_storage"
         end
         alias path_to path_to_storage
         alias path path_to_storage
@@ -119,7 +128,7 @@ module Derivative
         #
         # @note In some cases, this is different from the path
         def path_for_shell_commands(derivative:)
-          path_to_storage(derivative: derivative)
+          raise NotImplementedError, "#{self.class}#path_for_shell_commands"
         end
 
         ##
@@ -135,7 +144,7 @@ module Derivative
         #
         # @return [Hash<Symbol, Object>]
         def to_hash
-          { name: to_sym }
+          { manifest: manifest.to_hash, name: to_sym }
         end
       end
     end

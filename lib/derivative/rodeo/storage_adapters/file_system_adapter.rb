@@ -14,12 +14,12 @@ module Derivative
         # @param manifest [Derivative::Rodeo::Manifest::Original]
         # @param root [String]
         def initialize(manifest:, root: Dir.mktmpdir, directory_name: File.join(root, *manifest.directory_slugs), **)
-          @manifest = manifest
+          super(manifest: manifest)
           @root = root
           @directory_name = directory_name
           FileUtils.mkdir_p(directory_name)
         end
-        attr_reader :manifest, :directory_name, :root
+        attr_reader :directory_name, :root
 
         def to_hash
           super.merge({ directory_name: directory_name, root: root })
@@ -62,6 +62,7 @@ module Derivative
         end
         alias path path_to_storage
         alias path_to path_to_storage
+        alias path_for_shell_commands path_to_storage
       end
     end
   end
