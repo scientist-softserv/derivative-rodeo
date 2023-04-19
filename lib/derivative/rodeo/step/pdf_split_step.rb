@@ -7,33 +7,41 @@ module Derivative
       # The :pdf_split derivative processes one file and creates additional files which have some
       # behavior similar to originals in that they have their own processing chain.
       class PdfSplitStep < BaseStep
-        self.prerequisites = []
-        self.spawns = [:ocr]
-
         ##
         # @!group Class Attributes
         # @!attribute [rw]
-        class_attribute :page_splitting_service, default: nil
-
-        ##
-        # @!attribute [rw]
+        # @return [#call]
         #
-        # When we split the PDFs what are the derivatives we want to run on the resulting individual
-        # pages.
-        class_attribute :derivative_steps_for_split, default: [:ocr]
-        # @!endgroup
+        # The call function should receive a string and return an Enumerable that yields the page's
+        # path.
+        #
+        # @see #generate
+        class_attribute :path_to_page_splitting_service, default: nil
+        class_attribute :derived_original_name, default: :page_image, instance_writer: false
+
+        self.prerequisites = [:original]
+        self.spawns = [derived_original_name, :page_ocr]
+        # @!endgroup Class Attributes
 
         def generate
-          # generate do
-          #   return unless mime_type(derivative: original).pdf?
-          #   pages = page_splitting_service.new(arena: arena)
-          #   pages.each_with_index do |page, index|
-          #     derived = Spaces::Derivative::Manifest::Derived.new(original: arena.manifest, derived: :pdf_page, index: index)
-          #     derived_arena = Spaces::Rodeo::Arena.for_derived(manifest: derived, envrionment: arena)
-          #     derived_arena.local_assign!(derivative: :pdf_page, path: page)
-          #     derivatives.start_processing!
-          #   end
-          # end
+          path_to_original = arena.local_path_for_shell_commands(derivative: :original)
+
+          path_to_page_splitting_service.call(path_to_original).each_with_index do |path, index|
+            process_page_split!(path: path, index: index)
+          end
+        end
+
+        private
+
+        def process_page_split!(path:, index:)
+          derived_arena = Derivative::Rodeo::Arena.for_derived(
+            parent_arena: arena,
+            derived_original_path: path,
+            derived_original_name: derived_original_name.to_sym,
+            index: index,
+            derivatives: spawns
+          )
+          derived_arena.start_processing!
         end
       end
     end

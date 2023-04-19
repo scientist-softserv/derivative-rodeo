@@ -43,6 +43,37 @@ module Derivative
       end
 
       ##
+      # Create a new {Arena} based on the given :parent_arena for the derived file.
+      #
+      # @param parent_arena [Arena] where are we running things
+      # @param derived_original_path [String] the path to the "original" file.
+      # @param derived_original_name [Symbol] the name of the "original" derivative, from which
+      #        we'll generate subsequent derivatives.
+      # @param index [Integer] the index of the derivative (for organizing within the :parent_arena)
+      # @param derivatives [Array<#to_sym>] the derivatives to generate within the new {Arena}
+      #
+      # @return [Arena]
+      def self.for_derived(parent_arena:, derived_original_path:, derived_original_name:, index:, derivatives:)
+        manifest = Manifest::Derived.new(original: parent_arena.manifest,
+                                         derived: derived_original_name,
+                                         index: index,
+                                         derivatives: derivatives)
+        chain = Chain.new(derivatives: derivatives)
+        arena = new(manifest: manifest,
+                    remote_storage: parent_arena.remote_storage,
+                    queue: parent_arena.queue,
+                    local_storage: parent_arena.local_storage,
+                    logger: parent_arena.logger,
+                    config: parent_arena.config,
+                    chain: chain)
+
+        # We need to make sure that we're moving that newly minted derived file into the correct
+        # storage bucket for this arena.
+        arena.local_assign!(derivative: derived_original_name, path: derived_original_path)
+        arena
+      end
+
+      ##
       # It should be bi-directional:
       #
       # I can serialize a message via the {.to_json} method and unserialize via {.from_json}.

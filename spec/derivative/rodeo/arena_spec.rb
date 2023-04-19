@@ -29,18 +29,29 @@ RSpec.describe Derivative::Rodeo::Arena do
     it { is_expected.to be_a described_class }
   end
 
+  describe '.for_derived' do
+    let(:parent_arena) { Fixtures.arena }
+    subject(:arena) do
+      described_class.for_derived(parent_arena: parent_arena,
+                                  derived_original_path: __FILE__,
+                                  derived_original_name: :page_image,
+                                  index: 0,
+                                  derivatives: [:page_image])
+    end
+    xit 'will assign the given derived path to the derived name'
+    it { is_expected.to be_a described_class }
+  end
+
   describe '.new' do
     it "is a private method (don't call it directly)" do
       expect(described_class.private_methods).to include(:new)
     end
   end
 
-  describe "#to_hash" do
-    subject(:hash) { arena.to_hash }
+  describe "#to_hash keys" do
+    subject(:hash) { arena.to_hash.keys }
 
-    it do
-      expect(hash.keys).to eq([:chain, :local_storage, :manifest, :queue, :remote_storage])
-    end
+    it { is_expected.to eq([:chain, :local_storage, :manifest, :queue, :remote_storage]) }
   end
 
   describe "#start_processing!" do
