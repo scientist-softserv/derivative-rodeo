@@ -8,20 +8,9 @@ RSpec.describe Derivative::Rodeo::StorageAdapters::FromManifestAdapter do
   subject(:instance) { described_class.new(manifest: manifest) }
 
   it { is_expected.to delegate_method(:path_to).to(:manifest) }
+  it { is_expected.to respond_to(:path_to_storage) }
 
-  describe "#assign!" do
-    subject { instance.assign!(derivative: derivative) }
-
-    it { within_block_is_expected.to raise_error(Derivative::Rodeo::Exceptions::InvalidFunctionForStorageAdapterError) }
-  end
-
-  describe '#demand_path_for!' do
-    subject { instance.demand_path_for!(derivative: derivative) }
-
-    context 'when the local does not exist' do
-      it { within_block_is_expected.to raise_error(Derivative::Rodeo::Exceptions::DerivativeNotFoundError) }
-    end
-  end
+  # shared examples for #path_to_storage, #demand_path_for!
 
   describe '#exists?' do
     let(:manifest) { Fixtures.manifest(derivatives: { derivative => path }) }
@@ -34,30 +23,41 @@ RSpec.describe Derivative::Rodeo::StorageAdapters::FromManifestAdapter do
     end
 
     context 'when the derivative is a remote URL' do
-      context 'and the URL returns a 200 status' do
-        xit { is_expected.to be_truthy }
+      let(:path) { "https://takeonrules.com/" }
+
+      context 'and the URL does not exist' do
+        before { allow(Derivative::Rodeo::Utilities::Url).to receive(:exists?).with(path).and_return(true) }
+        it { is_expected.to be_truthy }
       end
-      context 'and the URL is non-200 status' do
-        xit { is_expected.to be_falsey }
+      context 'when the URL does not exist' do
+        before { allow(Derivative::Rodeo::Utilities::Url).to receive(:exists?).with(path).and_return(false) }
+        it { is_expected.to be_falsey }
       end
     end
   end
 
-  describe '#read' do
-    context 'when the derivative path is a local file' do
-      it 'returns the content' do
-        expect(instance.read(derivative: :original)).to eq(File.read(__FILE__))
-      end
-    end
-
-    context 'when the derivative path is a URL' do
-      xit "will return the file's content"
-    end
+  describe '#assign' do
+    subject { instance.assign(derivative: :something, path: "/somewhere-else/but-not-here") }
+    it { within_block_is_expected.to raise_error(Derivative::Rodeo::Exceptions::InvalidFunctionForStorageAdapterError) }
   end
 
-  describe "#write" do
-    subject { instance.write(derivative: :nope) }
+  describe '#assign!' do
+    subject { instance.assign!(derivative: :something, path: "/somewhere-else/but-not-here") }
+    it { within_block_is_expected.to raise_error(Derivative::Rodeo::Exceptions::InvalidFunctionForStorageAdapterError) }
+  end
 
+  describe '#fetch!' do
+    subject { instance.fetch!(derivative: :original) }
+    it { within_block_is_expected.to raise_error(Derivative::Rodeo::Exceptions::InvalidFunctionForStorageAdapterError) }
+  end
+
+  describe '#fetch' do
+    subject { instance.fetch(derivative: :original) }
+    it { within_block_is_expected.to raise_error(Derivative::Rodeo::Exceptions::InvalidFunctionForStorageAdapterError) }
+  end
+
+  describe '#path_for_shell_commands' do
+    subject { instance.path_for_shell_commands(derivative: :original) }
     it { within_block_is_expected.to raise_error(Derivative::Rodeo::Exceptions::InvalidFunctionForStorageAdapterError) }
   end
 end

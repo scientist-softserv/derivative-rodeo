@@ -12,7 +12,7 @@ RSpec.describe Derivative::Rodeo::Step::OriginalStep do
   subject(:instance) { described_class.new(arena: arena) }
 
   describe '#generate' do
-    before { allow(arena).to receive(:remote_pull!).with(derivative: :original).and_call_original }
+    before { allow(arena).to receive(:remote_fetch!).with(derivative: :original).and_call_original }
 
     context 'when file exists locally' do
       it 'will use the local and not pull from the remote' do
@@ -25,7 +25,7 @@ RSpec.describe Derivative::Rodeo::Step::OriginalStep do
     context 'when file does not exist locally' do
       it 'will pull from the remote' do
         instance.generate
-        expect(arena).to have_received(:remote_pull!)
+        expect(arena).to have_received(:remote_fetch!)
       end
     end
   end

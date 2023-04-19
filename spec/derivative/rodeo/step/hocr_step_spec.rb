@@ -25,7 +25,7 @@ RSpec.describe Derivative::Rodeo::Step::HocrStep do
     it { is_expected.to eq([:monochrome]) }
   end
 
-  describe '#generate_for' do
+  describe '#generate' do
     let(:exception) { Derivative::Rodeo::Exceptions::DerivativeNotFoundError.new(derivative: :monochrome, storage: :file_system) }
     subject { instance.generate }
 

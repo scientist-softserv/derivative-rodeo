@@ -25,69 +25,43 @@ module Derivative
           super.merge({ directory_name: directory_name, root: root })
         end
 
+        ##
         # @api public
-        def exists?(derivative:)
-          File.exist?(path_to(derivative: derivative))
-        end
-
-        # @api public
-        def path(derivative:, **)
-          path_to(derivative: derivative)
+        def assign(derivative:, path:, utility: FileUtils)
+          storage_path = path_to_storage(derivative: derivative)
+          utility.mkdir_p(File.dirname(storage_path))
+          utility.copy_file(path, storage_path)
         end
 
         ##
         # @api public
-        #
-        # @param path [String] Assign the contents of the file at the path to the given :derivative
-        #        slot.
-        # @yield Assign the results of the yielded block to the :derivative slot.
-        #
-        # @raise [Derivative::Rodeo::Exceptions::ConflictingMethodArgumentsError]
-        # @raise [Exceptions::DerivativeNotFoundError]
-        #
-        # @see #demand_path_for!
-        def assign!(derivative:, path: nil)
-          raise Exceptions::ConflictingMethodArgumentsError.new(receiver: self, method: :assign!) if path && block_given?
-
-          if path
-            write(derivative: derivative) { File.read(path) }
-          else
-            write(derivative: derivative) { yield }
-          end
-          demand_path_for!(derivative: derivative)
+        def exists?(derivative:)
+          File.file?(path_to_storage(derivative: derivative))
         end
 
-        # @api public
-        def pull(derivative:, to:)
-          return false unless exists?(derivative: derivative)
+        def fetch!(derivative:, from:)
+          demand_path_for!(derivative: derivative) do |storage_path|
+            remote_path = from.demand_path_for!(derivative: derivative)
 
-          to.assign!(derivative: derivative) do
-            read(derivative: derivative)
+            FileUtils.mkdir_p(File.dirname(storage_path))
+            if File.file?(remote_path)
+              FileUtils.copy(remote_path, storage_path)
+            else
+              File.open(storage_path, "wb") do |f|
+                f.puts Utilities::Url.read(remote_path)
+              end
+            end
           end
         end
 
-        # @api public
-        def pull!(derivative:, to:)
-          demand_path_for!(derivative: derivative)
-
-          to.assign!(derivative: derivative) do
-            read(derivative: derivative)
-          end
-        end
-
-        def read(derivative:)
-          File.read(path_to(derivative: derivative))
-        end
-
-        def write(derivative:)
-          File.open(path_to(derivative: derivative), "wb") do |file|
-            file.puts yield
-          end
-        end
-
-        def path_to(derivative:)
+        ##
+        # @todo Do we really want this to be the storage name?  What about using the original
+        # filename and adding the suffix of the derivative?
+        def path_to_storage(derivative:)
           File.join(directory_name, derivative.to_sym.to_s)
         end
+        alias path path_to_storage
+        alias path_to path_to_storage
       end
     end
   end

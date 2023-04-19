@@ -16,7 +16,7 @@ RSpec.describe Derivative::Rodeo::Step::MonochromeStep do
 
   let(:instance) { described_class.new(arena: arena) }
 
-  describe "#generate_for" do
+  describe "#generate" do
     subject { instance.generate }
     before do
       allow(arena).to receive(:local_demand_path_for!).with(derivative: described_class.to_sym).and_call_original
@@ -34,6 +34,7 @@ RSpec.describe Derivative::Rodeo::Step::MonochromeStep do
 
         # The original monochrome image is in the monochrome slot in the arena.
         expect(subject).not_to eq(image_path)
+
         # However, the content of each file is identical
         expect(File.read(subject)).to eq(File.read(image_path))
       end

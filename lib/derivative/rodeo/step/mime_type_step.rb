@@ -70,7 +70,9 @@ module Derivative
         end
 
         def generate
-          content = arena.local_read(derivative: :original)
+          # TODO: Should we have a local_read?
+          local_path = arena.local_path_for_shell_commands(derivative: :original)
+          content = File.read(local_path)
           arena.mime_type ||= ::Marcel::MimeType.for(content)
           mime_type = arena.local_demand_path_for!(derivative: to_sym)
           steps = self.class.next_steps_for(mime_type: mime_type)

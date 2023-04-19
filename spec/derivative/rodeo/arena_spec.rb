@@ -85,16 +85,16 @@ RSpec.describe Derivative::Rodeo::Arena do
     end
   end
 
-  describe '#remote_pull' do
+  describe '#remote_fetch' do
     it "forward delegates to the :remote" do
-      expect(arena.remote_storage).to receive(:pull).with(derivative: :hocr, to: arena.local_storage)
-      arena.remote_pull(derivative: :hocr)
+      expect(arena.local_storage).to receive(:fetch).with(derivative: :hocr, from: arena.remote_storage)
+      arena.remote_fetch(derivative: :hocr)
     end
   end
-  describe '#remote_pull!' do
+  describe '#remote_fetch!' do
     it "forward delegates to the :remote" do
-      expect(arena.remote_storage).to receive(:pull!).with(derivative: :hocr, to: arena.local_storage)
-      arena.remote_pull!(derivative: :hocr)
+      expect(arena.local_storage).to receive(:fetch!).with(derivative: :hocr, from: arena.remote_storage)
+      arena.remote_fetch!(derivative: :hocr)
     end
   end
 

@@ -47,7 +47,9 @@ module Derivative
           # I'm assuming that if the arena returns a local path for a filename, then the
           # process can write a file to the same directory as the returned filename.  Because
           # tesseract takes a base name (e.g. base-hocr) and writes "base-hocr.hocr".
-          output_prefix = arena.local_path(derivative: to_sym, filename: "output_html")
+          #
+          # TODO: Going to need to consider how we use the path_for_shell_commands here.
+          output_prefix = arena.local_path(derivative: to_sym)
 
           cmd = ""
           cmd += command_environment_variables + " " if command_environment_variables.present?

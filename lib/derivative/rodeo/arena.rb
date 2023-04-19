@@ -136,8 +136,8 @@ module Derivative
                                      :local_read,
                                      :local_run_command!,
                                      :remote_exists?,
-                                     :remote_pull!,
-                                     :remote_pull
+                                     :remote_fetch!,
+                                     :remote_fetch
                                    ],
                                    contexts: dry_run_context,
                                    config: config)
@@ -194,7 +194,7 @@ module Derivative
         ).to_json
       end
 
-      delegate :exists?, :assign!, :path, :read, to: :local_storage, prefix: "local"
+      delegate :path_for_shell_commands, :exists?, :assign!, :path, :read, to: :local_storage, prefix: "local"
       delegate :exists?, to: :remote_storage, prefix: "remote"
       delegate :original_filename, :mime_type, :mime_type=, to: :manifest
       delegate :dry_run, :dry_run?, to: :config
@@ -238,9 +238,9 @@ module Derivative
       # @note
       #
       #   Instead of relying on the delegate method and prefix, I want to ensure that the
-      #   {#remote_storage}'s pull method receives the {#local_storage} as the to: keyword.
-      def remote_pull(derivative:)
-        remote_storage.pull(derivative: derivative, to: local_storage)
+      #   {#local_storage}'s fetch!! method receives the {#remote_storage} as the from: keyword.
+      def remote_fetch(derivative:)
+        local_storage.fetch(derivative: derivative, from: remote_storage)
       end
 
       ##
@@ -249,9 +249,9 @@ module Derivative
       # @note
       #
       #   Instead of relying on the delegate method and prefix, I want to ensure that the
-      #   {#remote_storage}'s pull! method receives the {#local_storage} as the to: keyword.
-      def remote_pull!(derivative:)
-        remote_storage.pull!(derivative: derivative, to: local_storage)
+      #   {#local_storage}'s fetch!! method receives the {#remote_storage} as the from: keyword.
+      def remote_fetch!(derivative:)
+        local_storage.fetch!(derivative: derivative, from: remote_storage)
       end
 
       ##

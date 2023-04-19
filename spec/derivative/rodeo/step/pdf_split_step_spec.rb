@@ -23,7 +23,7 @@ RSpec.describe Derivative::Rodeo::Step::PdfSplitStep do
     end
   end
 
-  describe '#generate_for' do
+  describe '#generate' do
     it "needs specs"
   end
 end

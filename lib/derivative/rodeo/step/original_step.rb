@@ -10,9 +10,10 @@ module Derivative
         self.prerequisites = []
 
         def generate
+          # TODO: Is this necessary?  I'm wondering if we're already checking.
           return arena.local_path(derivative: to_sym) if arena.local_exists?(derivative: to_sym)
 
-          arena.remote_pull!(derivative: to_sym)
+          arena.remote_fetch!(derivative: to_sym)
         end
       end
     end

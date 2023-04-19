@@ -83,7 +83,7 @@ RSpec.describe Derivative::Rodeo::Step::MimeTypeStep do
     before do
       allow(Derivative::Rodeo).to receive(:process_derivative)
       # Need to ensure that this is here!
-      arena.remote_pull!(derivative: :original)
+      arena.remote_fetch!(derivative: :original)
     end
 
     it "assigns the mime_type to the arena" do

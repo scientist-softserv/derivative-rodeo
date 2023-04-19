@@ -14,7 +14,7 @@ module Derivative
           if image.monochrome?
             monochrome_path = original_path
           else
-            monochrome_path = arena.local_path(derivative: to_sym, filename: 'monochrome-interim.tif')
+            monochrome_path = arena.local_path(derivative: to_sym)
 
             # Convert the above image to a file at the monochrome_path
             image.convert(monochrome_path, true)
