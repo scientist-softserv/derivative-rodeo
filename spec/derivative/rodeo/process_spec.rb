@@ -4,13 +4,13 @@ require 'spec_helper'
 
 RSpec.describe Derivative::Rodeo::Process do
   let(:derivative) { Derivative::Rodeo::Step::BaseStep }
-  let(:arena) { double(Derivative::Rodeo::Arena, local_demand_path_for!: true, remote_pull: false, process_next_chain_link_after!: false, local_exists?: false) }
+  let(:arena) { double(Derivative::Rodeo::Arena, local_demand_path_for!: true, remote_fetch: false, process_next_chain_link_after!: false, local_exists?: false) }
   subject(:instance) { described_class.new(derivative: derivative, arena: arena) }
   let(:handle) { :handle }
 
   it { is_expected.to delegate_method(:local_demand_path_for!).to(:arena) }
   it { is_expected.to delegate_method(:local_exists?).to(:arena) }
-  it { is_expected.to delegate_method(:remote_pull).to(:arena) }
+  it { is_expected.to delegate_method(:remote_fetch).to(:arena) }
   it { is_expected.to delegate_method(:process_next_chain_link_after!).to(:arena) }
   it { is_expected.to delegate_method(:generate_for).to(:derivative) }
 
@@ -23,7 +23,7 @@ RSpec.describe Derivative::Rodeo::Process do
         expect(derivative).not_to receive(:generate_for)
         subject
         expect(arena).to have_received(:local_demand_path_for!).with(derivative: derivative)
-        expect(arena).not_to have_received(:remote_pull)
+        expect(arena).not_to have_received(:remote_fetch)
         expect(arena).to have_received(:process_next_chain_link_after!).with(derivative: derivative)
       end
     end
@@ -31,7 +31,7 @@ RSpec.describe Derivative::Rodeo::Process do
       context 'when remote exists for arena' do
         it "returns a handle" do
           expect(derivative).not_to receive(:generate_for)
-          expect(arena).to receive(:remote_pull).with(derivative: derivative).and_return(handle)
+          expect(arena).to receive(:remote_fetch).with(derivative: derivative).and_return(handle)
           subject
           expect(arena).to have_received(:local_exists?)
           expect(arena).to have_received(:process_next_chain_link_after!).with(derivative: derivative)
@@ -42,7 +42,7 @@ RSpec.describe Derivative::Rodeo::Process do
         it "returns a handle" do
           expect(derivative).to receive(:generate_for).with(arena: arena).and_return(handle)
           subject
-          expect(arena).to have_received(:remote_pull)
+          expect(arena).to have_received(:remote_fetch)
           expect(arena).to have_received(:local_exists?)
           expect(arena).to have_received(:process_next_chain_link_after!).with(derivative: derivative)
         end
@@ -56,7 +56,7 @@ RSpec.describe Derivative::Rodeo::Process do
 
           expect { subject }.to raise_exception(exception.class)
 
-          expect(arena).to have_received(:remote_pull)
+          expect(arena).to have_received(:remote_fetch)
           expect(arena).to have_received(:local_exists?)
           expect(arena).not_to have_received(:process_next_chain_link_after!)
         end

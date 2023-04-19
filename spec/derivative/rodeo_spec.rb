@@ -58,6 +58,24 @@ RSpec.describe Derivative::Rodeo do
       end
     end
 
+    context 'with a remote URL for the original' do
+      let(:parent_identifier) { 'parent-identifier' }
+      let(:original_filename) { 'ocr_color.tiff' }
+      let(:derivatives) { { monochrome: Fixtures.path_for('ocr_gray.tiff') } }
+      let(:mime_type) { "image/tiff" }
+      let(:path_to_original) { "https://takeonrules.com/" }
+      let(:original_content) { "Hello World\nNice to See You!\n" }
+      it 'downloads that original file' do
+        # Intercept these calls
+        allow(Derivative::Rodeo::Utilities::Url).to receive(:read).with(path_to_original).and_return(original_content)
+        allow(Derivative::Rodeo::Utilities::Url).to receive(:exists?).with(path_to_original).and_return(true)
+        subject
+        expect(arena.local_storage.exists?(derivative: :original)).to be_truthy
+
+        expect(File.read(arena.local_path(derivative: :original))).to eq(original_content)
+      end
+    end
+
     context 'with a JPG'
     context 'with a PNG'
     context 'with a MOV'
