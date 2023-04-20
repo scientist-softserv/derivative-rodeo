@@ -26,15 +26,13 @@ require 'derivative/rodeo/process'
 require 'derivative/rodeo/queue_adapters'
 require 'derivative/rodeo/storage_adapters'
 require 'derivative/rodeo/step'
-require 'derivative/rodeo/utilities/url'
+require 'derivative/rodeo/utilities'
 
 # These are the files conceptually lifted from the IIIF Print gem; they are of secondary concern.
 # And will slowly be moved elsewhere.
 require 'derivative/rodeo/pdf_pages_summary'
 require 'derivative/rodeo/technical_metadata'
-require 'derivative/rodeo/page_splitters'
 require 'derivative/rodeo/text_extractors'
-require 'derivative/rodeo/utilities'
 
 module Derivative
   ##

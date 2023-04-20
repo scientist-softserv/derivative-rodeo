@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Derivative::Rodeo::PageSplitters::Base do
+RSpec.describe Derivative::Rodeo::Utilities::PdfSplitter::Base do
   subject { described_class.new(__FILE__, pdf_pages_summary: pdf_pages_summary) }
   let(:pdf_pages_summary) { double(Derivative::Rodeo::PdfPagesSummary) }
 

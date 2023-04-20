@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe Derivative::Rodeo::PageSplitters::Jpg do
+RSpec.describe Derivative::Rodeo::Utilities::PdfSplitter::Jpg do
   let(:path) { __FILE__ }
   let(:pdf_pages_summary) { double(Derivative::Rodeo::PdfPagesSummary) }
   let(:splitter) { described_class.new(path, pdf_pages_summary: pdf_pages_summary) }
