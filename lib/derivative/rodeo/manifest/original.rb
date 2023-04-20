@@ -12,7 +12,7 @@ module Derivative
       #
       # During the pre-process we want to specify the derivatives that we will generate for the given
       # {Identifier}.  The {Identifier} should be a unique combination of the `parent_identifier` and
-      # the `original_filename`.
+      # the `file_set_filename`.
       #
       # During the ingest the declared derivatives are all of the derivative files that we intend to
       # attach to the given {Identifier}.
@@ -21,17 +21,17 @@ module Derivative
       #
       # @note
       #
-      #   In Hyrax the `original_filename` would be the name of the original file for a FileSet
+      #   In Hyrax the `file_set_filename` would be the name of the original file for a FileSet
       #   associated with the Work identified by the `parent_identifier`.
       class Original
-        # The Identifier is a combination of the `parent_identifier` and the `original_filename`.
+        # The Identifier is a combination of the `parent_identifier` and the `file_set_filename`.
         #
         # @note
         #
         #   In leveraging a Struct we get easy comparision for uniquness.
-        Identifier = Struct.new(:parent_identifier, :original_filename, keyword_init: true) do
+        Identifier = Struct.new(:parent_identifier, :file_set_filename, keyword_init: true) do
           def id
-            "#{parent_identifier}/#{original_filename}"
+            "#{parent_identifier}/#{file_set_filename}"
           end
 
           def inspect
@@ -39,13 +39,13 @@ module Derivative
           end
 
           def directory_slugs
-            [parent_identifier.to_s, File.basename(original_filename)]
+            [parent_identifier.to_s, File.basename(file_set_filename)]
           end
 
           def to_hash
             {
               parent_identifier: parent_identifier,
-              original_filename: original_filename
+              file_set_filename: file_set_filename
             }
           end
         end
@@ -55,10 +55,10 @@ module Derivative
         # @api public
         #
         # @param parent_identifier [String]
-        # @param original_filename [String]
+        # @param file_set_filename [String]
         # @param derivatives [Array<#to_sym>]
-        def initialize(parent_identifier:, original_filename:, derivatives:)
-          @identifier = Identifier.new(parent_identifier: parent_identifier, original_filename: original_filename)
+        def initialize(parent_identifier:, file_set_filename:, derivatives:)
+          @identifier = Identifier.new(parent_identifier: parent_identifier, file_set_filename: file_set_filename)
           @derivatives = Array(derivatives).map(&:to_sym)
         end
 
@@ -74,12 +74,12 @@ module Derivative
         # @return [Array<#to_sym>]
         attr_reader :derivatives
 
-        # Given the that the parent_identifier and original_filename should be unique, we're including
+        # Given the that the parent_identifier and file_set_filename should be unique, we're including
         # the {Comparable} module to help with the uniqueness via the `<=>` operator (e.g. the
         # Spaceship operator).
         extend Forwardable
         include Comparable
-        def_delegators :identifier, :parent_identifier, :original_filename, :directory_slugs
+        def_delegators :identifier, :parent_identifier, :file_set_filename, :directory_slugs
 
         def <=>(other)
           identifier <=> other.identifier

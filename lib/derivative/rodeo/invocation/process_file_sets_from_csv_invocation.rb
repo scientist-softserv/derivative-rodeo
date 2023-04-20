@@ -11,7 +11,7 @@ module Derivative
       # @note The CSV Format is assumed to have the following headers:
       #
       # - parent_identifier
-      # - original_filename
+      # - file_set_filename
       # - path_to_original
       # - mime_type
       #
@@ -58,7 +58,7 @@ module Derivative
 
         # These are the columns that we might see in our CSV.  The required might be a bit of a
         # misnomer as the system does not require a mime_type.
-        KNOWN_COLUMN_NAMES = [:parent_identifier, :original_filename, :path_to_original, :mime_type].freeze
+        KNOWN_COLUMN_NAMES = [:parent_identifier, :file_set_filename, :path_to_original, :mime_type].freeze
 
         ##
         # @param row [#to_hash]

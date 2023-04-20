@@ -4,7 +4,7 @@ RSpec.describe Derivative::Rodeo::Step::HocrStep do
   let(:arena) { Fixtures.arena(manifest: manifest) }
 
   let(:manifest) do
-    Derivative::Rodeo::Manifest::Original.new(parent_identifier: "123", original_filename: "abc.jpg", derivatives: [:hocr])
+    Derivative::Rodeo::Manifest::Original.new(parent_identifier: "123", file_set_filename: "abc.jpg", derivatives: [:hocr])
   end
 
   describe 'class configuration' do

@@ -4,7 +4,7 @@ require 'spec_helper'
 
 RSpec.describe Derivative::Rodeo::StorageAdapters::FileSystemAdapter do
   let(:root) { Fixtures.tmp_subdir_of("file_system") }
-  let(:manifest) { Derivative::Rodeo::Manifest::Original.new(parent_identifier: "123", original_filename: __FILE__, derivatives: []) }
+  let(:manifest) { Derivative::Rodeo::Manifest::Original.new(parent_identifier: "123", file_set_filename: __FILE__, derivatives: []) }
   let(:content) { "Hello World\nWelcome to Where Ever You Are\n" }
 
   subject(:instance) { described_class.new(manifest: manifest, root: root) }

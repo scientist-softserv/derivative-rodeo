@@ -230,7 +230,7 @@ module Derivative
 
       delegate :path_for_shell_commands, :exists?, :assign!, :path, :read, to: :local_storage, prefix: "local"
       delegate :exists?, to: :remote_storage, prefix: "remote"
-      delegate :original_filename, :mime_type, :mime_type=, to: :manifest
+      delegate :file_set_filename, :mime_type, :mime_type=, to: :manifest
       delegate :dry_run, :dry_run?, to: :config
 
       def process_derivative!

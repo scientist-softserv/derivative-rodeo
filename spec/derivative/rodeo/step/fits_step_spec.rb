@@ -20,7 +20,7 @@ RSpec.describe Derivative::Rodeo::Step::FitsStep do
     before do
       expect(Hydra::FileCharacterization).to(
         receive(:characterize)
-          .with(String, File.basename(manifest.original_filename), :fits)
+          .with(String, File.basename(manifest.file_set_filename), :fits)
           .and_return(fits_response)
       )
       # Need to ensure that this is here!

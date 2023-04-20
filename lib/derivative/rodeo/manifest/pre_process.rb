@@ -16,8 +16,8 @@ module Derivative
         #        locations
         # @param mime_type [String] provided when we already know the object's mime-step; saves a
         #        bit on processing.
-        def initialize(parent_identifier:, original_filename:, path_to_original:, derivatives: {}, mime_type: nil)
-          @identifier = Original::Identifier.new(parent_identifier: parent_identifier, original_filename: original_filename)
+        def initialize(parent_identifier:, file_set_filename:, path_to_original:, derivatives: {}, mime_type: nil)
+          @identifier = Original::Identifier.new(parent_identifier: parent_identifier, file_set_filename: file_set_filename)
           @path_to_original = path_to_original
           @derivatives = derivatives.each_with_object({}) { |(key, value), hash| hash[key.to_sym] = value.to_s }
           @mime_type = mime_type
@@ -28,7 +28,7 @@ module Derivative
         def to_hash
           super.merge(derivatives: derivatives,
                       mime_type: mime_type,
-                      original_filename: original_filename,
+                      file_set_filename: file_set_filename,
                       parent_identifier: parent_identifier,
                       path_to_original: path_to_original)
         end
@@ -44,7 +44,7 @@ module Derivative
         attr_accessor :mime_type
 
         attr_reader :identifier
-        delegate :id, :parent_identifier, :original_filename, :directory_slugs, to: :identifier
+        delegate :id, :parent_identifier, :file_set_filename, :directory_slugs, to: :identifier
 
         ##
         # @return [Hash<Symbol, String>]

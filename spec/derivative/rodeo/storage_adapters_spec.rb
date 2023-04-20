@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe Derivative::Rodeo::StorageAdapters do
-  let(:manifest) { Derivative::Rodeo::Manifest::Original.new(parent_identifier: "abc", original_filename: "hello.jpg", derivatives: []) }
+  let(:manifest) { Derivative::Rodeo::Manifest::Original.new(parent_identifier: "abc", file_set_filename: "hello.jpg", derivatives: []) }
 
   describe '.for' do
     subject(:instance) { described_class.for(manifest: manifest, adapter: adapter) }
