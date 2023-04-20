@@ -16,7 +16,6 @@ module Derivative
         ##
         # @param manifest [Derivative::Rodeo::Bucket, Hash]
         # @param bucket [Aws::S3::Bucket]
-        # @param directory_name [String]
         def initialize(manifest:, bucket: default_bucket)
           super(manifest: manifest)
           @bucket = bucket

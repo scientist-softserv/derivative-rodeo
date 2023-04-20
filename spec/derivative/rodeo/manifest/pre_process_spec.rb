@@ -6,7 +6,7 @@ RSpec.describe Derivative::Rodeo::Manifest::PreProcess do
   subject(:manifest) { Fixtures.manifest }
 
   it { is_expected.to respond_to :to_hash }
-  it { is_expected.to delegate_method(:parent_identifier).to(:identifier) }
+  it { is_expected.to delegate_method(:work_identifier).to(:identifier) }
   it { is_expected.to delegate_method(:file_set_filename).to(:identifier) }
   it { is_expected.to delegate_method(:directory_slugs).to(:identifier) }
   it { is_expected.to respond_to :mime_type }
@@ -24,8 +24,8 @@ RSpec.describe Derivative::Rodeo::Manifest::PreProcess do
   end
 
   describe '#to_hash' do
-    it "has the keys :parent_identifier, :file_set_filename, and :derivatives" do
-      expect(manifest.to_hash.keys).to eq([:name, :derivatives, :mime_type, :file_set_filename, :parent_identifier, :path_to_original])
+    it "has the keys :work_identifier, :file_set_filename, and :derivatives" do
+      expect(manifest.to_hash.keys).to eq([:name, :derivatives, :mime_type, :file_set_filename, :work_identifier, :path_to_original])
     end
   end
 

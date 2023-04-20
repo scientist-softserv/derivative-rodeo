@@ -12,7 +12,7 @@ module Derivative
           # TODO: Leverage the path_for_shell_commands
           file_system_path = arena.local_path_for_shell_commands(derivative: :original)
           content = File.read(file_system_path)
-          filename = File.basename(arena.original_filename)
+          filename = File.basename(arena.file_set_filename)
 
           arena.local_assign!(derivative: to_sym) do
             Hydra::FileCharacterization.characterize(content, filename, to_sym)

@@ -69,7 +69,7 @@ RSpec.describe Derivative::Rodeo::StorageAdapters::AwsS3Adapter do
     subject { instance.path_to_storage(derivative: :base_file_for_chain) }
 
     it { is_expected.to be_a String }
-    it { is_expected.to eq("#{manifest.parent_identifier}/#{manifest.file_set_filename}/base_file_for_chain") }
+    it { is_expected.to eq("#{manifest.work_identifier}/#{manifest.file_set_filename}/base_file_for_chain") }
   end
 
   describe '#path_for_shell_commands' do

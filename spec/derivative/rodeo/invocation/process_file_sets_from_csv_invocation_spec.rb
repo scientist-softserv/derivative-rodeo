@@ -14,7 +14,7 @@ RSpec.describe Derivative::Rodeo::Invocation::ProcessFileSetsFromCsvInvocation d
   describe '.convert_to_manifest' do
     let(:row) do
       {
-        parent_identifier: "123",
+        work_identifier: "123",
         file_set_filename: "ocr_color.tiff",
         path_to_original: Fixtures.path_for("ocr_color.tiff"),
         monochrome: Fixtures.path_for("ocr_mono.tiff"),
@@ -33,7 +33,7 @@ RSpec.describe Derivative::Rodeo::Invocation::ProcessFileSetsFromCsvInvocation d
     subject { instance.call }
     let(:csv) do
       CSV.generate do |csv|
-        csv << ["parent_identifier", "file_set_filename", "path_to_original", "monochrome", "mime_type"]
+        csv << ["work_identifier", "file_set_filename", "path_to_original", "monochrome", "mime_type"]
         csv << ["123", "ocr_color.tiff", Fixtures.path_for("ocr_color.tiff"), Fixtures.path_for("ocr_mono.tiff"), nil]
         csv << ["456", "ocr_color.tiff", Fixtures.path_for("ocr_color.tiff"), Fixtures.path_for("ocr_mono.tiff"), "image/tiff"]
       end

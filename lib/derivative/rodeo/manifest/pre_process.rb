@@ -8,24 +8,24 @@ module Derivative
         ##
         # @api public
         #
-        # @param parent_identifier [String]
-        # @param original_filename [String]
+        # @param work_identifier [String]
+        # @param file_set_filename [String]
         # @param path_to_original [String] the location where we can find the original file and pull
         #        it into the processing.
         # @param derivatives [Hash<#to_sym, #to_s>] the named existing derivatives and their
         #        locations
         # @param mime_type [String] provided when we already know the object's mime-step; saves a
         #        bit on processing.
-        def initialize(parent_identifier:, file_set_filename:, path_to_original:, derivatives: {}, mime_type: nil)
-          @identifier = Identifier.new(parent_identifier: parent_identifier, file_set_filename: file_set_filename)
+        def initialize(work_identifier:, file_set_filename:, path_to_original:, derivatives: {}, mime_type: nil)
+          @identifier = Identifier.new(work_identifier: work_identifier, file_set_filename: file_set_filename)
           @path_to_original = path_to_original
           @derivatives = derivatives.each_with_object({}) { |(key, value), hash| hash[key.to_sym] = value.to_s }
           @mime_type = mime_type
         end
 
-        Identifier = Struct.new(:parent_identifier, :file_set_filename, keyword_init: true) do
+        Identifier = Struct.new(:work_identifier, :file_set_filename, keyword_init: true) do
           def id
-            "#{parent_identifier}/#{file_set_filename}"
+            "#{work_identifier}/#{file_set_filename}"
           end
 
           def inspect
@@ -33,12 +33,12 @@ module Derivative
           end
 
           def directory_slugs
-            [parent_identifier.to_s, File.basename(file_set_filename)]
+            [work_identifier.to_s, File.basename(file_set_filename)]
           end
 
           def to_hash
             {
-              parent_identifier: parent_identifier,
+              work_identifier: work_identifier,
               file_set_filename: file_set_filename
             }
           end
@@ -50,7 +50,7 @@ module Derivative
           super.merge(derivatives: derivatives,
                       mime_type: mime_type,
                       file_set_filename: file_set_filename,
-                      parent_identifier: parent_identifier,
+                      work_identifier: work_identifier,
                       path_to_original: path_to_original)
         end
 
@@ -65,7 +65,7 @@ module Derivative
         attr_accessor :mime_type
 
         attr_reader :identifier
-        delegate :id, :parent_identifier, :file_set_filename, :directory_slugs, to: :identifier
+        delegate :id, :work_identifier, :file_set_filename, :directory_slugs, to: :identifier
 
         ##
         # @return [Hash<Symbol, String>]

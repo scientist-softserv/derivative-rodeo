@@ -5,7 +5,7 @@ module Fixtures
   end
 
   def self.manifest(
-    parent_identifier: 'parent-identifier',
+    work_identifier: 'parent-identifier',
     file_set_filename: 'ocr_color.tiff',
     derivatives: {
       monochrome: Fixtures.path_for('ocr_gray.tiff')
@@ -15,7 +15,7 @@ module Fixtures
   )
 
     Derivative::Rodeo::Manifest::PreProcess.new(
-      parent_identifier: parent_identifier,
+      work_identifier: work_identifier,
       file_set_filename: file_set_filename,
       derivatives: derivatives,
       mime_type: mime_type,

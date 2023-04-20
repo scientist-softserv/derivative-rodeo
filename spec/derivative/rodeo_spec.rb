@@ -19,7 +19,7 @@ RSpec.describe Derivative::Rodeo do
 
     let(:manifest) do
       Fixtures.manifest(
-        parent_identifier: parent_identifier,
+        work_identifier: work_identifier,
         file_set_filename: file_set_filename,
         derivatives: derivatives,
         mime_type: mime_type,
@@ -31,7 +31,7 @@ RSpec.describe Derivative::Rodeo do
 
     context "with a 2 page color PDF" do
       let(:file_set_filename) { "sample-color-newsletter.pdf" }
-      let(:parent_identifier) { "with-original-only" }
+      let(:work_identifier) { "with-original-only" }
       let(:derivatives) { [:split_pdf] }
       let(:mime_type) { "application/pdf" }
       let(:path_to_original) { Fixtures.path_for(file_set_filename) }
@@ -43,7 +43,7 @@ RSpec.describe Derivative::Rodeo do
 
     context "with a color image" do
       # Yes these are the defaults, but I'd rather be explicit in what we're doing.
-      let(:parent_identifier) { 'parent-identifier' }
+      let(:work_identifier) { 'parent-identifier' }
       let(:file_set_filename) { 'ocr_color.tiff' }
       let(:derivatives) { { monochrome: Fixtures.path_for('ocr_gray.tiff') } }
       let(:mime_type) { "image/tiff" }
@@ -59,7 +59,7 @@ RSpec.describe Derivative::Rodeo do
     end
 
     context 'with a remote URL for the original' do
-      let(:parent_identifier) { 'parent-identifier' }
+      let(:work_identifier) { 'parent-identifier' }
       let(:file_set_filename) { 'ocr_color.tiff' }
       let(:derivatives) { { monochrome: Fixtures.path_for('ocr_gray.tiff') } }
       let(:mime_type) { "image/tiff" }
@@ -86,7 +86,7 @@ RSpec.describe Derivative::Rodeo do
   describe '.process_file_sets_from_csv' do
     let(:csv) do
       CSV.generate do |csv|
-        csv << ["parent_identifier", "file_set_filename", "path_to_original", "monochrome", "mime_type"]
+        csv << ["work_identifier", "file_set_filename", "path_to_original", "monochrome", "mime_type"]
         csv << ["123", "ocr_color.tiff", Fixtures.path_for("ocr_color.tiff"), Fixtures.path_for("ocr_mono.tiff"), nil]
       end
     end
