@@ -22,7 +22,9 @@ module Derivative
 
     ##
     # The module space for declaring named derivative step (e.g. `:image`, `:monochrome`, etc.).  A
-    # named derivative step should be able to generate itself based on the given {Arena}.
+    # named step should be able to generate a derivative file based on the given {Arena}.
+    #
+    # In some cases, we have pseudo-files (e.g. the {MimeTypeStep}).
     #
     # @see BaseStep
     # @see BaseStep.generate_for
