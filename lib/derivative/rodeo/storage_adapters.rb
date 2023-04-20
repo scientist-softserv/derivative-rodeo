@@ -20,7 +20,7 @@ module Derivative
       ##
       # @api public
       #
-      # @param manifest [Derivative::Rodeo::Manifest::Original]
+      # @param manifest [Derivative::Rodeo::Manifest, Hash]
       # @param adapter [Symbol, Hash<Symbol,Object>]
       #
       # @raise [NameError]
@@ -56,3 +56,4 @@ require 'derivative/rodeo/storage_adapters/base'
 require 'derivative/rodeo/storage_adapters/aws_s3_adapter'
 require 'derivative/rodeo/storage_adapters/file_system_adapter'
 require 'derivative/rodeo/storage_adapters/from_manifest_adapter'
+require 'derivative/rodeo/storage_adapters/null_adapter'

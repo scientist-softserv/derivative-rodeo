@@ -59,10 +59,13 @@ module Derivative
                                          index: index,
                                          derivatives: derivatives)
         chain = Chain.new(derivatives: derivatives)
+
+        # As we move into derived files, we're making an assumption that there are no remote
+        # versions of what we have.  Hence the shift to the null adapter.
         arena = new(manifest: manifest,
-                    remote_storage: parent_arena.remote_storage,
                     queue: parent_arena.queue,
                     local_storage: parent_arena.local_storage,
+                    remote_storage: :null,
                     logger: parent_arena.logger,
                     config: parent_arena.config,
                     chain: chain)

@@ -4,10 +4,8 @@ require 'spec_helper'
 
 RSpec.describe Derivative::Rodeo::Manifest::Derived do
   let(:original) { Derivative::Rodeo::Manifest::Original.new(parent_identifier: 'abc', original_filename: 'def.jpg', derivatives: []) }
-  let(:derived) { described_class.new(original: original, derived: :split_pdf, index: 0, derivatives: derivatives) }
   let(:derivatives) { [:ocr] }
-
-  subject { derived }
+  subject(:instance) { described_class.new(original: original, derived: :split_pdf, index: 0, derivatives: derivatives) }
 
   it { is_expected.to respond_to :original }
   it { is_expected.to respond_to :to_hash }
@@ -19,14 +17,13 @@ RSpec.describe Derivative::Rodeo::Manifest::Derived do
 
   describe '#derivatives' do
     it "symbolizes the provided values" do
-      expect(derived.derivatives.all? { |d| d.is_a?(Symbol) }).to be_truthy
+      expect(instance.derivatives.all? { |d| d.is_a?(Symbol) }).to be_truthy
     end
   end
 
-  describe '#to_hash' do
-    it "has the keys :parent_identifier, :original_filename, and :derivatives" do
-      expect(derived.to_hash.keys).to eq([:derived, :index, :original, :derivatives])
-    end
+  describe '#to_hash keys' do
+    subject { instance.to_hash.keys }
+    it { is_expected.to eq([:name, :derivatives, :derived, :index, :original]) }
   end
 
   describe '#<=>' do
@@ -36,12 +33,12 @@ RSpec.describe Derivative::Rodeo::Manifest::Derived do
     let(:derived_from_other_manifest) { described_class.new(original: other_original, derived: :split_pdf, index: 0, derivatives: derivatives) }
 
     it "compares the work identifier and the original file name" do
-      expect(derived == same_derived).to be_truthy
-      expect(derived.object_id == same_derived.object_id).to be_falsey
-      expect(derived == other_derived).to be_falsey
-      expect(derived.object_id == other_derived.object_id).to be_falsey
-      expect(derived == derived_from_other_manifest).to be_falsey
-      expect(derived.object_id == derived_from_other_manifest.object_id).to be_falsey
+      expect(instance == same_derived).to be_truthy
+      expect(instance.object_id == same_derived.object_id).to be_falsey
+      expect(instance == other_derived).to be_falsey
+      expect(instance.object_id == other_derived.object_id).to be_falsey
+      expect(instance == derived_from_other_manifest).to be_falsey
+      expect(instance.object_id == derived_from_other_manifest.object_id).to be_falsey
     end
   end
 end

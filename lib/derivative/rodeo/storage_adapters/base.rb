@@ -8,9 +8,10 @@ module Derivative
         ##
         # @param manifest [Derivative::Rodeo::Manifest]
         def initialize(manifest:)
-          @manifest = manifest
+          @manifest = Manifest.from(manifest)
         end
 
+        ##
         # @return [Derivative::Rodeo::Manifest]
         attr_reader :manifest
 
@@ -112,6 +113,9 @@ module Derivative
         # @param derivative [Symbol]
         #
         # @return [String] The path to the storage of the given :derivative
+        # @note A {Derivative::Rodeo::Manifest} has a #directory_slugs method; use that for getting
+        #       the storage path.
+        # @see #directory_name
         def path_to_storage(derivative:, **)
           raise NotImplementedError, "#{self.class}#path_to_storage"
         end
@@ -127,6 +131,7 @@ module Derivative
         #         can operate.
         #
         # @note In some cases, this is different from the path
+        # @see #directory_name
         def path_for_shell_commands(derivative:)
           raise NotImplementedError, "#{self.class}#path_for_shell_commands"
         end

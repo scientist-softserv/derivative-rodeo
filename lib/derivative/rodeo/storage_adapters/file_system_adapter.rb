@@ -13,16 +13,28 @@ module Derivative
         ##
         # @param manifest [Derivative::Rodeo::Manifest::Original]
         # @param root [String]
-        def initialize(manifest:, root: Dir.mktmpdir, directory_name: File.join(root, *manifest.directory_slugs), **)
+        def initialize(manifest:, root: Dir.mktmpdir)
           super(manifest: manifest)
           @root = root
-          @directory_name = directory_name
+          @directory_name = File.join(root, *self.manifest.directory_slugs)
           FileUtils.mkdir_p(directory_name)
         end
-        attr_reader :directory_name, :root
 
+        ##
+        # @return [String]
+        attr_reader :root
+
+        ##
+        # @return [String]
+        attr_reader :directory_name
+        private :directory_name
+
+        ##
+        # Without the root being passed forward, we loose the local temporary directory.
+        #
+        # We would not need to pass forward the directory_name as that can be derived.
         def to_hash
-          super.merge({ directory_name: directory_name, root: root })
+          super.merge({ root: root })
         end
 
         ##

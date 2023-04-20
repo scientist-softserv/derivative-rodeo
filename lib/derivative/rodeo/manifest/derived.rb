@@ -16,6 +16,8 @@ module Derivative
       # would likely mean it's page number (starting from 0 as most programming languages do).
       # The derivatives might be [:ocr].
       class Derived
+        include Manifest::Base
+
         Identifier = Struct.new(:original, :derived, :index, keyword_init: true) do
           def id
             "#{original.id}/#{derived}/#{index}"
@@ -39,13 +41,16 @@ module Derivative
         end
 
         def initialize(original:, derived:, index:, derivatives:)
+          original = Manifest.from(original)
           @identifier = Identifier.new(original: original, derived: derived, index: index)
           @derivatives = Array(derivatives).map(&:to_sym)
         end
 
         def to_hash
-          identifier.to_hash.merge(derivatives: derivatives)
+          super.merge(derivatives: derivatives, **identifier.to_hash)
         end
+
+        delegate :id, to: :identifier
 
         # @!attribute [rw]
         # @return [Identifier]

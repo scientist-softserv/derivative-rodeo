@@ -3,10 +3,9 @@
 require 'spec_helper'
 
 RSpec.describe Derivative::Rodeo::Manifest::Original do
-  let(:manifest) { described_class.new(parent_identifier: 'abc', original_filename: 'def.jpg', derivatives: derivatives) }
   let(:derivatives) { [:hocr, "alto"] }
 
-  subject { manifest }
+  subject(:manifest) { described_class.new(parent_identifier: 'abc', original_filename: 'def.jpg', derivatives: derivatives) }
 
   it { is_expected.to respond_to :parent_identifier }
   it { is_expected.to respond_to :to_hash }
@@ -20,10 +19,9 @@ RSpec.describe Derivative::Rodeo::Manifest::Original do
     end
   end
 
-  describe '#to_hash' do
-    it "has the keys :parent_identifier, :original_filename, and :derivatives" do
-      expect(manifest.to_hash.keys).to eq([:parent_identifier, :original_filename, :derivatives])
-    end
+  describe '#to_hash keys' do
+    subject { manifest.to_hash.keys.sort }
+    it { is_expected.to eq([:name, :parent_identifier, :original_filename, :derivatives].sort) }
   end
 
   describe '#<=>' do

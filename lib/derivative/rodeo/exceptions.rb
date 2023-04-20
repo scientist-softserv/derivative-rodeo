@@ -67,6 +67,12 @@ module Derivative
         end
       end
 
+      class UnprocessableManifestCoercionError < Error
+        def initialize(value)
+          super("Unable to coerce #{value.inspect} into a Derivative::Rodeo::Manifest.")
+        end
+      end
+
       class UnknownDerivativeRequestForChainError < Error
         def initialize(chain:, derivative:)
           super("Expected chain #{chain.inspect} to include derivative #{derivative.inspect}")

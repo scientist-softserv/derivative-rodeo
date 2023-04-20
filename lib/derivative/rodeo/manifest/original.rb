@@ -49,6 +49,7 @@ module Derivative
             }
           end
         end
+        include Manifest::Base
 
         ##
         # @api public
@@ -62,7 +63,7 @@ module Derivative
         end
 
         def to_hash
-          identifier.to_hash.merge(derivatives: derivatives)
+          super.merge(derivatives: derivatives, **identifier.to_hash)
         end
 
         # @!attribute [rw]

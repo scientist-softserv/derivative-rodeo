@@ -14,14 +14,22 @@ module Derivative
         include StorageAdapters::Base
 
         ##
-        # @param manifest [Derivative::Rodeo::Bucket]
+        # @param manifest [Derivative::Rodeo::Bucket, Hash]
         # @param bucket [Aws::S3::Bucket]
+        # @param directory_name [String]
         def initialize(manifest:, bucket: default_bucket)
           super(manifest: manifest)
           @bucket = bucket
+          # We rely on super method to coerce given manifest into an act
+          @directory_name = File.join(*self.manifest.directory_slugs)
         end
 
         attr_reader :bucket
+
+        ##
+        # @return [String]
+        attr_reader :directory_name
+        private :directory_name
 
         ##
         # @!group Class Attributes
@@ -74,7 +82,8 @@ module Derivative
         end
 
         def path_to_storage(derivative:)
-          File.join(manifest.parent_identifier, manifest.original_filename, derivative.to_sym.to_s)
+          # TODO: Should there be a leading "/"?  See spec for current behavior.
+          File.join(directory_name, derivative.to_sym.to_s)
         end
         alias path path_to_storage
 

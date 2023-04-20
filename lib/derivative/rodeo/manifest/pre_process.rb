@@ -44,7 +44,7 @@ module Derivative
         attr_accessor :mime_type
 
         attr_reader :identifier
-        delegate :parent_identifier, :original_filename, :directory_slugs, to: :identifier
+        delegate :id, :parent_identifier, :original_filename, :directory_slugs, to: :identifier
 
         ##
         # @return [Hash<Symbol, String>]

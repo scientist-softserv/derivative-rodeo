@@ -19,7 +19,7 @@ module Derivative
         when Manifest::Base
           value
         else
-          raise
+          raise Exceptions::UnprocessableManifestCoercionError, value
         end
       end
 
@@ -29,6 +29,7 @@ module Derivative
         def to_sym
           self.class.to_s.demodulize.underscore.to_sym
         end
+        delegate :directory_slugs, to: :identifier
 
         ##
         # @return [Hash<Symbol,Object>]

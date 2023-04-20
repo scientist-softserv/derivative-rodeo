@@ -4,7 +4,7 @@ require 'spec_helper'
 
 RSpec.describe Derivative::Rodeo::StorageAdapters::Base do
   describe 'when included in an adapter class' do
-    let(:manifest) { double(Derivative::Rodeo::Manifest) }
+    let(:manifest) { Fixtures.manifest }
     let(:klass) { Class.new { include Derivative::Rodeo::StorageAdapters::Base } }
 
     context "the class's instance" do
