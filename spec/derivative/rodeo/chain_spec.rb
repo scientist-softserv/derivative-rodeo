@@ -22,7 +22,7 @@ RSpec.describe Derivative::Rodeo::Chain do
       # NOTE: image yields first, then monochrome which depends on image, then hocr which depends on
       # image
       expect { |b| subject.each(&b) }.to yield_successive_args(
-                                           Derivative::Rodeo::Step::OriginalStep,
+                                           Derivative::Rodeo::Step::BaseFileForChainStep,
                                            Derivative::Rodeo::Step::MonochromeStep,
                                            Derivative::Rodeo::Step::HocrStep
                                          )

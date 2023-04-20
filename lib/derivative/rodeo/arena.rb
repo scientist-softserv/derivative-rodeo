@@ -221,7 +221,7 @@ module Derivative
       ##
       # @see .from_json
       # @todo The :original is hard-coded; need to figure out that.
-      def to_json(derivative_to_process: :original, chain: self.chain)
+      def to_json(derivative_to_process: :base_file_for_chain, chain: self.chain)
         to_hash.merge(
           derivative_to_process: derivative_to_process.to_sym,
           chain: chain.map(&:to_sym)

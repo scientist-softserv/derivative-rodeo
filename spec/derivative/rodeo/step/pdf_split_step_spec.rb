@@ -7,7 +7,7 @@ RSpec.describe Derivative::Rodeo::Step::PdfSplitStep do
     describe '.prerequisites' do
       subject { described_class.prerequisites }
 
-      it { is_expected.to eq([:original]) }
+      it { is_expected.to eq([:base_file_for_chain]) }
     end
 
     describe '.spawns' do

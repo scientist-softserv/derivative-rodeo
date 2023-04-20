@@ -9,7 +9,7 @@ RSpec.describe Derivative::Rodeo::Step::FitsStep do
 
   describe '.prerequisites' do
     subject { described_class.prerequisites }
-    it { is_expected.to eq([:original]) }
+    it { is_expected.to eq([:base_file_for_chain]) }
   end
 
   describe "#generate" do
@@ -24,7 +24,7 @@ RSpec.describe Derivative::Rodeo::Step::FitsStep do
           .and_return(fits_response)
       )
       # Need to ensure that this is here!
-      arena.remote_fetch!(derivative: :original)
+      arena.remote_fetch!(derivative: :base_file_for_chain)
     end
 
     xit "runs fits against the original file" do

@@ -19,7 +19,7 @@ module Derivative
         class_attribute :pdf_splitter_name, default: :tiff
         class_attribute :derived_original_name, default: :page_image, instance_writer: false
 
-        self.prerequisites = [:original]
+        self.prerequisites = [:base_file_for_chain]
         self.spawns = [derived_original_name, :page_ocr]
         # @!endgroup Class Attributes
 

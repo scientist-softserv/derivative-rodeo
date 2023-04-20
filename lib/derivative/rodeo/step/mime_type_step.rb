@@ -8,7 +8,7 @@ module Derivative
       #  This derivative is an inflection point.  We take the original file, determine it's mime
       #  step and from that launch into a new {Chain} of derivatives based on the {Configuration}.
       class MimeTypeStep < BaseStep
-        self.prerequisites = [:original]
+        self.prerequisites = [:base_file_for_chain]
 
         ##
         # @!group Configurations
@@ -71,7 +71,7 @@ module Derivative
 
         def generate
           # TODO: Should we have a local_read?
-          local_path = arena.local_path_for_shell_commands(derivative: :original)
+          local_path = arena.local_path_for_shell_commands(derivative: :base_file_for_chain)
           content = File.read(local_path)
           arena.mime_type ||= ::Marcel::MimeType.for(content)
           mime_type = arena.local_demand_path_for!(derivative: to_sym)

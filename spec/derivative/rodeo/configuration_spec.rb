@@ -7,8 +7,8 @@ RSpec.describe Derivative::Rodeo::Configuration do
   describe 'derivatives_for_pre_process=' do
     it 'coerces the given derivatives and assigns them' do
       expect do
-        config.derivatives_for_pre_process = "original"
-      end.to change(config, :derivatives_for_pre_process).from([:original, :mime_type]).to([:original])
+        config.derivatives_for_pre_process = "base_file_for_chain"
+      end.to change(config, :derivatives_for_pre_process).from([:base_file_for_chain, :mime_type]).to([:base_file_for_chain])
     end
   end
 end

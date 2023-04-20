@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe Derivative::Rodeo::Step::OriginalStep do
+RSpec.describe Derivative::Rodeo::Step::BaseFileForChainStep do
   describe '.prerequisites' do
     subject { described_class.prerequisites }
     it { is_expected.to be_empty }
@@ -12,12 +12,12 @@ RSpec.describe Derivative::Rodeo::Step::OriginalStep do
   subject(:instance) { described_class.new(arena: arena) }
 
   describe '#generate' do
-    before { allow(arena).to receive(:remote_fetch!).with(derivative: :original).and_call_original }
+    before { allow(arena).to receive(:remote_fetch!).with(derivative: :base_file_for_chain).and_call_original }
 
     context 'when file exists locally' do
       it 'will use the local and not pull from the remote' do
-        allow(arena).to receive(:local_exists?).with(derivative: :original).and_return(true)
-        allow(arena).to receive(:local_path).with(derivative: :original).and_return(__FILE__)
+        allow(arena).to receive(:local_exists?).with(derivative: :base_file_for_chain).and_return(true)
+        allow(arena).to receive(:local_path).with(derivative: :base_file_for_chain).and_return(__FILE__)
         expect(instance.generate).to be_present
       end
     end

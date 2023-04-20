@@ -5,7 +5,7 @@ require 'spec_helper'
 RSpec.describe Derivative::Rodeo::Step::MonochromeStep do
   describe ".prerequisites" do
     subject { described_class.prerequisites }
-    it { is_expected.to eq([:original]) }
+    it { is_expected.to eq([:base_file_for_chain]) }
   end
 
   let(:arena) { Fixtures.arena(manifest: manifest) }
@@ -25,7 +25,7 @@ RSpec.describe Derivative::Rodeo::Step::MonochromeStep do
 
       it "re-uses the file" do
         expect(arena).to receive(:local_demand_path_for!)
-          .with(derivative: :original)
+          .with(derivative: :base_file_for_chain)
           .and_return(image_path)
 
         expect(arena).not_to receive(:local_path)
@@ -42,7 +42,7 @@ RSpec.describe Derivative::Rodeo::Step::MonochromeStep do
       let(:image_path) { Fixtures.path_for("ocr_color.tiff") }
       it "it converts the existing image" do
         expect(arena).to receive(:local_demand_path_for!)
-          .with(derivative: :original)
+          .with(derivative: :base_file_for_chain)
           .and_return(image_path)
 
         expect(File.read(subject)).not_to eq(File.read(image_path))

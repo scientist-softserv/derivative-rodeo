@@ -33,7 +33,7 @@ RSpec.describe Derivative::Rodeo::Manifest::PreProcess do
     subject { manifest.path_to(derivative: derivative) }
 
     context 'when :original' do
-      let(:derivative) { :original }
+      let(:derivative) { :base_file_for_chain }
       it { is_expected.to eq(manifest.path_to_original) }
     end
 

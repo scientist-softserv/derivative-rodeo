@@ -7,7 +7,7 @@ RSpec.describe Derivative::Rodeo::StorageAdapters::NullAdapter do
   subject(:instance) { described_class.new(manifest: manifest) }
 
   describe 'exists?' do
-    subject { instance.exists?(derivative: :original) }
+    subject { instance.exists?(derivative: :base_file_for_chain) }
     it { is_expected.to be_falsey }
   end
 end

@@ -52,7 +52,7 @@ RSpec.describe Derivative::Rodeo do
       it "runs the pre-processing and mime step processing" do
         subject
 
-        expect(arena.local_storage.exists?(derivative: :original)).to be_truthy
+        expect(arena.local_storage.exists?(derivative: :base_file_for_chain)).to be_truthy
         expect(arena.local_storage.exists?(derivative: :monochrome)).to be_truthy
         expect(arena.local_storage.exists?(derivative: :hocr)).to be_truthy
       end
@@ -70,9 +70,9 @@ RSpec.describe Derivative::Rodeo do
         allow(Derivative::Rodeo::Utilities::Url).to receive(:read).with(path_to_original).and_return(original_content)
         allow(Derivative::Rodeo::Utilities::Url).to receive(:exists?).with(path_to_original).and_return(true)
         subject
-        expect(arena.local_storage.exists?(derivative: :original)).to be_truthy
+        expect(arena.local_storage.exists?(derivative: :base_file_for_chain)).to be_truthy
 
-        expect(File.read(arena.local_path(derivative: :original))).to eq(original_content)
+        expect(File.read(arena.local_path(derivative: :base_file_for_chain))).to eq(original_content)
       end
     end
 

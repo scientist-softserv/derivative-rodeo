@@ -27,9 +27,9 @@ RSpec.describe Derivative::Rodeo::StorageAdapters::AwsS3Adapter do
   it { is_expected.to respond_to(:bucket) }
 
   describe '#exists?' do
-    subject { instance.exists?(derivative: :original) }
+    subject { instance.exists?(derivative: :base_file_for_chain) }
     context 'when it exists in the bucket' do
-      before { instance.bucket.object(instance.path_to_storage(derivative: :original)).upload_file(__FILE__) }
+      before { instance.bucket.object(instance.path_to_storage(derivative: :base_file_for_chain)).upload_file(__FILE__) }
       it { is_expected.to be_truthy }
     end
 
@@ -41,10 +41,10 @@ RSpec.describe Derivative::Rodeo::StorageAdapters::AwsS3Adapter do
   describe '#fetch!' do
     let(:remote) { double(exists?: remote_exists, path_to_storage: __FILE__) }
     let(:remote_exists) { false }
-    subject { instance.fetch!(derivative: :original, from: remote) }
-    let(:expected_path) { instance.path_to_storage(derivative: :original) }
+    subject { instance.fetch!(derivative: :base_file_for_chain, from: remote) }
+    let(:expected_path) { instance.path_to_storage(derivative: :base_file_for_chain) }
     context 'when it already exists in the bucket' do
-      before { instance.bucket.object(instance.path_to_storage(derivative: :original)).upload_file(__FILE__) }
+      before { instance.bucket.object(instance.path_to_storage(derivative: :base_file_for_chain)).upload_file(__FILE__) }
       it "will be the path to the existing object" do
         expect(subject).to eq(expected_path)
       end
@@ -59,17 +59,17 @@ RSpec.describe Derivative::Rodeo::StorageAdapters::AwsS3Adapter do
       context 'and exists in the remote' do
         let(:remote_exists) { true }
         it 'will upload the remote file to the bucket' do
-          expect { subject }.to change { instance.exists?(derivative: :original) }.from(false).to(true)
+          expect { subject }.to change { instance.exists?(derivative: :base_file_for_chain) }.from(false).to(true)
         end
       end
     end
   end
 
   describe '#path_to_storage' do
-    subject { instance.path_to_storage(derivative: :original) }
+    subject { instance.path_to_storage(derivative: :base_file_for_chain) }
 
     it { is_expected.to be_a String }
-    it { is_expected.to eq("#{manifest.parent_identifier}/#{manifest.file_set_filename}/original") }
+    it { is_expected.to eq("#{manifest.parent_identifier}/#{manifest.file_set_filename}/base_file_for_chain") }
   end
 
   describe '#path_for_shell_commands' do
@@ -77,21 +77,21 @@ RSpec.describe Derivative::Rodeo::StorageAdapters::AwsS3Adapter do
       # Some significant antics to ensure that we have a clean space for testing this command.
       path = nil
       begin
-        path = instance.path_for_shell_commands(derivative: :original, perform_download: false)
+        path = instance.path_for_shell_commands(derivative: :base_file_for_chain, perform_download: false)
       rescue Derivative::Rodeo::Exceptions::FileNotFoundForShellProcessing
         # This is not a problem; the file does not exist
       end
       FileUtils.rm_f(path) if path && File.file?(path)
     end
 
-    subject { instance.path_for_shell_commands(derivative: :original) }
+    subject { instance.path_for_shell_commands(derivative: :base_file_for_chain) }
 
     context 'when the file is not in the bucket' do
       it { within_block_is_expected.to raise_error Derivative::Rodeo::Exceptions::FileNotFoundForShellProcessing }
     end
 
     context 'when the file is in the bucket' do
-      before { instance.bucket.object(instance.path_to_storage(derivative: :original)).upload_file(__FILE__) }
+      before { instance.bucket.object(instance.path_to_storage(derivative: :base_file_for_chain)).upload_file(__FILE__) }
 
       it { is_expected.to be_a(String) }
 

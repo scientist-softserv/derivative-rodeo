@@ -42,7 +42,7 @@ RSpec.describe Derivative::Rodeo::Invocation::ProcessFileSetsFromCsvInvocation d
     it "enqueues for processing the provided record(s)" do
       expect(instance.queue).to(
         receive(:enqueue)
-          .with(arena: kind_of(Derivative::Rodeo::Arena), derivative_to_process: :original)
+          .with(arena: kind_of(Derivative::Rodeo::Arena), derivative_to_process: :base_file_for_chain)
           .exactly(2).times
       )
       subject

@@ -9,7 +9,7 @@ RSpec.describe Derivative::Rodeo::Step::MimeTypeStep do
 
   describe '.prerequisites' do
     subject { described_class.prerequisites }
-    it { is_expected.to eq([:original]) }
+    it { is_expected.to eq([:base_file_for_chain]) }
   end
 
   describe '.coerce_to_mime_type' do
@@ -83,7 +83,7 @@ RSpec.describe Derivative::Rodeo::Step::MimeTypeStep do
     before do
       allow(Derivative::Rodeo).to receive(:process_derivative)
       # Need to ensure that this is here!
-      arena.remote_fetch!(derivative: :original)
+      arena.remote_fetch!(derivative: :base_file_for_chain)
     end
 
     it "assigns the mime_type to the arena" do

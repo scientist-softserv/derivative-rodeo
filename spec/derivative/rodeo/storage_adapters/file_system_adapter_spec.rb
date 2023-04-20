@@ -35,9 +35,9 @@ RSpec.describe Derivative::Rodeo::StorageAdapters::FileSystemAdapter do
   end
 
   describe '#fetch!' do
-    subject { instance.fetch(from: from, derivative: :original) }
+    subject { instance.fetch(from: from, derivative: :base_file_for_chain) }
     let(:from) { double(described_class, demand_path_for!: false) }
-    let(:expected_path) { instance.path_to_storage(derivative: :original) }
+    let(:expected_path) { instance.path_to_storage(derivative: :base_file_for_chain) }
 
     context 'when the file already exists in storage' do
       it "returns the path that file" do
@@ -54,7 +54,7 @@ RSpec.describe Derivative::Rodeo::StorageAdapters::FileSystemAdapter do
         allow(from).to receive(:demand_path_for!).and_return(__FILE__)
 
         expect(subject).to eq(expected_path)
-        expect(instance.demand_path_for!(derivative: :original)).to be_truthy
+        expect(instance.demand_path_for!(derivative: :base_file_for_chain)).to be_truthy
         expect(File.read(expected_path)).to eq(File.read(__FILE__))
       end
     end

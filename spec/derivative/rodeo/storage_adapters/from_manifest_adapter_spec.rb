@@ -47,17 +47,17 @@ RSpec.describe Derivative::Rodeo::StorageAdapters::FromManifestAdapter do
   end
 
   describe '#fetch!' do
-    subject { instance.fetch!(derivative: :original) }
+    subject { instance.fetch!(derivative: :base_file_for_chain) }
     it { within_block_is_expected.to raise_error(Derivative::Rodeo::Exceptions::InvalidFunctionForStorageAdapterError) }
   end
 
   describe '#fetch' do
-    subject { instance.fetch(derivative: :original) }
+    subject { instance.fetch(derivative: :base_file_for_chain) }
     it { within_block_is_expected.to raise_error(Derivative::Rodeo::Exceptions::InvalidFunctionForStorageAdapterError) }
   end
 
   describe '#path_for_shell_commands' do
-    subject { instance.path_for_shell_commands(derivative: :original) }
+    subject { instance.path_for_shell_commands(derivative: :base_file_for_chain) }
     it { within_block_is_expected.to raise_error(Derivative::Rodeo::Exceptions::InvalidFunctionForStorageAdapterError) }
   end
 end

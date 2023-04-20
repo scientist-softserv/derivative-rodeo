@@ -4,10 +4,10 @@ module Derivative
   module Rodeo
     module Step
       class MonochromeStep < BaseStep
-        self.prerequisites = [:original]
+        self.prerequisites = [:base_file_for_chain]
 
         def generate
-          original_path = arena.local_demand_path_for!(derivative: :original)
+          original_path = arena.local_demand_path_for!(derivative: :base_file_for_chain)
 
           image = Derivative::Rodeo::Utilities::Image.new(original_path)
 

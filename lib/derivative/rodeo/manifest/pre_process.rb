@@ -55,7 +55,7 @@ module Derivative
         end
 
         def path_to(derivative:)
-          return path_to_original if derivative.to_sym == :original
+          return path_to_original if derivative.to_sym == :base_file_for_chain
 
           derivatives[derivative.to_sym]
         end
