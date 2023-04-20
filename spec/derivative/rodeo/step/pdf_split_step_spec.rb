@@ -16,22 +16,27 @@ RSpec.describe Derivative::Rodeo::Step::PdfSplitStep do
       it { is_expected.to eq([described_class.derived_original_name, :page_ocr]) }
     end
 
-    describe '.path_to_page_splitting_service' do
-      subject { described_class.path_to_page_splitting_service }
+    describe '.pdf_splitter_name' do
+      subject { described_class.pdf_splitter_name }
 
-      it { is_expected.to be_nil }
+      it { is_expected.to eq :tiff }
     end
   end
 
   let(:instance) { described_class.new(arena: arena) }
+  let(:arena) { Fixtures.arena }
+
+  describe '#pdf_splitter' do
+    subject { instance.pdf_splitter }
+    it { is_expected.to respond_to(:call) }
+  end
 
   describe '#generate' do
-    let(:arena) { Fixtures.arena }
     let(:splitter) { ->(_path_to_pdf) { [__FILE__, __FILE__] } }
     let(:derived_arena) { double(Derivative::Rodeo::Arena, start_processing!: true) }
     subject { instance.generate }
 
-    before { instance.path_to_page_splitting_service = splitter }
+    before { instance.pdf_splitter = splitter }
     it 'will build a derived arena for each page and start processing those arenas' do
       allow(Derivative::Rodeo::Arena).to receive(:for_derived).and_return(derived_arena)
       subject

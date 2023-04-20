@@ -5,7 +5,7 @@ module Derivative
     module Utilities
       module PdfSplitter
         # The purpose of this class is to split the PDF into constituent jpg files.
-        class Jpg < PdfSplitter::Base
+        class JpgPage < PdfSplitter::Base
           self.image_extension = 'jpg'
           self.quality = '50'
           self.gsdevice = 'jpeg'

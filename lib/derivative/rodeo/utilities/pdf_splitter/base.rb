@@ -26,6 +26,16 @@ module Derivative
           class_attribute :gsdevice, instance_accessor: false
 
           ##
+          # @api public
+          #
+          # @param path [String] The path the the PDF
+          #
+          # @return [Enumerable, Utilities::PdfSplitter::Base]
+          def self.call(path)
+            new(path)
+          end
+
+          ##
           # @param path [String] the path to the source PDF that we're processing.
           # @param baseid [String] used for creating a unique identifier
           # @param tmpdir [String] place to perform the "work" of splitting the PDF.

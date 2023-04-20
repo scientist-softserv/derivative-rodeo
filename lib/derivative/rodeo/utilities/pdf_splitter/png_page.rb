@@ -5,7 +5,7 @@ module Derivative
     module Utilities
       module PdfSplitter
         # The purpose of this class is to split the PDF into constituent png files.
-        class Png < PdfSplitter::Base
+        class PngPage < PdfSplitter::Base
           self.image_extension = 'png'
 
           def gsdevice

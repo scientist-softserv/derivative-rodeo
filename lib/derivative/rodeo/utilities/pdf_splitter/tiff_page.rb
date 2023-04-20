@@ -4,8 +4,9 @@ module Derivative
   module Rodeo
     module Utilities
       module PdfSplitter
+        ##
         # The purpose of this class is to split the PDF into constituent tiff files.
-        class Tiff < PdfSplitter::Base
+        class TiffPage < PdfSplitter::Base
           self.image_extension = 'tiff'
           self.compression = 'lzw'
 

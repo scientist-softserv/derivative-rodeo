@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'spec_helper'
 
-RSpec.describe Derivative::Rodeo::Utilities::PdfSplitter::Png do
+RSpec.describe Derivative::Rodeo::Utilities::PdfSplitter::PngPage do
   let(:path) { __FILE__ }
   let(:pdf_pages_summary) { double(Derivative::Rodeo::PdfPagesSummary) }
 

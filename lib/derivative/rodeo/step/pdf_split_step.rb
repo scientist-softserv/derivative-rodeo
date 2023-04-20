@@ -16,17 +16,29 @@ module Derivative
         # path.
         #
         # @see #generate
-        class_attribute :path_to_page_splitting_service, default: nil
+        class_attribute :pdf_splitter_name, default: :tiff
         class_attribute :derived_original_name, default: :page_image, instance_writer: false
 
         self.prerequisites = [:original]
         self.spawns = [derived_original_name, :page_ocr]
         # @!endgroup Class Attributes
 
+        ##
+        # @return [#call, Utilities::PdfSplitter::Base]
+        def pdf_splitter
+          @pdf_splitter ||= Utilities::PdfSplitter.for(pdf_splitter_name)
+        end
+
+        ##
+        # @api private
+        #
+        # @note Provided as a convenience method for testing.
+        attr_writer :pdf_splitter
+
         def generate
           path_to_original = arena.local_path_for_shell_commands(derivative: :original)
 
-          path_to_page_splitting_service.call(path_to_original).each_with_index do |path, index|
+          pdf_splitter.call(path_to_original).each_with_index do |path, index|
             process_page_split!(path: path, index: index)
           end
         end
