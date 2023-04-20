@@ -17,10 +17,31 @@ module Derivative
         # @param mime_type [String] provided when we already know the object's mime-step; saves a
         #        bit on processing.
         def initialize(parent_identifier:, file_set_filename:, path_to_original:, derivatives: {}, mime_type: nil)
-          @identifier = Original::Identifier.new(parent_identifier: parent_identifier, file_set_filename: file_set_filename)
+          @identifier = Identifier.new(parent_identifier: parent_identifier, file_set_filename: file_set_filename)
           @path_to_original = path_to_original
           @derivatives = derivatives.each_with_object({}) { |(key, value), hash| hash[key.to_sym] = value.to_s }
           @mime_type = mime_type
+        end
+
+        Identifier = Struct.new(:parent_identifier, :file_set_filename, keyword_init: true) do
+          def id
+            "#{parent_identifier}/#{file_set_filename}"
+          end
+
+          def inspect
+            "<##{self.class} ID=#{id.inspect}>"
+          end
+
+          def directory_slugs
+            [parent_identifier.to_s, File.basename(file_set_filename)]
+          end
+
+          def to_hash
+            {
+              parent_identifier: parent_identifier,
+              file_set_filename: file_set_filename
+            }
+          end
         end
 
         include Manifest::Base

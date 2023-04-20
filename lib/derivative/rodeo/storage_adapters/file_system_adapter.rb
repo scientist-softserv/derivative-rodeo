@@ -11,7 +11,7 @@ module Derivative
         include Base
 
         ##
-        # @param manifest [Derivative::Rodeo::Manifest::Original]
+        # @param manifest [Derivative::Rodeo::Manifest::Base]
         # @param root [String]
         def initialize(manifest:, root: Dir.mktmpdir)
           super(manifest: manifest)

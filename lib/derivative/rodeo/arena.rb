@@ -131,7 +131,7 @@ module Derivative
       private_class_method :new
 
       ##
-      # @param manifest [Derivative::Rodeo::Manifest::Original]
+      # @param manifest [Derivative::Rodeo::Manifest::Base]
       # @param local_storage [Symbol, Hash<Symbol,Object>, StorageAdapters::Base]
       # @param remote_storage [Symbol, Hash<Symbol,Object>, StorageAdapters::Base]
       # @param queue [Symbol, Hash<Symbol,Object>]
@@ -181,7 +181,7 @@ module Derivative
       # rubocop:enable Metrics/ParameterLists
       # rubocop:disable Metrics/MethodLength
 
-      # @return [Derivative::Rodeo::Manifest::Original, Derivative::Rodeo::Manifest::Derived]
+      # @return [Derivative::Rodeo::Manifest::Base]
       attr_reader :manifest
 
       # @return [Derivative::Rodeo::StorageAdapters::Base]

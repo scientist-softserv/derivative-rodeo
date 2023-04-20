@@ -5,7 +5,7 @@ module Derivative
   module Rodeo
     module Manifest
       ##
-      # The a {Derived} manifest is for a :derived file from an {Manifest::Original}.  It has an
+      # The a {Derived} manifest is for a :derived file from an {Manifest::Base}.  It has an
       # :index and a list of its own derivatives.
       #
       # The goal is to keep derived files in a location similar to the original manifest.  Hence we

@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe Derivative::Rodeo::Manifest::Derived do
-  let(:original) { Derivative::Rodeo::Manifest::Original.new(parent_identifier: 'abc', file_set_filename: 'def.jpg', derivatives: []) }
+  let(:original) { Fixtures.manifest(parent_identifier: 'abc', file_set_filename: 'def.jpg', derivatives: []) }
   let(:derivatives) { [:ocr] }
   subject(:instance) { described_class.new(original: original, derived: :split_pdf, index: 0, derivatives: derivatives) }
 
@@ -29,7 +29,7 @@ RSpec.describe Derivative::Rodeo::Manifest::Derived do
   describe '#<=>' do
     let(:same_derived) { described_class.new(original: original, derived: :split_pdf, index: 0, derivatives: derivatives) }
     let(:other_derived) { described_class.new(original: original, derived: :split_pdf, index: 1, derivatives: derivatives) }
-    let(:other_original) { Derivative::Rodeo::Manifest::Original.new(parent_identifier: 'ghi', file_set_filename: 'def.jpg', derivatives: []) }
+    let(:other_original) { Fixtures.manifest(parent_identifier: 'ghi', file_set_filename: 'def.jpg', derivatives: []) }
     let(:derived_from_other_manifest) { described_class.new(original: other_original, derived: :split_pdf, index: 0, derivatives: derivatives) }
 
     it "compares the work identifier and the original file name" do

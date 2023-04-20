@@ -43,6 +43,5 @@ module Derivative
   end
 end
 
-require 'derivative/rodeo/manifest/original'
 require 'derivative/rodeo/manifest/pre_process'
 require 'derivative/rodeo/manifest/derived'
