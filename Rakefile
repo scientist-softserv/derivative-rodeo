@@ -9,6 +9,16 @@ RuboCop::RakeTask.new(:rubocop) do |task|
   task.fail_on_error = true
 end
 
+desc "Install commit hooks to ensure better practices"
+task :install_hooks do
+  require 'fileutils'
+  Dir.glob("./git-hooks/*").each do |hook|
+    next if File.file?("./.git/hooks/#{File.basename(hook)}")
+    puts "Installing #{File.basename(hook)} git hook"
+    FileUtils.cp(hook, "./.git/hooks/")
+  end
+end
+
 RSpec::Core::RakeTask.new(:spec)
 
 desc "Generate table of contents for README.md"
