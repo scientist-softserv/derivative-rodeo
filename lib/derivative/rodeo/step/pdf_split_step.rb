@@ -65,14 +65,14 @@ module Derivative
 
         ##
         # Given that the {PdfSplitStep} spawns many new processes (see #generate), we don't have a
-        # "derivative" per se.  So we need to apply a different kind of logic.  Namely do we have
-        # the directory that houses the split pages.
+        # single "derivative" per se.  So we need to apply a different kind of logic.  Namely do we
+        # have the directory that houses the split pages (as defined by the configured
+        # first_spawn_step_name).
         #
         # @param storage [StorageAdapters::Base]
         def self.demand_path_for!(storage:)
           storage.directory_exists?(first_spawn_step_name)
         end
-        # rubocop:enable Lint/UnusedMethodArgument
 
         private
 

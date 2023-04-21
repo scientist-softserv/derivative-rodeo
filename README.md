@@ -222,11 +222,9 @@ There are inflection points that the `Derivative::Rodeo` considers:
 1. Spawning processes based on the [MimeType step](./lib/derivative/rodeo/step/mime_type_step.rb)
 2. Spawning processes to [split a PDF](./lib/derivative/rodeo/step/pdf_split_step.rb)
 
-These inflection points start a new [Chain](./lib/derivative/rodeo/chain.rb) of processing.  Because we're jumping from one processing concept to another, the step might not have an associated derivative file that it creates.  However, we need to verify that the step completed.
+These inflection points start a new [Chain](./lib/derivative/rodeo/chain.rb) of processing.  Because we're jumping from one processing concept to another, the step might not create an associated derivative file.  However, we need to verify that the step completed.
 
 The verification is done via the [Derivative::Rodeo::Arena#local_demand_path_for!](./lib/derivative/rodeo/arena.rb), which delegates to the [Derivative::Rodeo::Step::Base](./lib/derivative/rodeo/step.rb).  In otherwords, the step that spawns a new chain has the opportunity to say if things are in order.  Is it perfect?  No.  But it's what we have and can improve on from there.
-
-*Musing: I write this here, wondering if those inflection points should call out to the public API of Derivative::Rodeo; that way providing a clearer separation of boundary and exposing the inflection as a valid invocation.*
 
 ### Configuration
 

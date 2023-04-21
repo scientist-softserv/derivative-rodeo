@@ -28,13 +28,12 @@ module Derivative
         # Given that we don't have a conventional derivative file, we need to see that it's
         # assigned.
         #
-        # rubocop:disable Lint/UnusedMethodArgument
+        # @param storage [StorageAdapters::Base]
         def self.demand_path_for!(storage:)
           manifest = storage.manifest
           raise Exceptions::ManifestMissingMimeTypeError.new(manifest: manifest.mime_type) if manifest.mime_type.blank?
           coerce_to_mime_type(manifest.mime_type, manifest: manifest)
         end
-        # rubocop:enable Lint/UnusedMethodArgument
 
         ##
         # @param mime_type [Symbol, String, MIME::Type]

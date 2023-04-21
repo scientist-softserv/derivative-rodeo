@@ -37,6 +37,9 @@ RSpec.describe Derivative::Rodeo do
       let(:path_to_original) { Fixtures.path_for(file_set_filename) }
 
       it "splits the pages into images and extracts text" do
+        # TODO: verify that we have two (or four because of monochrome) images on the file system
+        # TODO: verify that we have two hocr files on the file system
+        # TODO: this still needs ALTO incorporated
         subject
       end
     end

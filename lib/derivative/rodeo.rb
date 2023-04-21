@@ -57,7 +57,7 @@ module Derivative
     end
 
     ##
-    # Process the derivative for the given json message.
+    # Process a singular derivative for the given json message.
     #
     # @param json [String] a JSON string that provides an {Arena} the context to process the encoded
     #        deriative.
@@ -73,7 +73,7 @@ module Derivative
     end
 
     ##
-    # Process a CSV with one row representing one {Manifest::PreProcess}
+    # Process a CSV with one row representing one {Manifest::PreProcess}.
     #
     # @param body [String] the CSV
     # @param config [Derivative::Rodeo::Configuration]
@@ -81,7 +81,7 @@ module Derivative
     # @see Invocation
     #
     # @see https://github.com/scientist-softserv/adventist-dl/issues/369 Acceptance criteria
-    def self.process_file_sets_from_csv(body, config: Rodeo.config)
+    def self. process_file_sets_from_csv(body, config: Rodeo.config)
       Invocation.invoke(:process_file_sets_from_csv, body: body, config: config)
     end
   end
