@@ -5,9 +5,14 @@ module Derivative
   module Rodeo
     ##
     # This class is responsible for sequencing (and validating) a set of :derivatives.  The {Chain}
-    # is necessary to resolve the necessary sequence of derivative generation in the case where we
-    # might have second order derivatives.  For example we create an alto file based on a hocr file
-    # based on an image.  The alto file would be a second order derivative.
+    # is necessary to resolve the sequence of derivative generation in the case where we might have
+    # second order derivatives.  For example we create an alto file based on a hocr file based on an
+    # image.  The alto file would be a second order derivative; it is also a file that could be
+    # provided by an end-user.
+    #
+    # @note
+    #   There is an assumption that the start of each chain will be `:base_file_for_chain`.  See
+    #   {Step::BaseFileForChainStep} for further discussion.
     #
     # @see #each
     # @see #to_hash

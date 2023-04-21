@@ -9,8 +9,8 @@ module Derivative
       # logic of those that use this class.
       #
       # @note
-      # It is a good design idea to wrap a library (in this case HTTParty).  The goal is to expose
-      # the smallest interface and make it something that would be easy to swap out.
+      #   It is a good design idea to wrap a library (in this case HTTParty).  The goal is to expose
+      #   the smallest interface and make it something that would be easy to swap out.
       #
       # @see https://rubygems.org/gems/httparty
       module Url

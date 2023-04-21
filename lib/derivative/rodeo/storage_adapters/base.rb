@@ -113,8 +113,9 @@ module Derivative
         # @param derivative [Symbol]
         #
         # @return [String] The path to the storage of the given :derivative
-        # @note A {Derivative::Rodeo::Manifest} has a #directory_slugs method; use that for getting
-        #       the storage path.
+        # @note
+        #   A {Derivative::Rodeo::Manifest} has a #directory_slugs method; use that for getting the
+        #   storage path.
         # @see #directory_name
         def path_to_storage(derivative:, **)
           raise NotImplementedError, "#{self.class}#path_to_storage"

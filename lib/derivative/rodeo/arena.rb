@@ -46,7 +46,7 @@ module Derivative
       # Create a new {Arena} based on the given :parent_arena for the derived file.
       #
       # @param parent_arena [Arena] where are we running things
-      # @param derived_original_path [String] the path to the "original" file.
+      # @param path_to_base_file_for_chain [String] the path to the "original" file.
       # @param first_spawn_step_name [Symbol] the name of the "original" derivative, from which
       #        we'll generate subsequent derivatives.
       # @param index [Integer] the index of the derivative (for organizing within the :parent_arena)

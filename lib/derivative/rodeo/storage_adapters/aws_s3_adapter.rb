@@ -113,9 +113,8 @@ module Derivative
         #        given file.
         #
         # @note
-        #
-        # This changes the file system state.  It is confusing in that we're moving a file from an
-        # S3 bucket to a local file system for processing.
+        #   This changes the file system state.  It is confusing in that we're moving a file from an
+        #   S3 bucket to a local file system for processing.
         #
         # @see https://github.com/scientist-softserv/space_stone/blob/c433a4e38b9acac335abaa18daa33dcf0d22aeb4/lib/space_stone/s3_service.rb#L21-L27
         def path_for_shell_commands(derivative:, root: Dir.mktmpdir, perform_download: true)
