@@ -28,7 +28,8 @@ module Derivative
 
         def initialize(path)
           @path = path
-          @command = format('pdfimages -list %<path>s', path: path)
+          # NOTE: https://github.com/scientist-softserv/iiif_print/pull/223/files
+          @command = format('pdfimages -list %<path>s 2>/dev/null', path: path)
         end
 
         attr_reader :properties, :path, :command
