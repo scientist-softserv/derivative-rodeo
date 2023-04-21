@@ -29,7 +29,8 @@ module Derivative
         # assigned.
         #
         # rubocop:disable Lint/UnusedMethodArgument
-        def self.demand_path_for!(manifest:, storage:)
+        def self.demand_path_for!(storage:)
+          manifest = storage.manifest
           raise Exceptions::ManifestMissingMimeTypeError.new(manifest: manifest.mime_type) if manifest.mime_type.blank?
           coerce_to_mime_type(manifest.mime_type, manifest: manifest)
         end

@@ -9,6 +9,7 @@ module Derivative
       class PdfSplitStep < BaseStep
         ##
         # @!group Class Attributes
+        #
         # @!attribute [rw]
         # @return [#call]
         #
@@ -37,7 +38,8 @@ module Derivative
         ##
         # In this case the base_file_for_chain likely represents that original PDF.
         self.prerequisites = [:base_file_for_chain]
-        self.spawns = [first_spawn_step_name, :page_ocr]
+
+        self.spawns = [first_spawn_step_name, :hocr]
         # @!endgroup Class Attributes
 
         ##
@@ -53,13 +55,24 @@ module Derivative
         attr_writer :pdf_splitter
 
         def generate
-          path_to_original = arena.local_path_for_shell_commands(derivative: :original)
+          path_to_original = arena.local_path_for_shell_commands(derivative: :base_file_for_chain)
 
           # We need to write the file to the :page_image
           pdf_splitter.call(path_to_original).each_with_index do |path, index|
             process_page_split!(path: path, index: index)
           end
         end
+
+        ##
+        # Given that the {PdfSplitStep} spawns many new processes (see #generate), we don't have a
+        # "derivative" per se.  So we need to apply a different kind of logic.  Namely do we have
+        # the directory that houses the split pages.
+        #
+        # @param storage [StorageAdapters::Base]
+        def self.demand_path_for!(storage:)
+          storage.directory_exists?(first_spawn_step_name)
+        end
+        # rubocop:enable Lint/UnusedMethodArgument
 
         private
 

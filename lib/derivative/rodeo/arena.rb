@@ -293,7 +293,7 @@ module Derivative
       #
       # @param derivative [#to_sym]
       def local_demand_path_for!(derivative:)
-        Rodeo.Step(derivative).demand_path_for!(manifest: manifest, storage: local_storage)
+        Rodeo.Step(derivative).demand_path_for!(storage: local_storage)
       end
 
       ##

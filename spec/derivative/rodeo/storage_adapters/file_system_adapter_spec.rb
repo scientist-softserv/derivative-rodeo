@@ -24,6 +24,20 @@ RSpec.describe Derivative::Rodeo::StorageAdapters::FileSystemAdapter do
     end
   end
 
+  describe '#directory_exists?' do
+    let(:relative_dir_name) { 'hello' }
+    subject { instance.directory_exists?(relative_dir_name) }
+
+    context 'when the relative directory exists' do
+      before { Dir.mkdir(File.join(instance.directory_name, relative_dir_name)) }
+      it { is_expected.to be_truthy }
+    end
+
+    context 'when the relative directory does not exist' do
+      it { is_expected.to be_falsey }
+    end
+  end
+
   describe '#to_hash keys' do
     subject { instance.to_hash.keys }
     it { is_expected.to eq([:manifest, :name, :root]) }

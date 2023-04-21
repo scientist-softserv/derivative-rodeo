@@ -3,16 +3,17 @@
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [Derivative::Rodeo](#derivativerodeo)
-  - [Concepts](#concepts)
-    - [Inflection Points](#inflection-points)
-    - [Configuration](#configuration)
-  - [Note on Development Status](#note-on-development-status)
-  - [Design Goals](#design-goals)
+  - [Overview](#overview)
   - [Diagrams](#diagrams)
     - [Conceptual Diagram](#conceptual-diagram)
     - [Process Diagram](#process-diagram)
     - [Interaction with SpaceStone](#interaction-with-spacestone)
     - [Interaction with Hyrax Ingest](#interaction-with-hyrax-ingest)
+  - [Deeper Dive](#deeper-dive)
+    - [Inflection Points](#inflection-points)
+    - [Configuration](#configuration)
+  - [Note on Development Status](#note-on-development-status)
+  - [Design Goals](#design-goals)
   - [Installation](#installation)
     - [Dependencies](#dependencies)
   - [Usage](#usage)
@@ -28,7 +29,7 @@ Welcome to the rodeo!  The goal of `Derivative::Rodeo` is to provide interfaces 
 
 The fully public facing methods of `Derivative::Rodeo` are module methods on the [Derivative::Rodeo module](./lib/derivative/rodeo.rb).  There is an associated [Derivative::Rodeo spec file](./spec/derivative/rodeo_spec.rb) for those methods which is intended to be a place for "feature specs."
 
-## Concepts
+## Overview
 
 The conceptual logic of `Derivative::Rodeo` is:
 
@@ -46,59 +47,6 @@ We start from a [Derivative::Rodeo::Manifest::PreProcess](./lib/derivative/rodeo
 - a set of named derivatives; each named derivative might have path to a "known" already existing file.
 
 We process the original manifest in an [Arena](./lib/derivative/rodeo/arena.rb).  During processing we might spawn multiple "child" processes from one derivative.  For example splitting a PDF into one image per page.  Each of those page images would then have their own [Derivative::Rodeo::Manifest::Derived](./lib/derivative/rodeo/manifest/derived.rb) for further processing.
-
-### Inflection Points
-
-There are inflection points that the `Derivative::Rodeo` considers:
-
-1. Spawning processes based on the [MimeType step](./lib/derivative/rodeo/step/mime_type_step.rb)
-2. Spawning processes to [split a PDF](./lib/derivative/rodeo/step/pdf_split_stepm.rb)
-
-These inflection points conceptually start a new [Chain](./lib/derivative/rodeo/chain.rb) of processing.
-
-*Musing: I write this here, wondering if those inflection points should call out to the public API of Derivative::Rodeo; that way providing a clearer separation of boundary and exposing the inflection as a valid invocation.*
-
-### Configuration
-
-There are two conceptual configuration points:
-
-- [Derivative::Rodeo::Configuration](./lib/derivative/rodeo/configuration.rb) via the [Derivative::Rodeo.config](./lib/derivative/rodeo.rb) method.
-- The individual classes in the Derivative::Rodeo namespace via [ActiveSupport's class_attribute](https://api.rubyonrails.org/classes/Class.html#method-i-class_attribute).
-
-Let’s consider the following.
-
-For one project I need to have two rodeos.  The first rodeo is for pre-processing.  The second rodeo is for ingesting the pre-processed files (see the [Conceptual Diagram](#conceptual-diagram) section).  The [storage](./lib/derivative/rodeo/storage_adapters) and [queue](./lib/derivative/rodeo/queue_adapters) adapters will be different.  For example, the pre-process local storage will likely be the ingest process’s remote storage.  Both rodeos will likely have the same required steps for processing.
-
-For another project, I will again need two rodeos.  But I want different processing steps; for example I want to add steps to process a 3D model.  I might configure the mime type step to sniff out the files that go into a 3D model and then spawn a new step.
-
-For a third project, I again need two rodeos, but then I want to use a different process to determine the file’s mime type; perhaps instead of leveraging the [Marcel gem](http://rubygems.org/gems/marcel), I leverage [Fits](http://fitstool.org) and some XML parsing.
-
-In other words, there are some assumptive configurations about a given rodeo:
-
-- What’s my logging
-- What’s my starting step
-- What’s my queue adapter
-- What’s my storage adapters
-
-And there’s other assumptions based on those decisions.  For an [AWS SQS Queue Adapter](./lib/derivative/rodeo/queue_adapters/aws_sqs_adapter.rb) we will likely need region information and even some low level credentials that might go in `ENV`.  For another cloud adapter those rules could be different.
-
-Perhaps we know we’re always working with monochrome images, it’s unlikely we’d want to use the existing [Hocr step](./lib/derivative/rodeo/step/hocr_step.rb) as written.  We can assume that we have monochrome.
-
-As I hope is evident, the `Derivative::Rodeo` is intended to provide a consistent interface for moving files and ensuring that the requried and desired derivatives are part of that move.  And for the `Derivative::Rodeo` to be something that we can incorporate into many projects and do minimum customization of those projects; instead relying on configuration and building towards interfaces.
-
-*Note: The above describes an ideal state and there are identified chores to migrate configuration points to the more appropriate locations.*
-
-## Note on Development Status
-
-This is in active development and we're exploring the names and concepts as we build towards the technical requirements of several different projects.  What does that mean?  Look to the [Derivative::Rodeo](./lib/derivative/rodeo.rb) require section that has a large banner.  Those are the stable named concepts.  Below that level, things are somewhat in-flux; in particular regarding the [Derivative::Rodeo::Manifest](./lib/derivative/rodeo/manifest.rb) module. 
-
-## Design Goals
-
-`Derivative::Rodeo` is designed in such a way that it can run within an application or as part of a distributed architecture (e.g. AWS Lambdas).  Further, it is designed for extension and configuration; through well-documented interfaces and modular boundaries.
-
-It is also designed to provide insight into configuration and failures through custom exceptions and logging.  It has a fail early mind set; first verifying that the desired derivatives don't create circular dependencies; flattening those dependencies into a chain which we process one link at a time, via [Derivative::Rodeo::Process](./lib/derivative/rodeo/process.rb).
-
-Last, the test suite covers a significant portion of the code; exercising both unit tests and functional tests that can run on a developers machine to help ensure the desired behavior.
 
 ## Diagrams
 
@@ -182,10 +130,10 @@ endif
 
 if (demand local exists?) then (yes)
 
-	
+
 else (no)
 	:raise exception;
-        stop	
+        stop
 endif
 :enqueue next;
 @enduml
@@ -264,6 +212,63 @@ With all of that here's the diagram for the Interaction with Hyrax Ingest.
 ```
 
 </details>
+
+## Deeper Dive
+
+### Inflection Points
+
+There are inflection points that the `Derivative::Rodeo` considers:
+
+1. Spawning processes based on the [MimeType step](./lib/derivative/rodeo/step/mime_type_step.rb)
+2. Spawning processes to [split a PDF](./lib/derivative/rodeo/step/pdf_split_step.rb)
+
+These inflection points start a new [Chain](./lib/derivative/rodeo/chain.rb) of processing.  Because we're jumping from one processing concept to another, the step might not have an associated derivative file that it creates.  However, we need to verify that the step completed.
+
+The verification is done via the [Derivative::Rodeo::Arena#local_demand_path_for!](./lib/derivative/rodeo/arena.rb), which delegates to the [Derivative::Rodeo::Step::Base](./lib/derivative/rodeo/step.rb).  In otherwords, the step that spawns a new chain has the opportunity to say if things are in order.  Is it perfect?  No.  But it's what we have and can improve on from there.
+
+*Musing: I write this here, wondering if those inflection points should call out to the public API of Derivative::Rodeo; that way providing a clearer separation of boundary and exposing the inflection as a valid invocation.*
+
+### Configuration
+
+There are two conceptual configuration points:
+
+- [Derivative::Rodeo::Configuration](./lib/derivative/rodeo/configuration.rb) via the [Derivative::Rodeo.config](./lib/derivative/rodeo.rb) method.
+- The individual classes in the Derivative::Rodeo namespace via [ActiveSupport's class_attribute](https://api.rubyonrails.org/classes/Class.html#method-i-class_attribute).
+
+Let’s consider the following.
+
+For one project I need to have two rodeos.  The first rodeo is for pre-processing.  The second rodeo is for ingesting the pre-processed files (see the [Conceptual Diagram](#conceptual-diagram) section).  The [storage](./lib/derivative/rodeo/storage_adapters) and [queue](./lib/derivative/rodeo/queue_adapters) adapters will be different.  For example, the pre-process local storage will likely be the ingest process’s remote storage.  Both rodeos will likely have the same required steps for processing.
+
+For another project, I will again need two rodeos.  But I want different processing steps; for example I want to add steps to process a 3D model.  I might configure the mime type step to sniff out the files that go into a 3D model and then spawn a new step.
+
+For a third project, I again need two rodeos, but then I want to use a different process to determine the file’s mime type; perhaps instead of leveraging the [Marcel gem](http://rubygems.org/gems/marcel), I leverage [Fits](http://fitstool.org) and some XML parsing.
+
+In other words, there are some assumptive configurations about a given rodeo:
+
+- What’s my logging
+- What’s my starting step
+- What’s my queue adapter
+- What’s my storage adapters
+
+And there’s other assumptions based on those decisions.  For an [AWS SQS Queue Adapter](./lib/derivative/rodeo/queue_adapters/aws_sqs_adapter.rb) we will likely need region information and even some low level credentials that might go in `ENV`.  For another cloud adapter those rules could be different.
+
+Perhaps we know we’re always working with monochrome images, it’s unlikely we’d want to use the existing [Hocr step](./lib/derivative/rodeo/step/hocr_step.rb) as written.  We can assume that we have monochrome.
+
+As I hope is evident, the `Derivative::Rodeo` is intended to provide a consistent interface for moving files and ensuring that the requried and desired derivatives are part of that move.  And for the `Derivative::Rodeo` to be something that we can incorporate into many projects and do minimum customization of those projects; instead relying on configuration and building towards interfaces.
+
+*Note: The above describes an ideal state and there are identified chores to migrate configuration points to the more appropriate locations.*
+
+## Note on Development Status
+
+This is in active development and we're exploring the names and concepts as we build towards the technical requirements of several different projects.  What does that mean?  Look to the [Derivative::Rodeo](./lib/derivative/rodeo.rb) require section that has a large banner.  Those are the stable named concepts.  Below that level, things are somewhat in-flux; in particular regarding the [Derivative::Rodeo::Manifest](./lib/derivative/rodeo/manifest.rb) module.
+
+## Design Goals
+
+`Derivative::Rodeo` is designed in such a way that it can run within an application or as part of a distributed architecture (e.g. AWS Lambdas).  Further, it is designed for extension and configuration; through well-documented interfaces and modular boundaries.
+
+It is also designed to provide insight into configuration and failures through custom exceptions and logging.  It has a fail early mind set; first verifying that the desired derivatives don't create circular dependencies; flattening those dependencies into a chain which we process one link at a time, via [Derivative::Rodeo::Process](./lib/derivative/rodeo/process.rb).
+
+Last, the test suite covers a significant portion of the code; exercising both unit tests and functional tests that can run on a developers machine to help ensure the desired behavior.
 
 ## Installation
 

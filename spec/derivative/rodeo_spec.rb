@@ -36,7 +36,7 @@ RSpec.describe Derivative::Rodeo do
       let(:mime_type) { "application/pdf" }
       let(:path_to_original) { Fixtures.path_for(file_set_filename) }
 
-      xit "splits the pages into images and extracts text" do
+      it "splits the pages into images and extracts text" do
         subject
       end
     end

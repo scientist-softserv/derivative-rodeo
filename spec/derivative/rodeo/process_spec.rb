@@ -4,12 +4,17 @@ require 'spec_helper'
 
 RSpec.describe Derivative::Rodeo::Process do
   let(:derivative) { Derivative::Rodeo::Step::BaseStep }
-  let(:arena) { double(Derivative::Rodeo::Arena, local_demand_path_for!: true, remote_fetch: false, process_next_chain_link_after!: false, local_exists?: false) }
+  let(:manifest) { Fixtures.manifest }
+  let(:arena) do
+    double(Derivative::Rodeo::Arena, manifest: manifest, local_demand_path_for!: true, remote_fetch: false, process_next_chain_link_after!: false, local_exists?: false,
+                                     logger: Derivative::Rodeo.config.logger)
+  end
   subject(:instance) { described_class.new(derivative: derivative, arena: arena) }
   let(:handle) { :handle }
 
   it { is_expected.to delegate_method(:local_demand_path_for!).to(:arena) }
   it { is_expected.to delegate_method(:local_exists?).to(:arena) }
+  it { is_expected.to delegate_method(:logger).to(:arena) }
   it { is_expected.to delegate_method(:remote_fetch).to(:arena) }
   it { is_expected.to delegate_method(:process_next_chain_link_after!).to(:arena) }
   it { is_expected.to delegate_method(:generate_for).to(:derivative) }

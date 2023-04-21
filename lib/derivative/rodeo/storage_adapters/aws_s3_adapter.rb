@@ -60,6 +60,16 @@ module Derivative
         private :default_bucket
 
         ##
+        # @api public
+        # @param relative_dir_name [String, #to_s]
+        #
+        # @return [TrueClass] when the given :relative_dir_name exists in the storage
+        # @return [FalseClass] when the given :relative_dir_name does not exist in the storage
+        def directory_exists?(relative_dir_name)
+          raise NotImplementedError, "What should #{self.class}#directory_exists? look like?"
+        end
+
+        ##
         # This function writes the derivative into the S3 storage, by fetching from the remote URL.
         #
         # @param derivative [Symbol]

@@ -50,6 +50,16 @@ module Derivative
           File.file?(path_to_storage(derivative: derivative))
         end
 
+        ##
+        # @api public
+        # @param relative_dir_name [String, #to_s]
+        #
+        # @return [TrueClass] when the given :relative_dir_name exists in the storage
+        # @return [FalseClass] when the given :relative_dir_name does not exist in the storage
+        def directory_exists?(relative_dir_name)
+          Dir.exist?(File.join(directory_name, relative_dir_name.to_s))
+        end
+
         def fetch!(derivative:, from:)
           demand_path_for!(derivative: derivative) do |storage_path|
             remote_path = from.demand_path_for!(derivative: derivative)

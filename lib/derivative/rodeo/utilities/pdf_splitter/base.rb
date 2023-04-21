@@ -119,7 +119,9 @@ module Derivative
 
             cmd = "pdfinfo #{pdfpath}"
             Open3.popen3(cmd) do |_stdin, stdout, _stderr, _wait_thr|
-              match = PAGE_COUNT_REGEXP.match(stdout.read)
+              output = stdout.read
+              match = PAGE_COUNT_REGEXP.match(output)
+
               @pagecount = match[1].to_i
             end
             @pagecount

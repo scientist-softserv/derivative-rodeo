@@ -15,7 +15,7 @@ module Derivative
     # application.
     class Configuration
       def initialize
-        @logger = Logger.new(STDERR, Logger::FATAL)
+        @logger = Logger.new(STDERR, level: Logger::FATAL)
         # Note the log level synchronization.
         @dry_run_reporter = ->(string) { logger.info("\n#{string}\n") }
         yield self if block_given?

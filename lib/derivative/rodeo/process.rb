@@ -36,11 +36,12 @@ module Derivative
 
       attr_reader :derivative, :arena
 
-      delegate :process_next_chain_link_after!, :local_demand_path_for!, :local_exists?, :remote_fetch, to: :arena
+      delegate :process_next_chain_link_after!, :local_demand_path_for!, :local_exists?, :remote_fetch, :logger, to: :arena
       delegate :generate_for, to: :derivative
 
       # @api private
       def call
+        logger.debug("Starting processing #{arena.manifest.id} for derivative #{derivative.inspect}")
         local_exists?(derivative: derivative) ||
           remote_fetch(derivative: derivative) ||
           generate_for(arena: arena)
@@ -49,6 +50,7 @@ module Derivative
         # location.
         local_demand_path_for!(derivative: derivative)
 
+        logger.debug("Completed processing #{arena.manifest.id} for derivative #{derivative.inspect}")
         process_next_chain_link_after!(derivative: derivative)
       end
     end

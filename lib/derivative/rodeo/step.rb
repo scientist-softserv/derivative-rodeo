@@ -54,7 +54,7 @@ module Derivative
         # @param storage [Derivative::Rodeo::StorageAdapters::Base]
         #
         # rubocop:disable Lint/UnusedMethodArgument
-        def self.demand_path_for!(manifest:, storage:)
+        def self.demand_path_for!(storage:)
           storage.demand_path_for!(derivative: to_sym)
         end
         # rubocop:enable Lint/UnusedMethodArgument
