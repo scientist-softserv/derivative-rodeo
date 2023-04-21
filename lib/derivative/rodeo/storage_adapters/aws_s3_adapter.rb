@@ -28,7 +28,6 @@ module Derivative
         ##
         # @return [String]
         attr_reader :directory_name
-        private :directory_name
 
         ##
         # @!group Class Attributes

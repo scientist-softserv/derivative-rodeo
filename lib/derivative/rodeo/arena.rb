@@ -72,7 +72,7 @@ module Derivative
 
         # We need to make sure that we're moving that newly minted derived file into the correct
         # storage bucket for this arena.
-        arena.local_assign!(derivative: first_spawn_step_name, path: path_to_base_file_for_chain)
+        arena.local_assign!(derivative: :base_file_for_chain, path: path_to_base_file_for_chain)
         arena
       end
 

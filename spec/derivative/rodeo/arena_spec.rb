@@ -38,7 +38,15 @@ RSpec.describe Derivative::Rodeo::Arena do
                                   index: 0,
                                   derivatives: [:page_image])
     end
-    xit 'will assign the given derived path to the derived name'
+
+    it 'will assign the given derived path to the derived name' do
+      # See the PdfSplitStep for further discussion on the directory structure.
+      path_to_spawned_file = File.join(parent_arena.local_storage.directory_name, "page_image", "0", "base_file_for_chain")
+      expect do
+        arena
+      end.to change { File.file?(path_to_spawned_file) }
+    end
+
     it { is_expected.to be_a described_class }
   end
 

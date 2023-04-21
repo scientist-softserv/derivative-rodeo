@@ -27,7 +27,6 @@ module Derivative
         ##
         # @return [String]
         attr_reader :directory_name
-        private :directory_name
 
         ##
         # Without the root being passed forward, we loose the local temporary directory.
