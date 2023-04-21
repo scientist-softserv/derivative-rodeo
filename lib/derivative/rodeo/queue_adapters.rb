@@ -40,7 +40,7 @@ module Derivative
         end
 
         def enqueue(derivative_to_process:, arena:)
-          raise NotImplementedError
+          raise NotImplementedError, "#{self.class}#enqueue"
         end
       end
     end

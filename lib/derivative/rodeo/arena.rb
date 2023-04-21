@@ -109,7 +109,7 @@ module Derivative
       def self.from_json(json, config: Rodeo.config, &block)
         json = JSON.parse(json)
         manifest = Manifest.from(json.fetch('manifest'))
-        derivative_to_process = json.fetch('derivative_to_process', :original).to_sym
+        derivative_to_process = json.fetch('derivative_to_process', :base_file_for_chain).to_sym
 
         derivatives = json.fetch('chain') { Chain.for_pre_processing(config: config) }.map(&:to_sym)
         chain = Chain.new(derivatives: derivatives + [derivative_to_process])
