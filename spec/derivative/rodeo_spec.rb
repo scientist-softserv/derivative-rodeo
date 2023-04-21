@@ -50,11 +50,13 @@ RSpec.describe Derivative::Rodeo do
       let(:path_to_original) { Fixtures.path_for(file_set_filename) }
 
       it "runs the pre-processing and mime step processing" do
-        subject
-
-        expect(arena.local_storage.exists?(derivative: :base_file_for_chain)).to be_truthy
-        expect(arena.local_storage.exists?(derivative: :monochrome)).to be_truthy
-        expect(arena.local_storage.exists?(derivative: :hocr)).to be_truthy
+        expect do
+          expect do
+            expect do
+              subject
+            end.to change { arena.local_storage.exists?(derivative: :base_file_for_chain) }.from(false).to(true)
+          end.to change { arena.local_storage.exists?(derivative: :monochrome) }.from(false).to(true)
+        end.to change { arena.local_storage.exists?(derivative: :hocr) }.from(false).to(true)
       end
     end
 
@@ -69,8 +71,9 @@ RSpec.describe Derivative::Rodeo do
         # Intercept these calls
         allow(Derivative::Rodeo::Utilities::Url).to receive(:read).with(path_to_original).and_return(original_content)
         allow(Derivative::Rodeo::Utilities::Url).to receive(:exists?).with(path_to_original).and_return(true)
-        subject
-        expect(arena.local_storage.exists?(derivative: :base_file_for_chain)).to be_truthy
+        expect do
+          subject
+        end.to change { arena.local_storage.exists?(derivative: :base_file_for_chain) }.from(false).to(true)
 
         expect(File.read(arena.local_path(derivative: :base_file_for_chain))).to eq(original_content)
       end
