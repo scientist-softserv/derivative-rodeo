@@ -33,8 +33,8 @@ RSpec.describe Derivative::Rodeo::Arena do
     let(:parent_arena) { Fixtures.arena }
     subject(:arena) do
       described_class.for_derived(parent_arena: parent_arena,
-                                  derived_original_path: __FILE__,
-                                  derived_original_name: :page_image,
+                                  path_to_base_file_for_chain: __FILE__,
+                                  first_spawn_step_name: :page_image,
                                   index: 0,
                                   derivatives: [:page_image])
     end

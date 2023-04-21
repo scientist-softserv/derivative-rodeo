@@ -47,15 +47,15 @@ module Derivative
       #
       # @param parent_arena [Arena] where are we running things
       # @param derived_original_path [String] the path to the "original" file.
-      # @param derived_original_name [Symbol] the name of the "original" derivative, from which
+      # @param first_spawn_step_name [Symbol] the name of the "original" derivative, from which
       #        we'll generate subsequent derivatives.
       # @param index [Integer] the index of the derivative (for organizing within the :parent_arena)
       # @param derivatives [Array<#to_sym>] the derivatives to generate within the new {Arena}
       #
       # @return [Arena]
-      def self.for_derived(parent_arena:, derived_original_path:, derived_original_name:, index:, derivatives:)
+      def self.for_derived(parent_arena:, path_to_base_file_for_chain:, first_spawn_step_name:, index:, derivatives:)
         manifest = Manifest::Derived.new(original: parent_arena.manifest,
-                                         derived: derived_original_name,
+                                         first_spawn_step_name: first_spawn_step_name,
                                          index: index,
                                          derivatives: derivatives)
         chain = Chain.new(derivatives: derivatives)
@@ -72,7 +72,7 @@ module Derivative
 
         # We need to make sure that we're moving that newly minted derived file into the correct
         # storage bucket for this arena.
-        arena.local_assign!(derivative: derived_original_name, path: derived_original_path)
+        arena.local_assign!(derivative: first_spawn_step_name, path: path_to_base_file_for_chain)
         arena
       end
 

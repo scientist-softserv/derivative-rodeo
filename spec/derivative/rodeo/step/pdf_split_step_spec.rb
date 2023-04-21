@@ -13,7 +13,7 @@ RSpec.describe Derivative::Rodeo::Step::PdfSplitStep do
     describe '.spawns' do
       subject { described_class.spawns }
 
-      it { is_expected.to eq([described_class.derived_original_name, :page_ocr]) }
+      it { is_expected.to eq([described_class.first_spawn_step_name, :page_ocr]) }
     end
 
     describe '.pdf_splitter_name' do
