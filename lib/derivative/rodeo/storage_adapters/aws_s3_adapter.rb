@@ -69,6 +69,10 @@ module Derivative
           raise NotImplementedError, "What should #{self.class}#directory_exists? look like?"
         end
 
+        def assign(**)
+          raise "Need to implement; will need to consider that we have both a path and a block"
+        end
+
         ##
         # This function writes the derivative into the S3 storage, by fetching from the remote URL.
         #

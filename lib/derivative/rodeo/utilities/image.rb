@@ -14,6 +14,10 @@ module Derivative
       class Image
         attr_accessor :path
 
+        def self.technical_metadata_for(path:)
+          new(path).technical_metadata
+        end
+
         def initialize(path)
           @path = path
           # The first 23 characters of a file contains the magic.

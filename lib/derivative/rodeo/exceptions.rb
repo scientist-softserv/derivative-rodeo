@@ -10,6 +10,12 @@ module Derivative
       # The base error for other named exceptions throughout {Derivative::Rodeo}.
       class Error < StandardError; end
 
+      class AttemptedToAssignPathAndBlockError < Error
+        def initialize(derivative:, storage:)
+          super("Attempted to assign both a path and a block for derivative #{derivative.inspect} for storage #{storage.inspect}")
+        end
+      end
+
       class ConflictingMethodArgumentsError < Error
         def initialize(receiver:, method:)
           super("Error with arguments for method #{method.inspect} with receiver #{receiver.inspect}.")

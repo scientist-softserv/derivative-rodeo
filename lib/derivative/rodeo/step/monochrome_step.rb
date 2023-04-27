@@ -7,7 +7,7 @@ module Derivative
         self.prerequisites = [:base_file_for_chain]
 
         def generate
-          original_path = arena.local_demand_path_for!(derivative: :base_file_for_chain)
+          original_path = arena.local_path_for_shell_commands(derivative: :base_file_for_chain)
 
           image = Derivative::Rodeo::Utilities::Image.new(original_path)
 

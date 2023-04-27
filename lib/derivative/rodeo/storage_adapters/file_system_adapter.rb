@@ -37,11 +37,27 @@ module Derivative
         end
 
         ##
-        # @api public
-        def assign(derivative:, path:, utility: FileUtils)
+        # Assign the file at the given :path to the given :derivative.  That might mean copying the
+        # file to the expected storage location.
+        #
+        # @param derivative [Symbol]
+        # @param path [String, NilClass]
+        # @param utility [#mkdir_p, #copy_file]
+        # @yield When you don't have a path but instead have string-like content.
+        #
+        # @see assign!
+        def assign(derivative:, path: nil, utility: FileUtils)
+          raise Exceptions::AttemptedToAssignPathAndBlockError.new(derivative: derivative, storage: self) if path && block_given?
+
           storage_path = path_to_storage(derivative: derivative)
           utility.mkdir_p(File.dirname(storage_path))
-          utility.copy_file(path, storage_path)
+
+          if path
+            utility.copy_file(path, storage_path)
+          else
+            # Alas FileUtils does not have a #write method hence this conceptual shift.
+            File.write(storage_path, yield)
+          end
         end
 
         ##

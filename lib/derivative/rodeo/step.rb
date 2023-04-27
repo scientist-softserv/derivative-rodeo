@@ -77,6 +77,8 @@ module Derivative
         def initialize(arena:)
           @arena = arena
 
+          fetch_prerequisite_paths!
+
           # rubocop:disable Style/GuardClause
           if arena.dry_run?
             extend DryRun.for(method_names: [:local_run_command!, :generate],
@@ -91,6 +93,26 @@ module Derivative
 
         def generate
           raise NotImplementedError, "#{self.class}#generate not implemented"
+        end
+
+        private
+
+        ##
+        # We know we're going to demand these things; let's make them available.
+        def fetch_prerequisite_paths!
+          @prerequisite_paths = {}
+          prerequisites.each do |prereq|
+            @prerequisite_paths["#{prereq}_path".to_sym] ||= arena.local_path_for_shell_commands(derivative: prereq)
+          end
+        end
+
+        def method_missing(method_name, *args, &block)
+          super unless @prerequisite_paths.key?(method_name)
+          @prerequisite_paths.fetch(method_name)
+        end
+
+        def respond_to_missing?(method_name, include_private = false)
+          @prerequisite_paths.key?(method_name) || super
         end
       end
     end

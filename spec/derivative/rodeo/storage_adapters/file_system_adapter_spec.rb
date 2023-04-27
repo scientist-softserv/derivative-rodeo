@@ -15,12 +15,29 @@ RSpec.describe Derivative::Rodeo::StorageAdapters::FileSystemAdapter do
   # TODO: Add Shared Adapter Spec
 
   describe '#assign' do
-    let(:utility) { double(FileUtils, mkdir_p: true, copy_file: true) }
-    it 'will move the file at the given path to the storage location' do
-      storage_path = instance.path_to_storage(derivative: :wonky)
-      instance.assign(derivative: :wonky, path: __FILE__, utility: utility)
-      expect(utility).to have_received(:mkdir_p).with(File.dirname(storage_path))
-      expect(utility).to have_received(:copy_file).with(__FILE__, storage_path)
+    let(:utility) { double(FileUtils, mkdir_p: true, copy_file: true, open: true) }
+    context 'when given a path' do
+      it 'will move the file at the given path to the storage location' do
+        storage_path = instance.path_to_storage(derivative: :wonky)
+        instance.assign(derivative: :wonky, path: __FILE__, utility: utility)
+        expect(utility).to have_received(:mkdir_p).with(File.dirname(storage_path))
+        expect(utility).to have_received(:copy_file).with(__FILE__, storage_path)
+      end
+    end
+    context 'when given a block' do
+      it 'will write the contents of the results of the block to the file system' do
+        body = "Hello World"
+        storage_path = instance.path_to_storage(derivative: :wonky)
+        allow(File).to receive(:write)
+        instance.assign(derivative: :wonky, utility: utility) { body }
+        expect(File).to have_received(:write).with(storage_path, body)
+      end
+    end
+
+    context 'when given both a block and a path' do
+      subject { instance.assign(derivative: :wonky, path: __FILE__) { "Content to Write\n" } }
+
+      it { within_block_is_expected.to raise_error Derivative::Rodeo::Exceptions::AttemptedToAssignPathAndBlockError }
     end
   end
 

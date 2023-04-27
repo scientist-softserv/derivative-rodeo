@@ -55,10 +55,8 @@ module Derivative
         attr_writer :pdf_splitter
 
         def generate
-          path_to_original = arena.local_path_for_shell_commands(derivative: :base_file_for_chain)
-
           # We need to write the file to the :page_image
-          pdf_splitter.call(path_to_original).each_with_index do |path, index|
+          pdf_splitter.call(base_file_for_chain_path).each_with_index do |path, index|
             process_page_split!(path: path, index: index)
           end
         end

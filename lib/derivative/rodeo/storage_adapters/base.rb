@@ -23,9 +23,10 @@ module Derivative
         #
         # @param derivative [Symbol]
         # @param path [String]
+        # @yield When you don't have a path but instead have string-like content.
         #
         # @see assign!
-        def assign(derivative:, path:)
+        def assign(derivative:, path: nil, &block)
           raise NotImplementedError, "#{self.class}#assign"
         end
 
@@ -41,9 +42,9 @@ module Derivative
         # @raise [Exceptions::DerivativeNotFoundError] when there is no :derivative in storage.
         #
         # @see #assign
-        def assign!(derivative:, path:)
+        def assign!(derivative:, path: nil, &block)
           demand_path_for!(derivative: derivative) do
-            assign(derivative: derivative, path: path)
+            assign(derivative: derivative, path: path, &block)
           end
         end
 
