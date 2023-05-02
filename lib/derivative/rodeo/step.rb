@@ -119,12 +119,14 @@ module Derivative
   end
 end
 
+# TODO: Have these be auto-discovered
 require 'derivative/rodeo/step/fits_step'
 require 'derivative/rodeo/step/hocr_step'
 require 'derivative/rodeo/step/image_step'
 require 'derivative/rodeo/step/mime_type_step'
 require 'derivative/rodeo/step/monochrome_step'
 require 'derivative/rodeo/step/base_file_for_chain_step'
+require 'derivative/rodeo/step/hocr_to_alto_xml_step'
 require 'derivative/rodeo/step/pdf_split_step'
 require 'derivative/rodeo/step/page_image_step'
 require 'derivative/rodeo/step/thumbnail_step'
