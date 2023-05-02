@@ -201,7 +201,7 @@ With all of that here's the diagram for the Interaction with Hyrax Ingest.
 	  :read_from_rodeo;
 	  :write_to_fedora;
 	  stop
-  elseif (Hyrax::FileSetDerivativeService.valid?) then (yes)
+  elseif (Hyrax::FileSetDerivativesService.valid?) then (yes)
 	  :generate_derivative;
 	  :write_to_fedora;
 	  stop
